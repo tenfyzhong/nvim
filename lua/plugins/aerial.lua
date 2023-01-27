@@ -286,6 +286,7 @@ local function aerial_config()
     })
 end
 
-local aerial = { 'stevearc/aerial.nvim', config = aerial_config }
+local aerial = { 'stevearc/aerial.nvim', config = aerial_config,
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
 
 return { aerial }

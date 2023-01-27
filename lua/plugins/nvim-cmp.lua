@@ -134,6 +134,14 @@ local function cmp_config()
         })
     })
 
+    if packer_plugins["nvim-autopairs"] and packer_plugins["nvim-autopairs"].loaded then
+        local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+        cmp.event:on(
+            'confirm_done',
+            cmp_autopairs.on_confirm_done()
+        )
+    end
+
     require("neodev").setup({})
 
     local on_attach = function(client, bufnr)
