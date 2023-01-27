@@ -1,6 +1,6 @@
+require('opt')
+require('g')
 require('autocmd')
 require('keymap')
-require('g')
-require('opt')
 require('highlight')
 require('plugin')

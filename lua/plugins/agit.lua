@@ -18,7 +18,7 @@ local agit = {
                 vim.keymap.set({ 'n' }, 'co', '<Plug>(agit-git-checkout)', { buffer = true })
             end,
         })
-    end
+    end,
 }
 
 return { agit }

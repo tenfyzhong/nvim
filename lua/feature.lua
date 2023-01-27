@@ -1,4 +1,4 @@
-module('feature')
+module('feature', package.seeall)
 
 function PollNumber()
     if vim.o.number and vim.o.relativenumber then
