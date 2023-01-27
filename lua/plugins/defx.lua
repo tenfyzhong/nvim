@@ -6,6 +6,14 @@
 - @created 2023-01-27 08:54:10
 --]]
 function DefxFiletypeAutocmd()
+    vim.keymap.set('n', 'i', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'I', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'c', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'C', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'S', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'a', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'A', '<NOP>', { silent = true })
+    vim.keymap.set('n', 'O', '<NOP>', { silent = true })
     vim.keymap.set('n', 'yy', 'defx#do_action("copy")', { silent = true, remap = false, expr = true, buffer = true })
     vim.keymap.set('n', 'dd', 'defx#do_action("move")', { silent = true, remap = false, expr = true, buffer = true })
     vim.keymap.set('n', '<c-v>', 'defx#do_action("paste")', { silent = true, remap = false, expr = true, buffer = true })
