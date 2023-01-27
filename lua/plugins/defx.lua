@@ -6,6 +6,7 @@
 - @created 2023-01-27 08:54:10
 --]]
 function DefxFiletypeAutocmd()
+    vim.wo.wrap = false
     vim.keymap.set('n', 'i', '<NOP>', { silent = true })
     vim.keymap.set('n', 'I', '<NOP>', { silent = true })
     vim.keymap.set('n', 'c', '<NOP>', { silent = true })
