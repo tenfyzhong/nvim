@@ -17,6 +17,7 @@ local highlight = {
             end,
         })
     end,
+    ft = 'python',
 }
 
 return { highlight }

@@ -8,12 +8,8 @@
 
 vim.opt.clipboard:append { 'unnamedplus' }
 
--- if (vim.o.shell != 'fish')
--- then
--- end
-
 vim.o.directory = '.'
-vim.o.compatible = false -- 关闭vi兼容模式
+vim.o.compatible = false
 vim.o.cindent = true
 vim.opt.cinoptions:append { ':0', 'l1', 'g0', 'N-s', '(0', 'w1', 'W4', 'j1', 'J1' }
 -- vim.o.foldmethod = 'syntax'
@@ -26,12 +22,12 @@ vim.o.wrapmargin = 0
 vim.o.textwidth = 79
 vim.o.colorcolumn = 120
 vim.o.backspace = 2
--- vim.o
--- vim.opt.whichwrap:append{'<', '>', 'h', 'l'} TODO ERROR
+vim.opt.backspace:append { 'indent', 'eol', 'start' }
+vim.o.whichwrap = 'b,s,<,>,h,l'
 vim.o.formatoptions = 'tcrqn'
 vim.o.autowrite = true
 vim.o.scrolloff = 2
-vim.o.shortmess = 'atI'
+vim.o.shortmess = 'AatIc'
 vim.o.autoread = true
 vim.o.cmdheight = 1
 vim.o.hidden = true
@@ -62,9 +58,17 @@ vim.o.belloff = 'all'
 vim.o.errorbells = false
 vim.o.visualbell = false
 vim.o.t_vb = ''
--- vim.opt.shortmess:append{'c'} TODO
 vim.opt.sessionoptions:remove { 'buffers' }
 
 -- vim.o.syntax = 'on'
 -- vim.o.syntax
 vim.o.background = 'dark'
+
+vim.cmd([[
+syntax on
+syntax enable
+filetype on
+filetype plugin on
+filetype indent on
+filetype plugin indent on	
+]])

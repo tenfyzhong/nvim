@@ -78,3 +78,21 @@ vim.api.nvim_create_autocmd('TextYankPost', {
         vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
     end
 })
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+    group = init_group,
+    pattern = '*',
+    callback = function()
+        vim.lsp.buf.format {async = true}
+    end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    group = init_group,
+    pattern = 'json',
+    callback = function()
+        vim.keymap.set('n', '<leader>af', function() 
+            vim.lsp.buf.format {async = true}
+        end, {remap = false, silent = true})
+    end
+})

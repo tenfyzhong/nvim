@@ -6,6 +6,7 @@
 - @created 2023-01-26 22:09:22
 --]]
 
+
 local function write_redraw()
     vim.cmd('wa')
     vim.cmd('redraw!')

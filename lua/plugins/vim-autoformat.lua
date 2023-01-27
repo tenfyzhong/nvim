@@ -28,3 +28,5 @@ local autoformat = {
         vim.keymap.set('n', '<leader>af', ':Autoformat<cr>', { remap = false })
     end,
 }
+
+return { autoformat }

@@ -89,6 +89,7 @@ end
 local mode = {
     'python-mode/python-mode',
     config = config,
+    ft = 'python',
 }
 
 return { mode }

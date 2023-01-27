@@ -64,4 +64,4 @@ local bookmarks = {
     end,
 }
 
-return { fzf, marks }
+return { fzf, marks, bookmarks }
