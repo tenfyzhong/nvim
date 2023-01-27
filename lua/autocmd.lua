@@ -70,3 +70,11 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
         vim.o.cmdheight = 1
     end
 })
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = init_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
+    end
+})
