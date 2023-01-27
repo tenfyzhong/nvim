@@ -6,5 +6,4 @@
 - @created 2023-01-26 20:33:11
 --]]
 
-local packer = 'wbthomason/packer.nvim'
-return { packer }
+return { 'wbthomason/packer.nvim' }

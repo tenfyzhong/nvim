@@ -214,6 +214,58 @@ local function cmp_config()
     lspconfig.jsonls.setup {}
 end
 
+local function lspkind_config()
+    require('lspkind').init({
+        -- DEPRECATED (use mode instead): enables text annotations
+        --
+        -- default: true
+        -- with_text = true,
+
+        -- defines how annotations are shown
+        -- default: symbol
+        -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+        mode = 'symbol_text',
+
+        -- default symbol map
+        -- can be either 'default' (requires nerd-fonts font) or
+        -- 'codicons' for codicon preset (requires vscode-codicons font)
+        --
+        -- default: 'default'
+        preset = 'codicons',
+
+        -- override preset symbols
+        --
+        -- default: {}
+        symbol_map = {
+            Text = "",
+            Method = "",
+            Function = "",
+            Constructor = "",
+            Field = "ﰠ",
+            Variable = "",
+            Class = "ﴯ",
+            Interface = "",
+            Module = "",
+            Property = "ﰠ",
+            Unit = "塞",
+            Value = "",
+            Enum = "",
+            Keyword = "",
+            Snippet = "",
+            Color = "",
+            File = "",
+            Reference = "",
+            Folder = "",
+            EnumMember = "",
+            Constant = "",
+            Struct = "פּ",
+            Event = "",
+            Operator = "",
+            TypeParameter = ""
+        },
+    })
+end
+
 local lsconfig = 'neovim/nvim-lspconfig'
 local cmp_nvim_lsp = 'hrsh7th/cmp-nvim-lsp'
 local cmp_buffer = 'hrsh7th/cmp-buffer'
@@ -221,7 +273,7 @@ local cmp_path = 'hrsh7th/cmp-path'
 local cmp_cmdline = 'hrsh7th/cmp-cmdline'
 local cmp_vsnip = 'hrsh7th/cmp-vsnip'
 local vim_vsnip = 'hrsh7th/vim-vsnip'
-local lspkind = 'onsails/lspkind.nvim'
+local lspkind = { 'onsails/lspkind.nvim', config = lspkind_config }
 local cmp_nvim_lua = 'hrsh7th/cmp-nvim-lua'
 local tsnippets = 'tenfyzhong/tsnippets.vim'
 local friendly_snippets = 'rafamadriz/friendly-snippets'
@@ -229,10 +281,7 @@ local cmp_nvim_lsp_signature_help = 'hrsh7th/cmp-nvim-lsp-signature-help'
 local neodev = 'folke/neodev.nvim'
 local plenary = 'nvim-lua/plenary.nvim'
 local cmp_git = 'petertriho/cmp-git'
-local nvim_cmp = {
-    'hrsh7th/nvim-cmp',
-    config = cmp_config,
-}
+local nvim_cmp = { 'hrsh7th/nvim-cmp', config = cmp_config }
 
 return {
     lsconfig,
