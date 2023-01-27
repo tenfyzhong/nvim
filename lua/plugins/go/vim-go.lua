@@ -98,7 +98,6 @@ local go = {
     tag = '*',
     run = run,
     config = config,
-    ft = 'go',
 }
 
 return { go }
