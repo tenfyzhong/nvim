@@ -1,0 +1,6 @@
+require('opt')
+require('g')
+require('autocmd')
+require('keymap')
+require('highlight')
+require('plugin')
