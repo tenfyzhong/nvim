@@ -14,4 +14,4 @@ local marker = {
     end,
 }
 
-return {marker}
+return { marker }
