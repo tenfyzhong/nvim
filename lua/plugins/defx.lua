@@ -65,7 +65,7 @@ end
 
 local function defx_config()
     vim.g.defx_icons_column_length = 2
-    vim.keymap.set('n', '<leader>nt', ":Defx -buffer-name=`'defx' . tabpagenr()`<cr>", { silent = true, remap = false })
+    vim.keymap.set('n', '<leader>nt', function() require('feature').DefxCwd() end, { silent = true, remap = false })
     local group = vim.api.nvim_create_augroup('defx_init', {})
     vim.api.nvim_create_autocmd({ 'FileType' }, {
         group = group,
