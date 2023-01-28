@@ -6,14 +6,14 @@
 - @created 2023-01-27 20:06:26
 --]]
 
-if vim.fn.isdirectory('~/.fzf/plugin') then
-    vim.opt.rtp:append('~/.fzf')
-elseif vim.fn.isdirectory('/usr/local/opt/fzf/plugin') then
-    vim.opt.rtp:append('/usr/local/opt/fzf/plugin')
-end
-
 local fzf = {
+    'junegunn/fzf',
+    run = ":call fzf#install()",
+}
+
+local fzf_vim = {
     'junegunn/fzf.vim',
+    requires = fzf[1],
     config = function()
         vim.g.fzf_command_prefix = 'FZF'
         vim.g.fzf_history_dir = '~/.fzf-history'
@@ -38,13 +38,23 @@ local fzf = {
         vim.keymap.set({ 'o' }, '<leader><leader>', '<plug>(fzf-maps-o)', { silent = false, remap = true })
         vim.keymap.set({ 'x' }, '<leader><leader>', '<plug>(fzf-maps-x)', { silent = false, remap = true })
 
-        vim.cmd([[
-augroup fzf_local
-  autocmd!
-  autocmd User FZFMarksCd Defx -buffer-name=`'defx' . tabpagenr()`
-  autocmd FileType thrift nnoremap <silent><buffer><leader>ft :FZFBTags<cr>
-augroup END
-        ]])
+        local group = vim.api.nvim_create_augroup('fzf_local', {})
+        vim.api.nvim_create_autocmd('User', {
+            group = group,
+            pattern = 'FZFMarksCd',
+            callback = function()
+                local tabnr = vim.fn.tabpagenr()
+                local name = 'defx' .. tabnr
+                vim.cmd('Defx -buffer-name=' .. name)
+            end,
+        })
+        vim.api.nvim_create_autocmd('FileType', {
+            group = group,
+            pattern = 'thrift',
+            callback = function()
+                vim.keymap.set('n', '<leader>ft', ':FZFBTags<cr>', { silent = true, buffer = true, remap = false })
+            end,
+        })
     end
 }
 
@@ -64,4 +74,4 @@ local bookmarks = {
     end,
 }
 
-return { fzf, marks, bookmarks }
+return { fzf, fzf_vim, marks, bookmarks }
