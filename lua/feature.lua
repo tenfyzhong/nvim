@@ -12,3 +12,11 @@ function PollNumber()
         vim.o.relativenumber = true
     end
 end
+
+function DefxCwd()
+    if packer_plugins['defx.nvim'] and packer_plugins['defx.nvim'].loaded then
+        local pwd = vim.fn.getcwd()
+        local tabnr = vim.fn.tabpagenr()
+        vim.cmd(string.format('Defx -buffer-name=defx%d %s', tabnr, pwd))
+    end
+end

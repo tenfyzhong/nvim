@@ -5,7 +5,6 @@
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 20:06:26
 --]]
-
 local fzf = {
     'junegunn/fzf',
     run = ":call fzf#install()",
@@ -25,7 +24,7 @@ local fzf_vim = {
         vim.keymap.set('n', '<leader>fa', ':FZFAg<cr>', { silent = true, remap = false })
         vim.keymap.set('n', '<leader>fA', function()
             local cword = vim.fn.expand('<cword>')
-            vim.cmd('FZFAg ' .. cword .. '<cr>')
+            vim.cmd(vim.g.fzf_command_prefix .. 'Ag ' .. cword .. '<cr>')
         end, { silent = true, remap = false })
         vim.keymap.set('n', '<leader>fh', ':FZFHistory<cr>', { silent = true, remap = false })
         vim.keymap.set('n', '<leader>fw', ':FZFWindows<cr>', { silent = true, remap = false })
@@ -39,20 +38,12 @@ local fzf_vim = {
         vim.keymap.set({ 'x' }, '<leader><leader>', '<plug>(fzf-maps-x)', { silent = false, remap = true })
 
         local group = vim.api.nvim_create_augroup('fzf_local', {})
-        vim.api.nvim_create_autocmd('User', {
-            group = group,
-            pattern = 'FZFMarksCd',
-            callback = function()
-                local tabnr = vim.fn.tabpagenr()
-                local name = 'defx' .. tabnr
-                vim.cmd('Defx -buffer-name=' .. name)
-            end,
-        })
         vim.api.nvim_create_autocmd('FileType', {
             group = group,
             pattern = 'thrift',
             callback = function()
-                vim.keymap.set('n', '<leader>ft', ':FZFBTags<cr>', { silent = true, buffer = true, remap = false })
+                vim.keymap.set('n', '<leader>ft', ':FZFBTags<cr>',
+                    { silent = true, buffer = true, remap = false })
             end,
         })
     end
@@ -62,7 +53,13 @@ local marks = {
     'tenfyzhong/fzf-marks.vim',
     requires = fzf[1],
     config = function()
-        vim.keymap.set('n', '<leader>fz', ':FZFFzm<cr>', { silent = true, remap = false })
+        vim.keymap.set('n', '<leader>fs', ':FZFFzm<cr>', { silent = true, remap = false })
+        local group = vim.api.nvim_create_augroup('fzf_marks_local', {})
+        vim.api.nvim_create_autocmd('User', {
+            group = group,
+            pattern = 'FZFMarksCd',
+            callback = function() require('feature').DefxCwd() end,
+        })
     end,
 }
 
@@ -74,4 +71,20 @@ local bookmarks = {
     end,
 }
 
-return { fzf, fzf_vim, marks, bookmarks }
+local z = {
+    'tenfyzhong/z.nvim',
+    requires = { 'vijaymarupudi/nvim-fzf', fzf[1] },
+    config = function()
+        require('z').setup {}
+
+        vim.keymap.set('n', '<leader>fz', ':FZFZ<cr>', { silent = true, remap = false })
+        local group = vim.api.nvim_create_augroup('z_local', {})
+        vim.api.nvim_create_autocmd('User', {
+            group = group,
+            pattern = 'Zcd',
+            callback = function() require('feature').DefxCwd() end,
+        })
+    end,
+}
+
+return { fzf, fzf_vim, marks, bookmarks, z }
