@@ -8,6 +8,19 @@
 
 local asyncrun = {
     'skywind3000/asyncrun.vim',
+    config = function()
+        -- vim.g.asyncrun_open = 8
+
+        -- local group = vim.api.nvim_create_augroup('asyncrun_init', {})
+        -- vim.api.nvim_create_autocmd('User', {
+        --     group = group,
+        --     pattern = 'AsyncRunStop',
+        --     callback = function()
+        --         vim.cmd('call asyncrun#quickfix_toggle(8)')
+        --         -- vim.fn['asyncrun#quickfix_toggle'](8)
+        --     end,
+        -- })
+    end,
 }
 
 return { asyncrun }
