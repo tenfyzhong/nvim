@@ -73,7 +73,7 @@ local bookmarks = {
 
 local z = {
     'tenfyzhong/z.nvim',
-    requires = { 'vijaymarupudi/nvim-fzf', fzf[1] },
+    requires = fzf[1],
     config = function()
         require('z').setup {}
 
