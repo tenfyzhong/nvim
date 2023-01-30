@@ -5,4 +5,8 @@
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 23:23:03
 --]]
-return { 'machakann/vim-swap' }
+local swap = {
+    'machakann/vim-swap',
+    keys = { 'g<', 'g>', 'gs' }
+}
+return { swap }

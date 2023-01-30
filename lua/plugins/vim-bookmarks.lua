@@ -26,6 +26,10 @@ local bookmarks = {
         vim.keymap.set('n', 'Mu', '<Plug>BookmarkMoveUp', { silent = true, remap = true })
         vim.keymap.set('n', 'Md', '<Plug>BookmarkMoveDown', { silent = true, remap = true })
     end,
+    cmd = { 'BookmarkToggle', 'BookmarkAnnotate', 'BookmarkNext', 'BookmarkPrev', 'BookmarkShowAll', 'BookmarkClear',
+        'BookmarkClearAll', 'BookmarkMoveUp', 'BookmarkMoveDown', 'BookmarkMoveToLine', 'BookmarkSave', 'BookmarkLoad' },
+    keys = { 'Mm', 'Ma', 'Ms', 'Mn', 'Mp', 'Mc', 'Mx', 'Mu', 'Md' },
 }
+
 
 return { bookmarks }

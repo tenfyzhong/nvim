@@ -12,6 +12,8 @@ local argwrap = {
         vim.g.argwrap_wrap_closing_brace = 0
         vim.keymap.set('n', '<leader>aw', ':ArgWrap<cr>', { remap = false, silent = true })
     end,
+    cmd = 'ArgWrap',
+    keys = { '<leader>aw' },
 }
 
 return { argwrap }

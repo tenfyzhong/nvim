@@ -12,7 +12,7 @@ local easymotion = {
         vim.g.EasyMotion_smartcase = 1
         vim.g.EasyMotion_startofline = 0
         vim.g.EasyMotion_verbose = 0
-
+        vim.keymap.set({ 'n' }, '<tab>', '<Plug>(easymotion-prefix)', { remap = true })
         vim.keymap.set('n', '<tab>J', '<Plug>(easymotion-sol-j)', { remap = true })
         vim.keymap.set('n', '<tab>K', '<Plug>(easymotion-sol-k)', { remap = true })
         vim.keymap.set('n', '<tab>;', '<Plug>(easymotion-next)', { remap = true })
@@ -28,6 +28,9 @@ hi EasyMotionTarget2First ctermbg=none ctermfg=DarkBlue
 hi EasyMotionTarget2Second ctermbg=none ctermfg=DarkBlue
         ]])
     end,
+    keys = { '<tab>f', '<tab>F', '<tab>t', '<tab>T', '<tab>w', '<tab>W', '<tab>b', '<tab>B', '<tab>e', '<tab>E',
+        '<tab>ge', '<tab>gE', '<tab>j', '<tab>k', '<tab>n', '<tab>N', '<tab>s', '<tab>J', '<tab>K', '<tab>;', '<tab>',
+        '<tab>.', '<tab>F', '<tab>L', '<tab>W' },
 }
 
 return { easymotion }

@@ -19,6 +19,7 @@ local agit = {
             end,
         })
     end,
+    cmd = { 'Agit', 'AgitFile', 'AgitGit', 'AgitDiff' }
 }
 
 return { agit }

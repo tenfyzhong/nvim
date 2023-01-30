@@ -11,6 +11,7 @@ local codi = {
     config = function()
         vim.g['codi#rightalign'] = 0
     end,
+    cmd = { 'Codi', 'CodiNew', 'CodiExpand', 'CodiSelect', 'CodiUpdate' },
 }
 
 return { codi }

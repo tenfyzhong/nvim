@@ -19,6 +19,8 @@ local grepper = {
         vim.keymap.set({ 'n', 'x' }, 'gp', '<plug>(GrepperOperator)', { remap = true })
         vim.keymap.set({ 'n' }, '<leader>*', ':Grepper -tool ag -cword -noprompt<cr>', { remap = false })
     end,
+    command = { 'Grepper', 'Todo' },
+    keys = { { 'n', 'gp' }, { 'x', 'gp' }, { 'n', '<leader>*' } },
 }
 
 return { grepper }

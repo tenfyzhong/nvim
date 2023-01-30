@@ -16,8 +16,15 @@ local function fugitive_config()
     vim.keymap.set('n', '<leader>ghf', ':GBrowse<cr>', { silent = true, remap = false })
 end
 
-local fugitive = { 'tpope/vim-fugitive', config = fugitive_config }
-local rhubarb = { 'tpope/vim-rhubarb', requires = fugitive[1] }
-local gitlab = { 'shumphrey/fugitive-gitlab.vim', requires = fugitive[1] }
+local fugitive = {
+    'tpope/vim-fugitive',
+    config = fugitive_config,
+    cmd = { 'G', 'Git', 'Ggrep', 'Glgrep', 'Gclog', 'Gllog', 'Gcd', 'Glcd', 'Gedit', 'Gsplit', 'Gvsplit', 'Gtabedit',
+        'Gpedit', 'Gdrop', 'Gread', 'Gwrite', 'Gwq', 'Gdiffsplit', 'Gvdiffsplit', 'Ghdiffsplit', 'GMove', 'GRename',
+        'GDelete', 'GRemove', 'GUnlink', 'GBrowse' },
+    keys = { '<leader>gw', '<leader>gc', '<leader>gb', '<leader>gd', '<leader>gl', '<leader>gs', '<leader>ghf' },
+}
+local rhubarb = { 'tpope/vim-rhubarb', requires = fugitive[1], ft = 'gitcommit', cmd = 'GBrowse' }
+local gitlab = { 'shumphrey/fugitive-gitlab.vim', requires = fugitive[1], ft = 'gitcommit', cmd = 'GBrowse' }
 
 return { fugitive, rhubarb, gitlab }

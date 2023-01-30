@@ -19,6 +19,7 @@ local asyncrun = {
         --     end,
         -- })
     end,
+    cmd = 'AsyncRun'
 }
 
 return { asyncrun }

@@ -24,6 +24,7 @@ local quickhl = {
             'ctermfg=22  ctermbg=194 cterm=bold guifg=#004f00 guibg=#d7f7df gui=bold',
         }
     end,
+    keys = { { 'n', '<leader>m' }, { 'x', '<leader>m' }, { 'n', '<tab>m' } }
 }
 
 return { quickhl }

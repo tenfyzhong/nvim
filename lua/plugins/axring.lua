@@ -140,7 +140,8 @@ local axring = {
                 "image"
             },
         }
-    end
+    end,
+    keys = { '<c-a>', '<c-x>' },
 }
 
 return { axring }

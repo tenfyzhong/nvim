@@ -11,6 +11,8 @@ local choosewin = {
     config = function()
         vim.keymap.set('n', '<leader>sw', '<Plug>(choosewin)', { remap = true })
     end,
+    cmd = { 'ChooseWin', 'ChooseWinSwap', 'ChooseWinSwapStay' },
+    keys = { '<leader>sw' },
 }
 
 return { choosewin }

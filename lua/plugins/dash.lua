@@ -14,6 +14,8 @@ local dash = {
     config = function()
         vim.keymap.set('n', '<leader>ds', '<Plug>DashSearch', { silent = true, remap = true })
     end,
+    cmd = { 'Dash', 'DashKeywords' },
+    keys = { '<leader>ds' },
 }
 
 return { dash }

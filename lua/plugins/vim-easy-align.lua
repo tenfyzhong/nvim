@@ -11,6 +11,8 @@ local align = {
     config = function()
         vim.keymap.set({ 'n', 'x' }, 'ga', '<Plug>(EasyAlign)', { remap = true })
     end,
+    cmd = { 'EasyAlign', 'LiveWasyAlign' },
+    keys = { { 'n', 'ga' }, { 'x', 'ga' } },
 }
 
 return { align }

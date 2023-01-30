@@ -5,5 +5,9 @@
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 23:43:47
 --]]
+local region = {
+    'terryma/vim-expand-region',
+    keys = { '+', '-' },
+}
 
-return { 'terryma/vim-expand-region' }
+return { region }

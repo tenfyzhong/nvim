@@ -37,6 +37,7 @@ endfunction
 
         ]])
     end,
+    ft = { 'gitcommit' },
 }
 
 return { committia }

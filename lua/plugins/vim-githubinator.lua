@@ -12,6 +12,8 @@ local githubinator = {
         vim.keymap.set({ 'n', 'x' }, '<leader>gho', '<Plug>(githubinator-open)', { remap = true })
         vim.keymap.set({ 'n', 'x' }, '<leader>ghc', '<Plug>(githubinator-copy)', { remap = true })
     end,
+    cmd = { 'GHO', 'GHC' },
+    keys = { { 'n', '<leader>gho' }, { 'x', '<leader>gho' }, { 'n', '<leader>ghc' }, { 'x', '<leader>ghc' } },
 }
 
 return { githubinator }

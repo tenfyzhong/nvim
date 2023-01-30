@@ -23,6 +23,10 @@ local ctrlsf = {
         vim.keymap.set('v', '<leader>sf', '<Plug>CtrlSFVwordExec', { remap = true })
         vim.keymap.set('v', '<leader>sF', '<Plug>CtrlSFVwordPath', { remap = true })
     end,
+    cmd = { 'CtrlSF', 'CtrlSFOpen', 'CtrlSFUpdate', 'CtrlSFClose', 'CtrlSFClearHL', 'CtrlSFStop', 'CtrlSFToggle',
+        'CtrlSFToggleMap', 'CtrlSFFocus' },
+    keys = { '<leader>sf', '<leader>sb', '<leader>sn', '<leader>sp', '<leader>st', { 'v', '<leader>sf' },
+        { 'v', '<leader>sF' } },
 }
 
 return { ctrlsf }
