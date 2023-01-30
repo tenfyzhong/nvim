@@ -8,7 +8,7 @@
 
 
 local function write_redraw()
-    vim.cmd('wa')
+    vim.cmd('silent wa')
     vim.cmd('redraw!')
     print(':wa')
 end
