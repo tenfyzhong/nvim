@@ -17,57 +17,6 @@ local function build_go_files()
     end
 end
 
-local function autocmd()
-    vim.keymap.set('n', '<leader>r', '<NOP>', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>rs', '<Plug>(go-implements)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>rd', '<Plug>(go-info)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>re', '<Plug>(go-rename)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>rr', '<Plug>(go-run)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>rb', build_go_files, { buffer = true, remap = false })
-    vim.keymap.set('n', '<leader>rtt', '<Plug>(go-test)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>rtf', '<Plug>(go-test-func)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>rc',
-        function()
-            vim.cmd('GoCoverageToggle! -gcflags=all=-l<cr>')
-        end, { buffer = true, remap = false })
-    vim.keymap.set('n', '<leader>ri',
-        function()
-            vim.cmd('GoImport')
-        end, { buffer = true, remap = false })
-    vim.keymap.set('n', '<leader>rf',
-        function()
-            vim.cmd('GoIfErr')
-        end, { buffer = true, remap = false })
-    vim.keymap.set('n', '<leader>ra',
-        function()
-            vim.cmd('GoImportAs')
-        end, { buffer = true, remap = false })
-    vim.keymap.set('n', '<leader>aa', '<Plug>(go-alternate-edit)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>as', '<Plug>(go-alternate-split)', { buffer = true, remap = true })
-    vim.keymap.set('n', '<leader>av', '<Plug>(go-alternate-vertical)', { buffer = true, remap = true })
-
-    vim.api.nvim_create_user_command('A',
-        function(opts)
-            local b = opts.bang and 1 or 0
-            vim.fn['go#alternate#Switch'](b, 'edit')
-        end, { force = true })
-    vim.api.nvim_create_user_command('AV',
-        function(opts)
-            local b = opts.bang and 1 or 0
-            vim.fn['go#alternate#Switch'](b, 'vsplit')
-        end, { force = true })
-    vim.api.nvim_create_user_command('AS',
-        function(opts)
-            local b = opts.bang and 1 or 0
-            vim.fn['go#alternate#Switch'](b, 'split')
-        end, { force = true })
-    vim.api.nvim_create_user_command('AT',
-        function(opts)
-            local b = opts.bang and 1 or 0
-            vim.fn['go#alternate#Switch'](b, 'tabe')
-        end, { force = true })
-end
-
 local function config()
     vim.g.go_highlight_methods = 0
     vim.g.go_highlight_types = 0
@@ -85,7 +34,56 @@ local function config()
     vim.api.nvim_create_autocmd('FileType', {
         group = group,
         pattern = 'go',
-        callback = function() autocmd() end,
+        callback = function()
+            vim.keymap.set('n', '<leader>r', '<NOP>', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>rs', '<Plug>(go-implements)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>rd', '<Plug>(go-info)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>re', '<Plug>(go-rename)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>rr', '<Plug>(go-run)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>rb', build_go_files, { buffer = true, remap = false })
+            vim.keymap.set('n', '<leader>rtt', '<Plug>(go-test)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>rtf', '<Plug>(go-test-func)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>rc',
+                function()
+                    vim.cmd('GoCoverageToggle! -gcflags=all=-l<cr>')
+                end, { buffer = true, remap = false })
+            vim.keymap.set('n', '<leader>ri',
+                function()
+                    vim.cmd('GoImport')
+                end, { buffer = true, remap = false })
+            vim.keymap.set('n', '<leader>rf',
+                function()
+                    vim.cmd('GoIfErr')
+                end, { buffer = true, remap = false })
+            vim.keymap.set('n', '<leader>ra',
+                function()
+                    vim.cmd('GoImportAs')
+                end, { buffer = true, remap = false })
+            vim.keymap.set('n', '<leader>aa', '<Plug>(go-alternate-edit)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>as', '<Plug>(go-alternate-split)', { buffer = true, remap = true })
+            vim.keymap.set('n', '<leader>av', '<Plug>(go-alternate-vertical)', { buffer = true, remap = true })
+
+            vim.api.nvim_create_user_command('A',
+                function(opts)
+                    local b = opts.bang and 1 or 0
+                    vim.fn['go#alternate#Switch'](b, 'edit')
+                end, { force = true })
+            vim.api.nvim_create_user_command('AV',
+                function(opts)
+                    local b = opts.bang and 1 or 0
+                    vim.fn['go#alternate#Switch'](b, 'vsplit')
+                end, { force = true })
+            vim.api.nvim_create_user_command('AS',
+                function(opts)
+                    local b = opts.bang and 1 or 0
+                    vim.fn['go#alternate#Switch'](b, 'split')
+                end, { force = true })
+            vim.api.nvim_create_user_command('AT',
+                function(opts)
+                    local b = opts.bang and 1 or 0
+                    vim.fn['go#alternate#Switch'](b, 'tabe')
+                end, { force = true })
+        end,
     })
 end
 
