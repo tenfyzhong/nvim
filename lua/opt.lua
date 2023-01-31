@@ -12,13 +12,12 @@ vim.o.directory = '.'
 vim.o.compatible = false
 vim.o.cindent = true
 vim.opt.cinoptions:append { ':0', 'l1', 'g0', 'N-s', '(0', 'w1', 'W4', 'j1', 'J1' }
--- vim.o.foldmethod = 'syntax'
 vim.o.foldlevelstart = 99
 vim.o.encoding = 'utf-8'
 vim.o.fileencoding = 'utf-8'
 vim.opt.fileencodings = { 'utf-8', 'gbk', 'gb2312', 'cp936', 'usc-bom', 'euc-jp', 'gb18030' }
 vim.o.mouse = ''
-vim.o.wrap = false
+vim.o.wrap = true
 vim.o.wrapmargin = 0
 vim.o.textwidth = 79
 vim.o.colorcolumn = 120
@@ -61,15 +60,5 @@ vim.o.visualbell = false
 vim.o.t_vb = ''
 vim.opt.sessionoptions:remove { 'buffers' }
 
--- vim.o.syntax = 'on'
--- vim.o.syntax
 vim.o.background = 'dark'
 
-vim.cmd([[
-syntax on
-syntax enable
-filetype on
-filetype plugin on
-filetype indent on
-filetype plugin indent on	
-]])
