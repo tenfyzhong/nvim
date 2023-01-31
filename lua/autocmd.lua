@@ -54,23 +54,6 @@ vim.api.nvim_create_autocmd('WinEnter', {
     end
 })
 
-
-vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
-    group = init_group,
-    pattern = '*',
-    callback = function()
-        vim.o.cmdheight = 2
-    end
-})
-
-vim.api.nvim_create_autocmd('BufWinEnter', {
-    group = init_group,
-    pattern = '*',
-    callback = function()
-        vim.o.cmdheight = 1
-    end
-})
-
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = init_group,
     pattern = '*',
