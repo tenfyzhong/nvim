@@ -83,7 +83,15 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     group = init_group,
     pattern = '*',
     callback = function()
-        vim.lsp.buf.format {async = true}
+        vim.lsp.buf.format { async = true }
+    end,
+})
+
+vim.api.nvim_create_autocmd('VimLeavePre', {
+    group = init_group,
+    pattern = '*',
+    callback = function()
+        vim.lsp.buf.format { async = false }
     end,
 })
 
@@ -91,8 +99,8 @@ vim.api.nvim_create_autocmd('FileType', {
     group = init_group,
     pattern = 'json',
     callback = function()
-        vim.keymap.set('n', '<leader>af', function() 
-            vim.lsp.buf.format {async = true}
-        end, {remap = false, silent = true})
+        vim.keymap.set('n', '<leader>af', function()
+            vim.lsp.buf.format { async = true }
+        end, { remap = false, silent = true })
     end
 })
