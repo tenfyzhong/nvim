@@ -14,8 +14,9 @@ local agit = {
             group = group,
             pattern = { 'agit,agit_stat,agit_diff' },
             callback = function()
-                vim.keymap.set({ 'n' }, 'C', '<Plug>(agit-git-cherry-pick)', { buffer = true })
-                vim.keymap.set({ 'n' }, 'co', '<Plug>(agit-git-checkout)', { buffer = true })
+                vim.keymap.set({ 'n' }, 'C', '<Plug>(agit-git-cherry-pick)',
+                    { buffer = true, desc = 'agit: git cherry-pick' })
+                vim.keymap.set({ 'n' }, 'co', '<Plug>(agit-git-checkout)', { buffer = true, desc = 'agit: git checkout' })
             end,
         })
     end,

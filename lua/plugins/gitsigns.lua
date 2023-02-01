@@ -31,10 +31,11 @@ local function gitsigns_config()
             end, { expr = true })
 
             -- Actions
-            map('n', '<leader>ga', ':Gitsigns stage_hunk<CR>', { silent = true })
-            map('n', '<leader>gr', gs.undo_stage_hunk)
-            map('n', '<leader>gp', gs.preview_hunk)
-            map('n', '<leader>gb', function() gs.blame_line { full = true } end)
+            map('n', '<leader>ga', ':Gitsigns stage_hunk<CR>', { silent = true, desc = 'gitsigns: stage hunk' })
+            map('n', '<leader>gr', gs.undo_stage_hunk, { silent = true, desc = 'gitsigns: undo stage hunk' })
+            map('n', '<leader>gp', gs.preview_hunk, { silent = true, desc = 'gitsigns: preview hunk' })
+            map('n', '<leader>gb', function() gs.blame_line { full = true } end,
+                { silent = true, desc = 'gitsigns: blame line' })
 
         end
     }

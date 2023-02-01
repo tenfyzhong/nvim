@@ -11,7 +11,7 @@ local bbye = {
     config = function()
         vim.keymap.set('n', '<leader>bd', function()
             vim.cmd('Bdelete')
-        end, { silent = true, remap = false })
+        end, { silent = true, remap = false, desc = 'bbye: buffer delete' })
     end,
 }
 

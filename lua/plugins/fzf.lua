@@ -17,25 +17,29 @@ local fzf_vim = {
         vim.g.fzf_command_prefix = 'FZF'
         vim.g.fzf_history_dir = '~/.fzf-history'
 
-        vim.keymap.set('n', '<leader>fp', ':FZF', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>ff', ':FZFFiles<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fg', ':FZFGFiles<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fb', ':FZFBuffers<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fa', ':FZFAg<cr>', { silent = true, remap = false })
+        vim.keymap.set('n', '<leader>ff', ':FZFFiles<cr>', { silent = true, remap = false, desc = 'fzf: files' })
+        vim.keymap.set('n', '<leader>fg', ':FZFGFiles<cr>', { silent = true, remap = false, desc = 'fzf: git files' })
+        vim.keymap.set('n', '<leader>fb', ':FZFBuffers<cr>', { silent = true, remap = false, desc = 'fzf: buffers' })
+        vim.keymap.set('n', '<leader>fa', ':FZFAg<cr>', { silent = true, remap = false, desc = 'fzf: ag' })
         vim.keymap.set('n', '<leader>fA', function()
             local cword = vim.fn.expand('<cword>')
             vim.cmd(vim.g.fzf_command_prefix .. 'Ag ' .. cword .. '<cr>')
-        end, { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fh', ':FZFHistory<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fw', ':FZFWindows<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fc', ':FZFCommands<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>/', ':FZFHistory/<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fT', ':FZFTags<cr>', { silent = true, remap = false })
-        vim.keymap.set('n', '<leader>fm', ':FZFMarks<cr>', { silent = true, remap = false })
+        end, { silent = true, remap = false, desc = 'fzf: ag cword' })
+        vim.keymap.set('n', '<leader>fh', ':FZFHistory<cr>',
+            { silent = true, remap = false, desc = 'fzf: command history' })
+        vim.keymap.set('n', '<leader>fw', ':FZFWindows<cr>', { silent = true, remap = false, desc = 'fzf: windows' })
+        vim.keymap.set('n', '<leader>fc', ':FZFCommands<cr>', { silent = true, remap = false, desc = 'fzf: commands' })
+        vim.keymap.set('n', '<leader>/', ':FZFHistory/<cr>',
+            { silent = true, remap = false, desc = 'fzf: search history' })
+        vim.keymap.set('n', '<leader>fT', ':FZFTags<cr>', { silent = true, remap = false, desc = 'fzf: ctags' })
+        vim.keymap.set('n', '<leader>fm', ':FZFMarks<cr>', { silent = true, remap = false, desc = 'fzf: marks' })
 
-        vim.keymap.set({ 'n' }, '<leader><leader>', '<plug>(fzf-maps-n)', { silent = false, remap = true })
-        vim.keymap.set({ 'o' }, '<leader><leader>', '<plug>(fzf-maps-o)', { silent = false, remap = true })
-        vim.keymap.set({ 'x' }, '<leader><leader>', '<plug>(fzf-maps-x)', { silent = false, remap = true })
+        vim.keymap.set({ 'n' }, '<leader><leader>', '<plug>(fzf-maps-n)',
+            { silent = false, remap = true, desc = 'fzf: nmap' })
+        vim.keymap.set({ 'o' }, '<leader><leader>', '<plug>(fzf-maps-o)',
+            { silent = false, remap = true, desc = 'fzf: omap' })
+        vim.keymap.set({ 'x' }, '<leader><leader>', '<plug>(fzf-maps-x)',
+            { silent = false, remap = true, desc = 'fzf: xmap' })
 
         local group = vim.api.nvim_create_augroup('fzf_local', {})
         vim.api.nvim_create_autocmd('FileType', {
@@ -43,7 +47,7 @@ local fzf_vim = {
             pattern = 'thrift',
             callback = function()
                 vim.keymap.set('n', '<leader>ft', ':FZFBTags<cr>',
-                    { silent = true, buffer = true, remap = false })
+                    { silent = true, buffer = true, remap = false, desc = 'fzf: buffer tags' })
             end,
         })
     end
@@ -53,7 +57,7 @@ local marks = {
     'tenfyzhong/fzf-marks.vim',
     requires = fzf[1],
     config = function()
-        vim.keymap.set('n', '<leader>fs', ':FZFFzm<cr>', { silent = true, remap = false })
+        vim.keymap.set('n', '<leader>fs', ':FZFFzm<cr>', { silent = true, remap = false, desc = 'fzf-marks: marks' })
         local group = vim.api.nvim_create_augroup('fzf_marks_local', {})
         vim.api.nvim_create_autocmd('User', {
             group = group,
@@ -67,7 +71,8 @@ local bookmarks = {
     'tenfyzhong/fzf-bookmarks.vim',
     requires = fzf[1],
     config = function()
-        vim.keymap.set('n', '<leader>fM', ':FZFBookmarks<cr>', { silent = true, remap = false })
+        vim.keymap.set('n', '<leader>fM', ':FZFBookmarks<cr>',
+            { silent = true, remap = false, desc = 'fzf-bookmarks: bookmarks' })
     end,
 }
 
@@ -77,7 +82,7 @@ local z = {
     config = function()
         require('z').setup {}
 
-        vim.keymap.set('n', '<leader>fz', ':FZFZ<cr>', { silent = true, remap = false })
+        vim.keymap.set('n', '<leader>fz', ':FZFZ<cr>', { silent = true, remap = false, desc = 'z: z' })
         local group = vim.api.nvim_create_augroup('z_local', {})
         vim.api.nvim_create_autocmd('User', {
             group = group,

@@ -9,7 +9,7 @@
 local choosewin = {
     't9md/vim-choosewin',
     config = function()
-        vim.keymap.set('n', '<leader>sw', '<Plug>(choosewin)', { remap = true })
+        vim.keymap.set('n', '<leader>sw', '<Plug>(choosewin)', { remap = true, desc = 'choosewin: choosewin' })
     end,
 }
 

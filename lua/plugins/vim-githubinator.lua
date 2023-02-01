@@ -9,8 +9,10 @@
 local githubinator = {
     'tenfyzhong/vim-githubinator',
     config = function()
-        vim.keymap.set({ 'n', 'x' }, '<leader>gho', '<Plug>(githubinator-open)', { remap = true })
-        vim.keymap.set({ 'n', 'x' }, '<leader>ghc', '<Plug>(githubinator-copy)', { remap = true })
+        vim.keymap.set({ 'n', 'x' }, '<leader>go', '<Plug>(githubinator-open)',
+            { remap = true, desc = 'githubinator: open in browser' })
+        vim.keymap.set({ 'n', 'x' }, '<leader>gy', '<Plug>(githubinator-copy)',
+            { remap = true, desc = 'githubinator: copy to clipboard' })
     end,
 }
 

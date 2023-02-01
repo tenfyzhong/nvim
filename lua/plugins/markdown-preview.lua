@@ -23,9 +23,10 @@ local markdown = {
             group = group,
             pattern = 'markdown',
             callback = function()
-                vim.keymap.set('n', '<leader>rp', '<Plug>MarkdownPreview', { buffer = true, remap = true, silent = true })
+                vim.keymap.set('n', '<leader>rp', '<Plug>MarkdownPreview',
+                    { buffer = true, remap = true, silent = true, desc = 'markdown-preview: markdown preview' })
                 vim.keymap.set('n', '<leader>rs', '<Plug>StopMarkdownPreview',
-                    { buffer = true, remap = true, silent = true })
+                    { buffer = true, remap = true, silent = true, desc = 'stop markdown preview' })
             end,
         })
     end,

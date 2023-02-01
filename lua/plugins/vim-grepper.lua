@@ -16,8 +16,9 @@ local grepper = {
 
         vim.api.nvim_create_user_command('Todo',
             "Grepper -noprompt -tool ag -grepprg ag --vimgrep '(\bTODO\b|\bBUG\b|\bERROR\b)'", {})
-        vim.keymap.set({ 'n', 'x' }, 'gp', '<plug>(GrepperOperator)', { remap = true })
-        vim.keymap.set({ 'n' }, '<leader>*', ':Grepper -tool ag -cword -noprompt<cr>', { remap = false })
+        vim.keymap.set({ 'n', 'x' }, 'gp', '<plug>(GrepperOperator)', { remap = true, desc = 'grpper: grep' })
+        vim.keymap.set({ 'n' }, '<leader>*', ':Grepper -tool ag -cword -noprompt<cr>',
+            { remap = false, desc = 'grepper: grep cword' })
     end,
 }
 
