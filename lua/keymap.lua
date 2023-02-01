@@ -26,6 +26,8 @@ end
 vim.keymap.set({ 'n' }, '<leader>', '<NOP>', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, 'gj', 'j', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, 'gk', 'k', { silent = true, remap = false })
+vim.keymap.set({ 'n' }, 'j', 'gj', { silent = true, remap = false })
+vim.keymap.set({ 'n' }, 'k', 'gk', { silent = true, remap = false })
 vim.keymap.set({ 'i', 'c' }, '<c-k>', '<Up>', { silent = true, remap = false })
 vim.keymap.set({ 'i', 'c' }, '<c-j>', '<Down>', { silent = true, remap = false })
 vim.keymap.set({ 'n', 'x' }, ';', ':', { silent = false, remap = false })
