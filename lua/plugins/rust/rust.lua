@@ -21,7 +21,7 @@ local rust = {
                 vim.keymap.set('n', '<leader>rr',
                     function()
                         vim.cmd('RustRun')
-                    end, { buffer = true, silent = true, remap = false })
+                    end, { buffer = true, silent = true, remap = false, desc = 'rust: RustRun' })
             end,
         })
     end

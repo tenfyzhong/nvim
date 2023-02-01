@@ -13,6 +13,7 @@ local easymotion = {
         vim.g.EasyMotion_startofline = 0
         vim.g.EasyMotion_verbose = 0
 
+        vim.keymap.set('n', '<tab>', '<Plug>(easymotion-prefix)', { remap = true })
         vim.keymap.set('n', '<tab>J', '<Plug>(easymotion-sol-j)', { remap = true })
         vim.keymap.set('n', '<tab>K', '<Plug>(easymotion-sol-k)', { remap = true })
         vim.keymap.set('n', '<tab>;', '<Plug>(easymotion-next)', { remap = true })

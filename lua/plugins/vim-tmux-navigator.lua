@@ -10,10 +10,14 @@ local tmux = {
     config = function()
         vim.g.tmux_navigator_no_mappings = 1
 
-        vim.keymap.set('n', '<c-h>', ':TmuxNavigateLeft<cr>', { remap = false, silent = true })
-        vim.keymap.set('n', '<c-j>', ':TmuxNavigateDown<cr>', { remap = false, silent = true })
-        vim.keymap.set('n', '<c-k>', ':TmuxNavigateUp<cr>', { remap = false, silent = true })
-        vim.keymap.set('n', '<c-l>', ':TmuxNavigateRight<cr>', { remap = false, silent = true })
+        vim.keymap.set('n', '<c-h>', ':TmuxNavigateLeft<cr>',
+            { remap = false, silent = true, desc = 'tmux-navigator: goto left window' })
+        vim.keymap.set('n', '<c-j>', ':TmuxNavigateDown<cr>',
+            { remap = false, silent = true, desc = 'tmux-navigator: goto below window' })
+        vim.keymap.set('n', '<c-k>', ':TmuxNavigateUp<cr>',
+            { remap = false, silent = true, desc = 'tmux-navigator: goto above window' })
+        vim.keymap.set('n', '<c-l>', ':TmuxNavigateRight<cr>',
+            { remap = false, silent = true, desc = 'tmux-navigator: goto right window' })
     end,
 }
 

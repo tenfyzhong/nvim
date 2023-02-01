@@ -7,8 +7,9 @@
 --]]
 local function aerial_config()
     -- You probably also want to set a keymap to toggle aerial
-    vim.keymap.set('n', '<leader>tb', '<cmd>AerialToggle!<CR>')
-    vim.keymap.set('n', '<leader>ft', ':call aerial#fzf()<cr>', { silent = true, remap = false })
+    vim.keymap.set('n', '<leader>tb', '<cmd>AerialToggle!<CR>', { silent = true, desc = 'aerial: AerialToggle' })
+    vim.keymap.set('n', '<leader>ft', ':call aerial#fzf()<cr>',
+        { silent = true, remap = false, desc = 'aerial: fzf tag' })
 
     -- Call the setup function to change the default behavior
     require("aerial").setup({

@@ -10,7 +10,7 @@ local argwrap = {
     'FooSoft/vim-argwrap',
     config = function()
         vim.g.argwrap_wrap_closing_brace = 0
-        vim.keymap.set('n', '<leader>aw', ':ArgWrap<cr>', { remap = false, silent = true })
+        vim.keymap.set('n', '<leader>aw', ':ArgWrap<cr>', { remap = false, silent = true, desc = 'argwrap: argwrap' })
     end,
 }
 

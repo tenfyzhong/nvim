@@ -21,6 +21,7 @@ local function config()
             vim.keymap.set('n', '<leader>rtg', ':normal vaf<cr>:GoUnit<cr>', {
                 remap = false,
                 buffer = true,
+                desc = 'gounit: GoUnit'
             })
         end,
     })

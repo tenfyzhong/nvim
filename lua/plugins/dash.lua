@@ -12,7 +12,8 @@ end
 local dash = {
     'rizzatti/dash.vim',
     config = function()
-        vim.keymap.set('n', '<leader>ds', '<Plug>DashSearch', { silent = true, remap = true })
+        vim.keymap.set('n', '<leader>ds', '<Plug>DashSearch',
+            { silent = true, remap = true, desc = 'dash: search cword' })
     end,
 }
 
