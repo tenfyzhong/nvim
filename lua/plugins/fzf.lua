@@ -50,6 +50,14 @@ local fzf_vim = {
                     { silent = true, buffer = true, remap = false, desc = 'fzf: buffer tags' })
             end,
         })
+        vim.api.nvim_create_autocmd('FileType', {
+            group = group,
+            pattern = 'defx',
+            callback = function()
+                vim.keymap.set('n', '<leader>ft', ':FZFBLines<cr>',
+                    { silent = true, buffer = true, remap = false, desc = 'fzf:buffer tags' })
+            end,
+        })
     end
 }
 
