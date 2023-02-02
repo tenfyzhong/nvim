@@ -53,7 +53,7 @@ vim.o.relativenumber = true
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
 vim.o.splitright = true
 vim.opt.diffopt = { 'filler', 'vertical' }
-vim.opt.viminfo:append { '!' }
+vim.opt.shada:append { "'0" }
 vim.o.belloff = 'all'
 vim.o.errorbells = false
 vim.o.visualbell = false
@@ -61,4 +61,3 @@ vim.o.t_vb = ''
 vim.opt.sessionoptions:remove { 'buffers' }
 
 vim.o.background = 'dark'
-
