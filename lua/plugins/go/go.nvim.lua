@@ -43,6 +43,8 @@ local go = {
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoFillStruct' })
                 vim.keymap.set('n', '<leader>rtp', ':GoFixPlurals<cr>',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoFixPlurals' })
+                vim.keymap.set('n', '<leader>rtg', ':GoAddTest<cr>',
+                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoAddTest' })
             end,
         })
     end,
