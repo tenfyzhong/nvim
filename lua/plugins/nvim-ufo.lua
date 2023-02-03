@@ -36,4 +36,3 @@ local ufo = {
 }
 
 return { ufo }
-return { ufo }
