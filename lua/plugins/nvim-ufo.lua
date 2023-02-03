@@ -5,19 +5,19 @@
 - @email tenfy@tenfy.cn
 - @created 2023-02-03 15:24:32
 --]]
-local statuscol = {
-    "luukvbaal/statuscol.nvim",
-    config = function()
-        require("statuscol").setup {
-            foldfunc = "builtin",
-            setopt = true,
-        }
-    end,
-}
+-- local statuscol = {
+--     "luukvbaal/statuscol.nvim",
+--     config = function()
+--         require("statuscol").setup {
+--             foldfunc = "builtin",
+--             setopt = true,
+--         }
+--     end,
+-- }
 
 local ufo = {
     'kevinhwang91/nvim-ufo',
-    requires = { 'kevinhwang91/promise-async', statuscol[1] },
+    requires = { 'kevinhwang91/promise-async' },
     config = function()
         vim.o.foldcolumn = '1'
         vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
@@ -35,4 +35,4 @@ local ufo = {
     end,
 }
 
-return { ufo, statuscol }
+return { ufo }
