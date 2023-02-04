@@ -33,11 +33,11 @@ local lualine = {
             },
             sections = {
                 lualine_a = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
-                lualine_b = { 'branch', 'diff', 'diagnostics' },
+                lualine_b = {},
                 lualine_c = { 'filename' },
-                lualine_x = { 'filetype' },
+                lualine_x = { 'branch', 'diff', 'diagnostics' },
                 lualine_y = { pos, 'progress' },
-                lualine_z = {}
+                lualine_z = {},
             },
             inactive_sections = {
                 lualine_a = {},
