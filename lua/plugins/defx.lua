@@ -7,6 +7,10 @@
 --]]
 function DefxFiletypeAutocmd()
     vim.wo.wrap = false
+    vim.keymap.set('n', 'x', '<NOP>', { silent = true, buffer = true })
+    vim.keymap.set('n', 'X', '<NOP>', { silent = true, buffer = true })
+    vim.keymap.set('n', 'r', '<NOP>', { silent = true, buffer = true })
+    vim.keymap.set('n', 'R', '<NOP>', { silent = true, buffer = true })
     vim.keymap.set('n', 'i', '<NOP>', { silent = true, buffer = true })
     vim.keymap.set('n', 'I', '<NOP>', { silent = true, buffer = true })
     vim.keymap.set('n', 'c', '<NOP>', { silent = true, buffer = true })
