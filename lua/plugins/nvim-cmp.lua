@@ -275,7 +275,7 @@ local function lspkind_config()
     })
 end
 
-local lsconfig = 'neovim/nvim-lspconfig'
+local lspconfig = 'neovim/nvim-lspconfig'
 local cmp_nvim_lsp = 'hrsh7th/cmp-nvim-lsp'
 local cmp_buffer = 'hrsh7th/cmp-buffer'
 local cmp_path = 'hrsh7th/cmp-path'
@@ -293,7 +293,7 @@ local cmp_git = 'petertriho/cmp-git'
 local nvim_cmp = { 'hrsh7th/nvim-cmp', config = cmp_config }
 
 return {
-    lsconfig,
+    lspconfig,
     cmp_nvim_lsp,
     cmp_buffer,
     cmp_path,
