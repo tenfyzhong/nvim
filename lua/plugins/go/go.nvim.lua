@@ -21,7 +21,7 @@ local go = {
                     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoBuild' })
                 vim.keymap.set('n', '<leader>rd', ':GoDoc<cr>',
                     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoDoc' })
-                vim.keymap.set('n', '<leader>re', ':GoRename<cr>',
+                vim.keymap.set('n', '<leader>re', ':silent GoRename<cr>',
                     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoRename' })
                 vim.keymap.set('n', '<leader>rc', ':GoCoverage -gcflags=all=-l<cr>',
                     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoCoverage' })
@@ -52,7 +52,7 @@ local go = {
         vim.cmd('GoInstallBinaries')
     end,
     ft = 'go',
-    requires = { 'ray-x/guihua.lua', 'neovim/nvim-lspconfig', 'nvim-treesitter/nvim-treesitter', 'mfussenegger/nvim-dap' }
+    requires = { 'neovim/nvim-lspconfig', 'nvim-treesitter/nvim-treesitter', 'mfussenegger/nvim-dap' }
 }
 
 return { go }
