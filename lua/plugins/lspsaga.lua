@@ -27,10 +27,10 @@ local lspsaga = {
         -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
         -- It also supports tagstack
         -- Use <C-t> to jump back
-        keymap("n", "gd", "<cmd>silent Lspsaga peek_definition<CR>", { silent = true, remap = false })
+        keymap("n", "gD", "<cmd>silent Lspsaga peek_definition<CR>", { silent = true, remap = false })
 
         -- Go to definition
-        keymap("n", "<c-]>", "<cmd>silent Lspsaga goto_definition<CR>", { silent = true, remap = false })
+        keymap("n", "gd", "<cmd>silent Lspsaga goto_definition<CR>", { silent = true, remap = false })
 
         -- Show line diagnostics
         -- You can pass argument ++unfocus to
@@ -58,7 +58,7 @@ local lspsaga = {
         end, { silent = true, remap = false })
 
         -- Toggle outline
-        keymap("n", "<leader>lol", "<cmd>silent Lspsaga outline<CR>", { silent = true, remap = false })
+        keymap("n", "<leader>lt", "<cmd>silent Lspsaga outline<CR>", { silent = true, remap = false })
 
         -- Hover Doc
         -- If there is no hover doc,
@@ -80,7 +80,7 @@ local lspsaga = {
         keymap("n", "<Leader>lo", "<cmd>silent Lspsaga outgoing_calls<CR>", { silent = true, remap = false })
 
         -- Floating terminal
-        -- keymap({ "n", "t" }, "<A-d>", "<cmd>silent Lspsaga term_toggle<CR>", { silent = true, remap = false })
+        keymap({ "n", "t" }, "<A-d>", "<cmd>silent Lspsaga term_toggle<CR>", { silent = true, remap = false })
     end,
     requires = { { "nvim-tree/nvim-web-devicons" } }
 }
