@@ -9,7 +9,9 @@
 local go = {
     'ray-x/go.nvim',
     config = function()
-        require('go').setup()
+        require('go').setup {
+            dap_debug_vt = false,
+        }
 
         local group = vim.api.nvim_create_augroup('go_nvim_local', {})
         vim.api.nvim_create_autocmd('FileType', {
@@ -45,6 +47,12 @@ local go = {
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoFixPlurals' })
                 vim.keymap.set('n', '<leader>rtg', ':GoAddTest<cr>',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoAddTest' })
+                vim.keymap.set('n', '<leader>aa', ':GoAlt<cr>',
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAlt' })
+                vim.keymap.set('n', '<leader>as', ':GoAltS<cr>',
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAltS' })
+                vim.keymap.set('n', '<leader>av', ':GoAltS<cr>',
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAltV' })
             end,
         })
     end,

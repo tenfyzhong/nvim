@@ -12,7 +12,7 @@ local dap = {
 
 local ui = {
     'rcarriga/nvim-dap-ui',
-    requires = { dap[1], 'theHamsta/nvim-dap-virtual-text' },
+    requires = { dap[1] },
     config = function()
         local dap = require('dap')
         local dapui = require('dapui')
