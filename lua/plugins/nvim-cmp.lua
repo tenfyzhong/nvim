@@ -177,7 +177,7 @@ local function cmp_config()
         on_attach = on_attach,
     }
 
-    lspconfig.sumneko_lua.setup {
+    lspconfig.lua_ls.setup {
         settings = {
             Lua = {
                 runtime = {
