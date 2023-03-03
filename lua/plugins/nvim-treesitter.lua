@@ -65,7 +65,7 @@ local treesitter = {
 }
 local context = {
     'nvim-treesitter/nvim-treesitter-context',
-    requires = treesitter[1],
+    dependencies = { treesitter[1] },
 }
 
 return { treesitter, context }

@@ -17,29 +17,21 @@ local function fugitive_config()
     vim.keymap.set('n', '<leader>gt', ':Git<cr>', { silent = true, remap = false, desc = 'fugitive: git' })
     vim.keymap.set('n', '<leader>gf', ':GBrowse<cr>', { silent = true, remap = false, desc = 'fugitive: git browse' })
     vim.api.nvim_create_user_command('Gpush', function()
-        if packer_plugins['asyncrun.vim'] and packer_plugins['asyncrun.vim'].loaded then
-            local gitdir = vim.fn.FugitiveGitDir()
-            local escape = vim.fn.fnamemodify(gitdir, ':p:h:h')
-            local cmd = string.format(':AsyncRun -cwd=%s git push', escape)
-            vim.cmd(cmd)
-        else
-            vim.fn.system('!git push')
-        end
+        local gitdir = vim.fn.FugitiveGitDir()
+        local escape = vim.fn.fnamemodify(gitdir, ':p:h:h')
+        local cmd = string.format(':AsyncRun -cwd=%s git push', escape)
+        vim.cmd(cmd)
     end, {})
     vim.api.nvim_create_user_command('Gpull', function()
-        if packer_plugins['asyncrun.vim'] and packer_plugins['asyncrun.vim'].loaded then
-            local gitdir = vim.fn.FugitiveGitDir()
-            local escape = vim.fn.fnamemodify(gitdir, ':p:h:h')
-            local cmd = string.format(':AsyncRun -cwd=%s git pull', escape)
-            vim.cmd(cmd)
-        else
-            vim.fn.system('!git pull')
-        end
+        local gitdir = vim.fn.FugitiveGitDir()
+        local escape = vim.fn.fnamemodify(gitdir, ':p:h:h')
+        local cmd = string.format(':AsyncRun -cwd=%s git pull', escape)
+        vim.cmd(cmd)
     end, {})
 end
 
 local fugitive = { 'tpope/vim-fugitive', config = fugitive_config }
-local rhubarb = { 'tpope/vim-rhubarb', requires = fugitive[1] }
-local gitlab = { 'shumphrey/fugitive-gitlab.vim', requires = fugitive[1] }
+local rhubarb = { 'tpope/vim-rhubarb', dependencies = { fugitive[1] } }
+local gitlab = { 'shumphrey/fugitive-gitlab.vim', dependencies = { fugitive[1] } }
 
 return { fugitive, rhubarb, gitlab }

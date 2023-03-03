@@ -6,4 +6,4 @@
 - @created 2023-01-27 21:58:10
 --]]
 
-return { 'dbatten5/vim-macroscope' }
+return { { 'dbatten5/vim-macroscope' } }

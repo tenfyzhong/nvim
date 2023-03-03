@@ -6,4 +6,4 @@
 - @created 2023-01-27 12:34:07
 --]]
 
-return { 'mzlogin/vim-markdown-toc' }
+return { { 'mzlogin/vim-markdown-toc' } }

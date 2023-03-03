@@ -12,7 +12,7 @@ local fzf = {
 
 local fzf_vim = {
     'junegunn/fzf.vim',
-    requires = fzf[1],
+    dependencies = { fzf[1] },
     config = function()
         vim.g.fzf_command_prefix = 'FZF'
         vim.g.fzf_history_dir = '~/.fzf-history'
@@ -63,7 +63,7 @@ local fzf_vim = {
 
 local marks = {
     'tenfyzhong/fzf-marks.vim',
-    requires = fzf[1],
+    dependencies = { fzf[1] },
     config = function()
         vim.keymap.set('n', '<leader>fs', ':FZFFzm<cr>', { silent = true, remap = false, desc = 'fzf-marks: marks' })
         local group = vim.api.nvim_create_augroup('fzf_marks_local', {})
@@ -77,7 +77,7 @@ local marks = {
 
 local bookmarks = {
     'tenfyzhong/fzf-bookmarks.vim',
-    requires = fzf[1],
+    dependencies = { fzf[1] },
     config = function()
         vim.keymap.set('n', '<leader>fM', ':FZFBookmarks<cr>',
             { silent = true, remap = false, desc = 'fzf-bookmarks: bookmarks' })
@@ -86,7 +86,7 @@ local bookmarks = {
 
 local z = {
     'tenfyzhong/z.nvim',
-    requires = fzf[1],
+    dependencies = { fzf[1] },
     config = function()
         require('z').setup {}
 

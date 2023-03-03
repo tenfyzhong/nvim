@@ -6,4 +6,4 @@
 - @created 2023-01-26 23:20:12
 --]]
 
-return { 'terrastruct/d2-vim' }
+return { { 'terrastruct/d2-vim' } }

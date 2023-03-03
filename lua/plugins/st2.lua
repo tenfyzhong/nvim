@@ -6,4 +6,4 @@
 - @created 2023-01-27 17:57:34
 --]]
 
-return { 'tenfyzhong/st2.vim' }
+return { { 'tenfyzhong/st2.vim' } }

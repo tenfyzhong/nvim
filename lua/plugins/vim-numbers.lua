@@ -6,4 +6,4 @@
 - @created 2023-01-27 20:04:18
 --]]
 
-return { 'MisanthropicBit/vim-numbers' }
+return { { 'MisanthropicBit/vim-numbers' } }
