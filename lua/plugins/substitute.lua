@@ -21,6 +21,7 @@ local substitute = {
         vim.keymap.set("x", "s", "<cmd>lua require('substitute').visual()<cr>",
             { noremap = true, desc = 'substitute: visual' })
     end,
+    event = 'VeryLazy',
 }
 
 return { substitute }

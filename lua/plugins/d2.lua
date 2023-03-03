@@ -6,4 +6,8 @@
 - @created 2023-01-26 23:20:12
 --]]
 
-return { { 'terrastruct/d2-vim' } }
+local d2 = {
+    'terrastruct/d2-vim',
+    event = 'VeryLazy',
+}
+return { d2 }

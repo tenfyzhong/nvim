@@ -14,6 +14,7 @@ local gist = {
         vim.g.gist_get_multiplefile = 1
         vim.g.gist_clip_command = 'pbcopy'
     end,
+    event = 'VeryLazy',
 }
 
 return { gist }

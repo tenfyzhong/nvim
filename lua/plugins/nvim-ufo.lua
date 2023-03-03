@@ -33,6 +33,7 @@ local ufo = {
             end
         })
     end,
+    event = 'VeryLazy',
 }
 
 return { ufo }

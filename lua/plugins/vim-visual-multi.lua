@@ -6,6 +6,9 @@
 - @created 2023-01-27 10:15:19
 --]]
 
-local multi = { 'mg979/vim-visual-multi' }
+local multi = {
+    'mg979/vim-visual-multi',
+    event = 'VeryLazy',
+}
 
 return { multi }

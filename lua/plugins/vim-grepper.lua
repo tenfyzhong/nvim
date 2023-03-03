@@ -20,6 +20,7 @@ local grepper = {
         vim.keymap.set({ 'n' }, '<leader>*', ':Grepper -tool ag -cword -noprompt<cr>',
             { remap = false, desc = 'grepper: grep cword' })
     end,
+    event = 'VeryLazy',
 }
 
 return { grepper }

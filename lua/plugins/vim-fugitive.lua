@@ -30,8 +30,17 @@ local function fugitive_config()
     end, {})
 end
 
-local fugitive = { 'tpope/vim-fugitive', config = fugitive_config }
-local rhubarb = { 'tpope/vim-rhubarb', dependencies = { fugitive[1] } }
-local gitlab = { 'shumphrey/fugitive-gitlab.vim', dependencies = { fugitive[1] } }
+local rhubarb = { 'tpope/vim-rhubarb' }
+local gitlab = { 'shumphrey/fugitive-gitlab.vim' }
+
+local fugitive = {
+    'tpope/vim-fugitive',
+    config = fugitive_config,
+    event = 'VeryLazy',
+    dependencies = {
+        rhubarb[1],
+        gitlab[1],
+    }
+}
 
 return { fugitive, rhubarb, gitlab }

@@ -9,6 +9,7 @@
 local json = {
     'leshill/vim-json',
     ft = 'json',
+    event = 'VeryLazy',
 }
 
 return { json }

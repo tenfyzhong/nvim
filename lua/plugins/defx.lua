@@ -160,8 +160,13 @@ local function defx_git_config()
     })
 end
 
-local defx = { 'Shougo/defx.nvim', config = defx_config }
-local defx_git = { 'kristijanhusak/defx-git', config = defx_git_config, requires = defx[1] }
-local defx_icons = { 'kristijanhusak/defx-icons', requires = defx[1] }
+local defx_git = { 'kristijanhusak/defx-git', config = defx_git_config }
+local defx_icons = { 'kristijanhusak/defx-icons' }
+local defx = {
+    'Shougo/defx.nvim',
+    config = defx_config,
+    dependencies = { defx_git[1], defx_icons[1] },
+    event = 'VeryLazy',
+}
 
 return { defx, defx_git, defx_icons }

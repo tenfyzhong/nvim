@@ -18,6 +18,7 @@ local align = {
         vim.keymap.set('x', 'ar', function() require 'align'.align_to_string(true, true, true) end,
             { remap = false, silent = true, desc = 'align to lua pattern' }) -- Aligns to a Lua pattern, looking left and with previews
     end,
+    event = 'VeryLazy',
 }
 
 return { align }

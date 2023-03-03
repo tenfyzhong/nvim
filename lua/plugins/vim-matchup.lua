@@ -11,7 +11,8 @@ local matchup = {
     init = function()
         -- may set any options here
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    end
+    end,
+    event = 'VeryLazy',
 }
 
 return { matchup }

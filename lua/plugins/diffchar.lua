@@ -14,6 +14,7 @@ local diffchar = {
         vim.keymap.set('n', '<leader>dg', '<Plug>GetDiffCharPair', { remap = true })
         vim.keymap.set('n', '<leader>dp', '<Plug>PutDiffCharPair', { remap = true })
     end,
+    event = 'VeryLazy',
 }
 
 return { diffchar }

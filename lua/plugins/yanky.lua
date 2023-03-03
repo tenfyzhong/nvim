@@ -17,6 +17,7 @@ local yanky = {
         vim.keymap.set("n", "'yn", "<Plug>(YankyCycleForward)")
         vim.keymap.set("n", "'yp", "<Plug>(YankyCycleBackward)")
     end,
+    event = 'VeryLazy',
 }
 
 return { yanky }

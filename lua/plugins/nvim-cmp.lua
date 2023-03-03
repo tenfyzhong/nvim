@@ -288,7 +288,25 @@ local cmp_nvim_lsp_signature_help = { 'hrsh7th/cmp-nvim-lsp-signature-help' }
 local neodev = { 'folke/neodev.nvim' }
 local plenary = { 'nvim-lua/plenary.nvim' }
 local cmp_git = { 'petertriho/cmp-git' }
-local nvim_cmp = { 'hrsh7th/nvim-cmp', config = cmp_config }
+local nvim_cmp = {
+    'hrsh7th/nvim-cmp',
+    config = cmp_config,
+    event = "InsertEnter",
+    dependencies = {
+        cmp_nvim_lsp[1],
+        cmp_buffer[1],
+        cmp_path[1],
+        cmp_cmdline[1],
+        cmp_vsnip[1],
+        vim_vsnip[1],
+        lspkind[1],
+        cmp_nvim_lua[1],
+        tsnippets[1],
+        friendly_snippets[1],
+        cmp_nvim_lsp_signature_help[1],
+        cmp_git[1],
+    },
+}
 
 return {
     lspconfig,
