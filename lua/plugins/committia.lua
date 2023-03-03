@@ -37,6 +37,7 @@ endfunction
 
         ]])
     end,
+    event = 'VeryLazy',
 }
 
 return { committia }

@@ -24,7 +24,8 @@ local rust = {
                     end, { buffer = true, silent = true, remap = false, desc = 'rust: RustRun' })
             end,
         })
-    end
+    end,
+    event = 'VeryLazy',
 }
 
 return { rust }

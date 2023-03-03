@@ -19,6 +19,7 @@ local lqa = {
             }
         }
     end,
+    event = 'VeryLazy',
 }
 
 return { lqa }

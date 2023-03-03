@@ -60,7 +60,8 @@ local go = {
         vim.cmd('GoInstallBinaries')
     end,
     ft = 'go',
-    requires = { 'neovim/nvim-lspconfig', 'nvim-treesitter/nvim-treesitter', 'mfussenegger/nvim-dap' }
+    dependencies = { 'neovim/nvim-lspconfig', 'nvim-treesitter/nvim-treesitter', 'mfussenegger/nvim-dap' },
+    event = 'VeryLazy',
 }
 
 return { go }

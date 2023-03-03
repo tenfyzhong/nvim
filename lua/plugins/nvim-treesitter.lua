@@ -59,13 +59,15 @@ local function treesister_config()
     -- vim.o.foldenable = false
 end
 
+local context = {
+    'nvim-treesitter/nvim-treesitter-context',
+}
+
 local treesitter = {
     'nvim-treesitter/nvim-treesitter',
     config = treesister_config,
-}
-local context = {
-    'nvim-treesitter/nvim-treesitter-context',
-    requires = treesitter[1],
+    event = 'VeryLazy',
+    dependencies = { context[1] },
 }
 
 return { treesitter, context }

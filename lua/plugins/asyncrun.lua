@@ -19,6 +19,7 @@ local asyncrun = {
         --     end,
         -- })
     end,
+    event = 'VeryLazy',
 }
 
 return { asyncrun }

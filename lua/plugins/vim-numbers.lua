@@ -6,4 +6,8 @@
 - @created 2023-01-27 20:04:18
 --]]
 
-return { 'MisanthropicBit/vim-numbers' }
+local numbers = {
+    'MisanthropicBit/vim-numbers',
+    event = 'VeryLazy',
+}
+return { numbers }

@@ -20,6 +20,7 @@ local agit = {
             end,
         })
     end,
+    event = 'VeryLazy',
 }
 
 return { agit }

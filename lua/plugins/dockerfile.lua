@@ -6,4 +6,9 @@
 - @created 2023-01-27 14:12:38
 --]]
 
-return { 'ekalinin/Dockerfile.vim' }
+local dockerfile = {
+    'ekalinin/Dockerfile.vim',
+    event = 'VeryLazy',
+}
+
+return { dockerfile }

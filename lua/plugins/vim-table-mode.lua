@@ -11,6 +11,7 @@ local table_mode = {
     config = function()
         vim.g.table_mode_corner = '|'
     end,
+    event = 'VeryLazy',
 }
 
 return { table_mode }

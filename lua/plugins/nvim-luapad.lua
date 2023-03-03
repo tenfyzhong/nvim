@@ -9,6 +9,7 @@
 local luapad = {
     'rafcamlet/nvim-luapad',
     ft = 'lua',
+    event = 'VeryLazy',
 }
 
 return { luapad }

@@ -140,7 +140,8 @@ local axring = {
                 "image"
             },
         }
-    end
+    end,
+    event = 'VeryLazy',
 }
 
 return { axring }

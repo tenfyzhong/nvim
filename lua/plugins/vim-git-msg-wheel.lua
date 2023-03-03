@@ -6,4 +6,8 @@
 - @created 2023-01-27 22:22:19
 --]]
 
-return { 'johngrib/vim-git-msg-wheel' }
+local wheel = {
+    'johngrib/vim-git-msg-wheel',
+    event = 'VeryLazy',
+}
+return { wheel }

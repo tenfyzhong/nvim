@@ -6,4 +6,8 @@
 - @created 2023-01-27 21:58:10
 --]]
 
-return { 'dbatten5/vim-macroscope' }
+local macroscope = {
+    'dbatten5/vim-macroscope',
+    event = 'VeryLazy',
+}
+return { macroscope }
