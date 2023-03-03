@@ -6,4 +6,4 @@
 - @created 2023-01-27 10:25:33
 --]]
 
-return {'tenfyzhong/ftemplate.vim'}
+return { { 'tenfyzhong/ftemplate.vim' } }

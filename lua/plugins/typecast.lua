@@ -6,4 +6,4 @@
 - @created 2023-01-27 21:11:51
 --]]
 
-return { 'tenfyzhong/typecast.vim' }
+return { { 'tenfyzhong/typecast.vim' } }

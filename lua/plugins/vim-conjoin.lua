@@ -6,4 +6,4 @@
 - @created 2023-01-27 21:15:13
 --]]
 
-return { 'flwyd/vim-conjoin' }
+return { { 'flwyd/vim-conjoin' } }

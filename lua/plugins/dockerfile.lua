@@ -6,4 +6,4 @@
 - @created 2023-01-27 14:12:38
 --]]
 
-return { 'ekalinin/Dockerfile.vim' }
+return { { 'ekalinin/Dockerfile.vim' } }

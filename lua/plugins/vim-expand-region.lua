@@ -6,4 +6,4 @@
 - @created 2023-01-27 23:43:47
 --]]
 
-return { 'terryma/vim-expand-region' }
+return { { 'terryma/vim-expand-region' } }
