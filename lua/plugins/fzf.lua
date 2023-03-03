@@ -53,7 +53,8 @@ local fzf_vim = {
                     { silent = true, buffer = true, remap = false, desc = 'fzf:buffer tags' })
             end,
         })
-    end
+    end,
+    event = 'VeryLazy',
 }
 
 local marks = {
@@ -67,6 +68,7 @@ local marks = {
             callback = function() require('feature').DefxCwd() end,
         })
     end,
+    event = 'VeryLazy',
 }
 
 local bookmarks = {
@@ -75,6 +77,7 @@ local bookmarks = {
         vim.keymap.set('n', '<leader>fM', ':FZFBookmarks<cr>',
             { silent = true, remap = false, desc = 'fzf-bookmarks: bookmarks' })
     end,
+    event = 'VeryLazy',
 }
 
 local z = {
@@ -90,6 +93,7 @@ local z = {
             callback = function() require('feature').DefxCwd() end,
         })
     end,
+    event = 'VeryLazy',
 }
 
 local fzf = {
