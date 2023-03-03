@@ -8,7 +8,7 @@
 
 local gist = {
     'mattn/gist-vim',
-    dependencies = 'mattn/webapi-vim',
+    dependencies = { 'mattn/webapi-vim' },
     config = function()
         vim.g.gist_show_privates = 1
         vim.g.gist_get_multiplefile = 1
