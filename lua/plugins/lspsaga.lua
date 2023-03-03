@@ -82,7 +82,7 @@ local lspsaga = {
         -- Floating terminal
         keymap({ "n", "t" }, "<A-d>", "<cmd>silent Lspsaga term_toggle<CR>", { silent = true, remap = false })
     end,
-    dependencies = { { "nvim-tree/nvim-web-devicons" } },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = 'VeryLazy',
 }
 
