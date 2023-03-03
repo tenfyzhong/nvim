@@ -160,8 +160,15 @@ local function defx_git_config()
     })
 end
 
-local defx_git = { 'kristijanhusak/defx-git', config = defx_git_config }
-local defx_icons = { 'kristijanhusak/defx-icons' }
+local defx_git = {
+    'kristijanhusak/defx-git',
+    config = defx_git_config,
+    event = 'VeryLazy',
+}
+local defx_icons = {
+    'kristijanhusak/defx-icons',
+    event = 'VeryLazy',
+}
 local defx = {
     'Shougo/defx.nvim',
     config = defx_config,

@@ -8,11 +8,12 @@
 
 local dap = {
     'mfussenegger/nvim-dap',
+    event = 'VeryLazy',
 }
 
 local ui = {
     'rcarriga/nvim-dap-ui',
-    requires = { dap[1] },
+    dependencies = { dap[1] },
     config = function()
         local dap = require('dap')
         local dapui = require('dapui')
