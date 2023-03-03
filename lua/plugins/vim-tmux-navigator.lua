@@ -19,6 +19,7 @@ local tmux = {
         vim.keymap.set('n', '<c-l>', ':TmuxNavigateRight<cr>',
             { remap = false, silent = true, desc = 'tmux-navigator: goto right window' })
     end,
+    event = 'VeryLazy',
 }
 
 return { tmux }

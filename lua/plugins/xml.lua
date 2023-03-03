@@ -12,6 +12,7 @@ local xml = {
     config = function()
         vim.g.xml_syntax_folding = 1
     end,
+    event = 'VeryLazy',
 }
 
 return { xml }

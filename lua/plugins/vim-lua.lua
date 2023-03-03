@@ -9,6 +9,7 @@
 local lua = {
     'tbastos/vim-lua',
     ft = 'lua',
+    event = 'VeryLazy',
 }
 
 return { lua }

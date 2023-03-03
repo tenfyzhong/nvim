@@ -7,7 +7,8 @@
 --]]
 local bqf = {
     'kevinhwang91/nvim-bqf',
-    ft = 'qf'
+    ft = 'qf',
+    event = 'VeryLazy',
 }
 
 return { bqf }

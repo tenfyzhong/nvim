@@ -8,7 +8,7 @@
 
 local diffview = {
     'sindrets/diffview.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
         require('diffview').setup {
             view = {
@@ -21,6 +21,7 @@ local diffview = {
             }
         }
     end,
+    event = 'VeryLazy',
 }
 
 return { diffview }

@@ -134,13 +134,11 @@ local function cmp_config()
         })
     })
 
-    if packer_plugins["nvim-autopairs"] and packer_plugins["nvim-autopairs"].loaded then
-        local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-        cmp.event:on(
-            'confirm_done',
-            cmp_autopairs.on_confirm_done()
-        )
-    end
+    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+    cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+    )
 
     require("neodev").setup({})
 
@@ -275,22 +273,40 @@ local function lspkind_config()
     })
 end
 
-local lspconfig = 'neovim/nvim-lspconfig'
-local cmp_nvim_lsp = 'hrsh7th/cmp-nvim-lsp'
-local cmp_buffer = 'hrsh7th/cmp-buffer'
-local cmp_path = 'hrsh7th/cmp-path'
-local cmp_cmdline = 'hrsh7th/cmp-cmdline'
-local cmp_vsnip = 'hrsh7th/cmp-vsnip'
-local vim_vsnip = 'hrsh7th/vim-vsnip'
+local lspconfig = { 'neovim/nvim-lspconfig' }
+local cmp_nvim_lsp = { 'hrsh7th/cmp-nvim-lsp' }
+local cmp_buffer = { 'hrsh7th/cmp-buffer' }
+local cmp_path = { 'hrsh7th/cmp-path' }
+local cmp_cmdline = { 'hrsh7th/cmp-cmdline' }
+local cmp_vsnip = { 'hrsh7th/cmp-vsnip' }
+local vim_vsnip = { 'hrsh7th/vim-vsnip' }
 local lspkind = { 'onsails/lspkind.nvim', config = lspkind_config }
-local cmp_nvim_lua = 'hrsh7th/cmp-nvim-lua'
-local tsnippets = 'tenfyzhong/tsnippets.vim'
-local friendly_snippets = 'rafamadriz/friendly-snippets'
-local cmp_nvim_lsp_signature_help = 'hrsh7th/cmp-nvim-lsp-signature-help'
-local neodev = 'folke/neodev.nvim'
-local plenary = 'nvim-lua/plenary.nvim'
-local cmp_git = 'petertriho/cmp-git'
-local nvim_cmp = { 'hrsh7th/nvim-cmp', config = cmp_config }
+local cmp_nvim_lua = { 'hrsh7th/cmp-nvim-lua' }
+local tsnippets = { 'tenfyzhong/tsnippets.vim' }
+local friendly_snippets = { 'rafamadriz/friendly-snippets' }
+local cmp_nvim_lsp_signature_help = { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+local neodev = { 'folke/neodev.nvim' }
+local plenary = { 'nvim-lua/plenary.nvim' }
+local cmp_git = { 'petertriho/cmp-git' }
+local nvim_cmp = {
+    'hrsh7th/nvim-cmp',
+    config = cmp_config,
+    event = "InsertEnter",
+    dependencies = {
+        cmp_nvim_lsp[1],
+        cmp_buffer[1],
+        cmp_path[1],
+        cmp_cmdline[1],
+        cmp_vsnip[1],
+        vim_vsnip[1],
+        lspkind[1],
+        cmp_nvim_lua[1],
+        tsnippets[1],
+        friendly_snippets[1],
+        cmp_nvim_lsp_signature_help[1],
+        cmp_git[1],
+    },
+}
 
 return {
     lspconfig,

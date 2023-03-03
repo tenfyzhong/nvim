@@ -8,7 +8,7 @@
 
 local markdown = {
     "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
+    build = function() vim.fn["mkdp#util#install"]() end,
     ft = "markdown",
     config = function()
         vim.g.mkdp_auto_start = 0
@@ -30,6 +30,7 @@ local markdown = {
             end,
         })
     end,
+    event = 'VeryLazy',
 }
 
 return { markdown }

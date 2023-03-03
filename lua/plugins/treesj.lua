@@ -19,7 +19,7 @@ local treesj = {
 
         vim.keymap.set({ 'n' }, '<leader>aw', '<cmd>silent TSJToggle<cr>', { silent = true, remap = false })
     end,
-    cmd = 'TSJToggle',
+    event = 'VeryLazy',
 }
 
 return { treesj }

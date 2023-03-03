@@ -11,6 +11,7 @@ local choosewin = {
     config = function()
         vim.keymap.set('n', '<leader>sw', '<Plug>(choosewin)', { remap = true, desc = 'choosewin: choosewin' })
     end,
+    event = 'VeryLazy',
 }
 
 return { choosewin }

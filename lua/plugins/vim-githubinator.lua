@@ -14,6 +14,7 @@ local githubinator = {
         vim.keymap.set({ 'n', 'x' }, '<leader>gy', '<Plug>(githubinator-copy)',
             { remap = true, desc = 'githubinator: copy to clipboard' })
     end,
+    event = 'VeryLazy',
 }
 
 return { githubinator }

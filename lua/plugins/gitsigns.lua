@@ -41,5 +41,8 @@ local function gitsigns_config()
     }
 end
 
-local gitsigns = { 'lewis6991/gitsigns.nvim', config = gitsigns_config }
+local gitsigns = {
+    'lewis6991/gitsigns.nvim',
+    config = gitsigns_config,
+}
 return { gitsigns }

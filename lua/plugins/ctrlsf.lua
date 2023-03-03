@@ -26,6 +26,7 @@ local ctrlsf = {
         vim.keymap.set('v', '<leader>sF', '<Plug>CtrlSFVwordPath',
             { remap = true, desc = 'ctrlsf: search visual word prompt' })
     end,
+    event = 'VeryLazy',
 }
 
 return { ctrlsf }

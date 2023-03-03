@@ -22,6 +22,7 @@ local jsonpath = {
             end,
         })
     end,
+    event = 'VeryLazy',
 }
 
 return { jsonpath }

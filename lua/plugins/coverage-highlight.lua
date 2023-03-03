@@ -18,6 +18,7 @@ local highlight = {
         })
     end,
     ft = 'python',
+    event = 'VeryLazy',
 }
 
 return { highlight }

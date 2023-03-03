@@ -11,7 +11,8 @@ local comment = {
         require('Comment').setup {
             ignore = '^$',
         }
-    end
+    end,
+    event = 'VeryLazy',
 }
 
 return { comment }

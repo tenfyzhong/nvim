@@ -5,5 +5,8 @@
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 23:43:47
 --]]
-
-return { 'terryma/vim-expand-region' }
+local region = {
+    'terryma/vim-expand-region',
+    event = 'VeryLazy',
+}
+return { region }

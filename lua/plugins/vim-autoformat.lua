@@ -27,6 +27,7 @@ local autoformat = {
 
         vim.keymap.set('n', '<leader>af', ':Autoformat<cr>', { remap = false, desc = 'autoformat: Autoformat' })
     end,
+    event = 'VeryLazy',
 }
 
 return { autoformat }
