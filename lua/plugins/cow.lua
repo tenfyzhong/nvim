@@ -6,11 +6,15 @@
 - @created 2023-01-27 10:16:41
 --]]
 
-local cow = { 'tenfyzhong/cow.vim', config = function()
-    vim.keymap.set('n', '<leader>ch', '<Plug>(cow-close-h)', { desc = 'cow: close left window' })
-    vim.keymap.set('n', '<leader>cj', '<Plug>(cow-close-j)', { desc = 'cow: close below window' })
-    vim.keymap.set('n', '<leader>ck', '<Plug>(cow-close-k)', { desc = 'cow: close above window' })
-    vim.keymap.set('n', '<leader>cl', '<Plug>(cow-close-l)', { desc = 'cow: close right window' })
-end }
+local cow = {
+    'tenfyzhong/cow.vim',
+    config = function()
+        vim.keymap.set('n', '<leader>ch', '<Plug>(cow-close-h)', { desc = 'cow: close left window' })
+        vim.keymap.set('n', '<leader>cj', '<Plug>(cow-close-j)', { desc = 'cow: close below window' })
+        vim.keymap.set('n', '<leader>ck', '<Plug>(cow-close-k)', { desc = 'cow: close above window' })
+        vim.keymap.set('n', '<leader>cl', '<Plug>(cow-close-l)', { desc = 'cow: close right window' })
+    end,
+    event = 'VeryLazy',
+}
 
 return { cow }

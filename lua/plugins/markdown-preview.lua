@@ -30,6 +30,7 @@ local markdown = {
             end,
         })
     end,
+    event = 'VeryLazy',
 }
 
 return { markdown }

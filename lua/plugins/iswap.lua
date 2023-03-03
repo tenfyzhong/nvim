@@ -55,6 +55,7 @@ local iswap = {
         vim.keymap.set('n', 'g>', '<cmd>silent ISwapNodeWithRight<cr>', { remap = false, silent = true })
         vim.keymap.set('n', 'g<', '<cmd>silent ISwapNodeWithLeft<cr>', { remap = false, silent = true })
     end,
+    event = 'VeryLazy',
 }
 
 return { iswap }

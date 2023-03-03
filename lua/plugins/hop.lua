@@ -61,7 +61,8 @@ local hop = {
         vim.keymap.set('n', '<tab>K', function()
             hop.hint_lines({ direction = directions.BEFORE_CURSOR, current_line_only = false, multi_windows = true })
         end, { remap = true, desc = 'hop: K' })
-    end
+    end,
+    event = 'VeryLazy',
 }
 
 return { hop }

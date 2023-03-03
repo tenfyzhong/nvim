@@ -21,6 +21,7 @@ local diffview = {
             }
         }
     end,
+    event = 'VeryLazy',
 }
 
 return { diffview }

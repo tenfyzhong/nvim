@@ -35,6 +35,7 @@ local bookmarks = {
         vim.keymap.set('n', 'Md', '<Plug>BookmarkMoveDown',
             { silent = true, remap = true, desc = 'bookmarks: bookmark move down' })
     end,
+    event = 'VeryLazy',
 }
 
 return { bookmarks }

@@ -5,14 +5,9 @@
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 20:06:26
 --]]
-local fzf = {
-    'junegunn/fzf',
-    run = ":call fzf#install()",
-}
 
 local fzf_vim = {
     'junegunn/fzf.vim',
-    dependencies = { fzf[1] },
     config = function()
         vim.g.fzf_command_prefix = 'FZF'
         vim.g.fzf_history_dir = '~/.fzf-history'
@@ -63,7 +58,6 @@ local fzf_vim = {
 
 local marks = {
     'tenfyzhong/fzf-marks.vim',
-    dependencies = { fzf[1] },
     config = function()
         vim.keymap.set('n', '<leader>fs', ':FZFFzm<cr>', { silent = true, remap = false, desc = 'fzf-marks: marks' })
         local group = vim.api.nvim_create_augroup('fzf_marks_local', {})
@@ -77,7 +71,6 @@ local marks = {
 
 local bookmarks = {
     'tenfyzhong/fzf-bookmarks.vim',
-    dependencies = { fzf[1] },
     config = function()
         vim.keymap.set('n', '<leader>fM', ':FZFBookmarks<cr>',
             { silent = true, remap = false, desc = 'fzf-bookmarks: bookmarks' })
@@ -86,7 +79,6 @@ local bookmarks = {
 
 local z = {
     'tenfyzhong/z.nvim',
-    dependencies = { fzf[1] },
     config = function()
         require('z').setup {}
 
@@ -99,5 +91,18 @@ local z = {
         })
     end,
 }
+
+local fzf = {
+    'junegunn/fzf',
+    build = ":call fzf#install()",
+    event = 'VeryLazy',
+    dependencies = {
+        fzf_vim[1],
+        marks[1],
+        bookmarks[1],
+        z[1],
+    },
+}
+
 
 return { fzf, fzf_vim, marks, bookmarks, z }

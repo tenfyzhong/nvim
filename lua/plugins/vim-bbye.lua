@@ -13,6 +13,7 @@ local bbye = {
             vim.cmd('Bdelete')
         end, { silent = true, remap = false, desc = 'bbye: buffer delete' })
     end,
+    event = 'VeryLazy',
 }
 
 return { bbye }

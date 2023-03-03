@@ -17,6 +17,7 @@ local undotree = {
         vim.keymap.set('n', '<leader>ut', ':UndotreeToggle<cr>',
             { remap = false, silent = true, desc = 'undotree: toggle undotree' })
     end,
+    event = 'VeryLazy',
 }
 
 return { undotree }

@@ -6,4 +6,8 @@
 - @created 2023-01-27 12:34:07
 --]]
 
-return { { 'mzlogin/vim-markdown-toc' } }
+local markdown = {
+    'mzlogin/vim-markdown-toc',
+    event = 'VeryLazy',
+}
+return { markdown }
