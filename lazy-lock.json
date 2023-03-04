@@ -76,6 +76,7 @@
   "targets.vim": { "branch": "master", "commit": "642d3a4ce306264b05ea3219920b13ea80931767" },
   "thrift.vim": { "branch": "master", "commit": "f627aace1e583aed42f12d2a48b40fc18449a145" },
   "tmux.vim": { "branch": "master", "commit": "6d9499ba23f0d77bd0acb8ef2d915db1ce91a19a" },
+  "tokyonight.nvim": { "branch": "main", "commit": "57ed37148ffcf05d68df8e06d4eec2b74bf62601" },
   "traces.vim": { "branch": "master", "commit": "9663fcf84de5776bee71b6c816c25ccb6ea11d1a" },
   "treesj": { "branch": "main", "commit": "f0249ad87ba858382fe51ce5326ccee5c596ad97" },
   "tsnippets.vim": { "branch": "master", "commit": "24a9c1792f4523528fd9a30137bc725b6263323d" },

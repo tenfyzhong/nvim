@@ -273,14 +273,14 @@ local function lspkind_config()
     })
 end
 
-local lspconfig = { 'neovim/nvim-lspconfig', event = 'VeryLazy' }
+local lspconfig = { 'neovim/nvim-lspconfig' }
 local cmp_nvim_lsp = { 'hrsh7th/cmp-nvim-lsp' }
 local cmp_buffer = { 'hrsh7th/cmp-buffer' }
 local cmp_path = { 'hrsh7th/cmp-path' }
 local cmp_cmdline = { 'hrsh7th/cmp-cmdline' }
 local cmp_vsnip = { 'hrsh7th/cmp-vsnip' }
 local vim_vsnip = { 'hrsh7th/vim-vsnip' }
-local lspkind = { 'onsails/lspkind.nvim', config = lspkind_config, event = 'VeryLazy' }
+local lspkind = { 'onsails/lspkind.nvim', config = lspkind_config }
 local cmp_nvim_lua = { 'hrsh7th/cmp-nvim-lua' }
 local tsnippets = { 'tenfyzhong/tsnippets.vim' }
 local friendly_snippets = { 'rafamadriz/friendly-snippets' }
@@ -291,24 +291,24 @@ local cmp_git = { 'petertriho/cmp-git' }
 local nvim_cmp = {
     'hrsh7th/nvim-cmp',
     config = cmp_config,
-    event = "VeryLazy",
     dependencies = {
         cmp_nvim_lsp,
-        cmp_buffer,
-        cmp_path,
+        lspkind,
         cmp_cmdline,
         cmp_vsnip,
         vim_vsnip,
-        lspkind,
         cmp_nvim_lua,
         tsnippets,
         friendly_snippets,
         cmp_nvim_lsp_signature_help,
         cmp_git,
+        cmp_path,
+        cmp_buffer,
     },
 }
 
 return {
+    cmp_nvim_lsp,
     lspconfig,
     lspkind,
     neodev,
