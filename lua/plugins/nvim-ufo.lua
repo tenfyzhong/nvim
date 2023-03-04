@@ -5,15 +5,6 @@
 - @email tenfy@tenfy.cn
 - @created 2023-02-03 15:24:32
 --]]
--- local statuscol = {
---     "luukvbaal/statuscol.nvim",
---     config = function()
---         require("statuscol").setup {
---             foldfunc = "builtin",
---             setopt = true,
---         }
---     end,
--- }
 
 local ufo = {
     'kevinhwang91/nvim-ufo',

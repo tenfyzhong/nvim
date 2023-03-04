@@ -32,11 +32,9 @@ end
 
 local rhubarb = {
     'tpope/vim-rhubarb',
-    event = 'VeryLazy',
 }
 local gitlab = {
     'shumphrey/fugitive-gitlab.vim',
-    event = 'VeryLazy',
 }
 
 local fugitive = {
@@ -44,9 +42,9 @@ local fugitive = {
     config = fugitive_config,
     event = 'VeryLazy',
     dependencies = {
-        rhubarb[1],
-        gitlab[1],
+        rhubarb,
+        gitlab,
     }
 }
 
-return { fugitive, rhubarb, gitlab }
+return { fugitive }

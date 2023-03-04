@@ -61,14 +61,13 @@ end
 
 local context = {
     'nvim-treesitter/nvim-treesitter-context',
-    event = 'VeryLazy',
 }
 
 local treesitter = {
     'nvim-treesitter/nvim-treesitter',
     config = treesister_config,
     event = 'VeryLazy',
-    dependencies = { context[1] },
+    dependencies = { context },
 }
 
-return { treesitter, context }
+return { treesitter }

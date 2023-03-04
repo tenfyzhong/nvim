@@ -163,17 +163,15 @@ end
 local defx_git = {
     'kristijanhusak/defx-git',
     config = defx_git_config,
-    event = 'VeryLazy',
 }
 local defx_icons = {
     'kristijanhusak/defx-icons',
-    event = 'VeryLazy',
 }
 local defx = {
     'Shougo/defx.nvim',
     config = defx_config,
-    dependencies = { defx_git[1], defx_icons[1] },
+    dependencies = { defx_git, defx_icons },
     event = 'VeryLazy',
 }
 
-return { defx, defx_git, defx_icons }
+return { defx }
