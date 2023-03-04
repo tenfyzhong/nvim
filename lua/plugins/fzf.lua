@@ -8,9 +8,12 @@
 
 local fzf_vim = {
     'junegunn/fzf.vim',
-    config = function()
+    event = 'VeryLazy',
+    init = function()
         vim.g.fzf_command_prefix = 'FZF'
         vim.g.fzf_history_dir = '~/.fzf-history'
+    end,
+    config = function()
 
         vim.keymap.set('n', '<leader>ff', ':FZFFiles<cr>', { silent = true, remap = false, desc = 'fzf: files' })
         vim.keymap.set('n', '<leader>fg', ':FZFGFiles<cr>', { silent = true, remap = false, desc = 'fzf: git files' })
@@ -47,7 +50,7 @@ local fzf_vim = {
         })
         vim.api.nvim_create_autocmd('FileType', {
             group = group,
-            pattern = 'defx',
+            pattern = 'NvimTree',
             callback = function()
                 vim.keymap.set('n', '<leader>ft', ':FZFBLines<cr>',
                     { silent = true, buffer = true, remap = false, desc = 'fzf:buffer tags' })
@@ -64,7 +67,10 @@ local marks = {
         vim.api.nvim_create_autocmd('User', {
             group = group,
             pattern = 'FZFMarksCd',
-            callback = function() require('feature').DefxCwd() end,
+            callback = function()
+                local cwd = vim.fn.getcwd()
+                require('nvim-tree.api').tree.open { path = cwd }
+            end,
         })
     end,
 }
@@ -87,7 +93,10 @@ local z = {
         vim.api.nvim_create_autocmd('User', {
             group = group,
             pattern = 'Zcd',
-            callback = function() require('feature').DefxCwd() end,
+            callback = function()
+                local cwd = vim.fn.getcwd()
+                require('nvim-tree.api').tree.open { path = cwd }
+            end,
         })
     end,
 }
@@ -104,5 +113,4 @@ local fzf = {
     },
 }
 
-
-return { fzf }
+return { fzf, fzf_vim }
