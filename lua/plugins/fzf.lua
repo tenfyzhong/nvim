@@ -54,7 +54,6 @@ local fzf_vim = {
             end,
         })
     end,
-    event = 'VeryLazy',
 }
 
 local marks = {
@@ -68,7 +67,6 @@ local marks = {
             callback = function() require('feature').DefxCwd() end,
         })
     end,
-    event = 'VeryLazy',
 }
 
 local bookmarks = {
@@ -77,7 +75,6 @@ local bookmarks = {
         vim.keymap.set('n', '<leader>fM', ':FZFBookmarks<cr>',
             { silent = true, remap = false, desc = 'fzf-bookmarks: bookmarks' })
     end,
-    event = 'VeryLazy',
 }
 
 local z = {
@@ -93,7 +90,6 @@ local z = {
             callback = function() require('feature').DefxCwd() end,
         })
     end,
-    event = 'VeryLazy',
 }
 
 local fzf = {
@@ -101,12 +97,12 @@ local fzf = {
     build = ":call fzf#install()",
     event = 'VeryLazy',
     dependencies = {
-        fzf_vim[1],
-        marks[1],
-        bookmarks[1],
-        z[1],
+        fzf_vim,
+        marks,
+        bookmarks,
+        z,
     },
 }
 
 
-return { fzf, fzf_vim, marks, bookmarks, z }
+return { fzf }
