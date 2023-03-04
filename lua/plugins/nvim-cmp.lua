@@ -291,7 +291,7 @@ local cmp_git = { 'petertriho/cmp-git' }
 local nvim_cmp = {
     'hrsh7th/nvim-cmp',
     config = cmp_config,
-    event = "InsertEnter",
+    event = "VeryLazy",
     dependencies = {
         cmp_nvim_lsp,
         cmp_buffer,
