@@ -37,7 +37,7 @@ local lualine = {
                 lualine_c = { 'filename' },
                 lualine_x = { 'branch', 'diff', 'diagnostics' },
                 lualine_y = { pos, 'progress' },
-                lualine_z = {},
+                lualine_z = { 'overseer' },
             },
             inactive_sections = {
                 lualine_a = {},
