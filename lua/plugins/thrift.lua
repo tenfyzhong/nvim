@@ -7,6 +7,5 @@
 --]]
 local thrift = {
     'solarnz/thrift.vim',
-    event = 'VeryLazy',
 }
 return { thrift }
