@@ -101,7 +101,7 @@ local tree = {
                 group_empty = true,
             },
             filters = {
-                dotfiles = false,
+                dotfiles = true,
             },
         }
         vim.keymap.set('n', '<leader>nt', function()
