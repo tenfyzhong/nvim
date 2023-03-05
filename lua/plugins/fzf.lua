@@ -6,9 +6,20 @@
 - @created 2023-01-27 20:06:26
 --]]
 
+local function find_tag()
+    if vim.bo.filetype == 'thrift' then
+        vim.cmd('silent FZFBTags')
+    elseif vim.bo.filetype == 'NvimTree' then
+        vim.cmd('silent FZFBLines')
+    else
+        vim.fn['aerial#fzf']()
+    end
+end
+
 local fzf_vim = {
     'junegunn/fzf.vim',
     event = 'VeryLazy',
+    dependencies = { 'stevearc/aerial.nvim' },
     init = function()
         vim.g.fzf_command_prefix = 'FZF'
         vim.g.fzf_history_dir = '~/.fzf-history'
@@ -31,6 +42,7 @@ local fzf_vim = {
             { silent = true, remap = false, desc = 'fzf: search history' })
         vim.keymap.set('n', '<leader>fT', ':FZFTags<cr>', { silent = true, remap = false, desc = 'fzf: ctags' })
         vim.keymap.set('n', '<leader>fm', ':FZFMarks<cr>', { silent = true, remap = false, desc = 'fzf: marks' })
+        vim.keymap.set('n', '<leader>ft', find_tag, { silent = true, remap = false, desc = 'fzf: find buffer tag' })
 
         vim.keymap.set({ 'n' }, '<leader><leader>', '<plug>(fzf-maps-n)',
             { silent = false, remap = true, desc = 'fzf: nmap' })
@@ -39,23 +51,6 @@ local fzf_vim = {
         vim.keymap.set({ 'x' }, '<leader><leader>', '<plug>(fzf-maps-x)',
             { silent = false, remap = true, desc = 'fzf: xmap' })
 
-        local group = vim.api.nvim_create_augroup('fzf_local', {})
-        vim.api.nvim_create_autocmd('FileType', {
-            group = group,
-            pattern = 'thrift',
-            callback = function()
-                vim.keymap.set('n', '<leader>ft', ':FZFBTags<cr>',
-                    { silent = true, buffer = true, remap = false, desc = 'fzf: buffer tags' })
-            end,
-        })
-        vim.api.nvim_create_autocmd('FileType', {
-            group = group,
-            pattern = 'NvimTree',
-            callback = function()
-                vim.keymap.set('n', '<leader>ft', ':FZFBLines<cr>',
-                    { silent = true, buffer = true, remap = false, desc = 'fzf:buffer tags' })
-            end,
-        })
     end,
 }
 
