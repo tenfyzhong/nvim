@@ -27,7 +27,7 @@ local go = {
                     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoRename' })
                 vim.keymap.set('n', '<leader>rc', ':GoCoverage -gcflags=all=-l<cr>',
                     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoCoverage' })
-                vim.keymap.set('n', '<leader>ri', ':GoImport',
+                vim.keymap.set('n', '<leader>ri', ':GoImport ',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoImport' })
                 vim.keymap.set('n', '<leader>rr', ':GoRun<cr>',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoRun' })
@@ -35,8 +35,8 @@ local go = {
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoTestFunc' })
                 vim.keymap.set('n', '<leader>rtf', ':GoTestFile<cr>',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoTestFile' })
-                vim.keymap.set('n', '<leader>rg', ':GoGet<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoGet' })
+                -- vim.keymap.set('n', '<leader>rg', ':GoGet<cr>',
+                --     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoGet' })
                 vim.keymap.set('n', '<leader>rfe', ':GoIfErr<cr>',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoIfErr' })
                 vim.keymap.set('n', '<leader>rtw', ':GoFillSwitch<cr>',

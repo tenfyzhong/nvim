@@ -10,6 +10,7 @@ vim.cmd([[
 iab eles else
 iab contineu continue
 iab 1= !=
+cnoreabbrev R OverseerRunCmd
 
 augroup ft_abbreviate
   au!
