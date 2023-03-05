@@ -104,7 +104,8 @@ local function cmp_config()
                     return vim_item
                 end
             })
-        }
+        },
+        preselect = cmp.PreselectMode.None,
     })
 
     -- Set configuration for specific filetype.
