@@ -14,7 +14,9 @@ local overseer = {
     'stevearc/overseer.nvim',
     dependencies = { 'stevearc/dressing.nvim', 'nvim-telescope/telescope.nvim' },
     config = function()
-        require('overseer').setup()
+        require('overseer').setup {
+            templates = { 'builtin', 'tenfy.git_pull', 'tenfy.git_push' },
+        }
 
         vim.keymap.set('n', '<leader>ot', '<cmd>OverseerToggle<cr>',
             { silent = true, remap = false, desc = 'OverseerToggle' })
