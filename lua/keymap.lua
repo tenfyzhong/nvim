@@ -47,5 +47,7 @@ vim.keymap.set({ 'n' }, '<c-w>\\', '<c-w>v', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, '<c-w>-', '<c-w>s', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, 'n', function() return vim.v.searchforward and 'n' or 'N' end, { expr = true, remap = false })
 vim.keymap.set({ 'n' }, 'N', function() return vim.v.searchforward and 'N' or 'n' end, { expr = true, remap = false })
-vim.keymap.set({ 'n' }, '<leader>y', '"*y', { remap = false })
 vim.keymap.set({ 'n' }, '<esc><esc>', function() vim.cmd('nohlsearch') end, { silent = true })
+vim.keymap.set({ 'n' }, 'H', '0', { remap = false, desc = '0' })
+vim.keymap.set({ 'n' }, 'L', '$', { remap = false, desc = '$' })
+
