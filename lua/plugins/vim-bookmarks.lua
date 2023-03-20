@@ -8,14 +8,15 @@
 
 local bookmarks = {
     'MattesGroeger/vim-bookmarks',
-    config = function()
+    init = function()
         vim.g.bookmark_sign                    = ">"
         vim.g.bookmark_annotation_sign         = "$"
         vim.g.bookmark_no_default_key_mappings = 1
         vim.g.bookmark_save_per_working_dir    = 1
         vim.g.bookmark_auto_save               = 1
         vim.g.bookmark_disable_ctrlp           = 1
-
+    end,
+    config = function()
         vim.keymap.set('n', 'Mm', '<Plug>BookmarkToggle',
             { silent = true, remap = true, desc = 'bookmarks: toogle a bookmark' })
         vim.keymap.set('n', 'Ma', '<Plug>BookmarkAnnotate',
