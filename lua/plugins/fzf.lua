@@ -29,6 +29,7 @@ local fzf_vim = {
         vim.keymap.set('n', '<leader>ff', ':FZFFiles<cr>', { silent = true, remap = false, desc = 'fzf: files' })
         vim.keymap.set('n', '<leader>fg', ':FZFGFiles<cr>', { silent = true, remap = false, desc = 'fzf: git files' })
         vim.keymap.set('n', '<leader>fb', ':FZFBuffers<cr>', { silent = true, remap = false, desc = 'fzf: buffers' })
+        vim.keymap.set('n', '<leader>fr', ':FZFRg<cr>', { silent = true, remap = false, desc = 'fzf: rg' })
         vim.keymap.set('n', '<leader>fa', ':FZFAg<cr>', { silent = true, remap = false, desc = 'fzf: ag' })
         vim.keymap.set('n', '<leader>fA', function()
             local cword = vim.fn.expand('<cword>')
