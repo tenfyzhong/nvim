@@ -62,7 +62,6 @@ local hop = {
             hop.hint_lines({ direction = directions.BEFORE_CURSOR, current_line_only = false, multi_windows = true })
         end, { remap = true, desc = 'hop: K' })
     end,
-    event = 'VeryLazy',
 }
 
 return { hop }
