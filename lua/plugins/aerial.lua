@@ -288,7 +288,6 @@ end
 local aerial = {
     'stevearc/aerial.nvim', config = aerial_config,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    event = 'VeryLazy',
 }
 
 return { aerial }
