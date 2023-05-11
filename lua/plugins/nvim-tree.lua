@@ -91,17 +91,32 @@ local tree = {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
         require("nvim-tree").setup {
+            disable_netrw = true,
             sort_by = sortfunc,
             hijack_cursor = true,
-            sync_root_with_cwd = true,
+            hijack_unnamed_buffer_when_opening = false,
+            update_cwd = true,
+            sync_root_with_cwd = false,
             reload_on_bufenter = true,
             respect_buf_cwd = true,
             on_attach = on_attach,
+            update_focused_file = {
+                enable = true,
+                update_cwd = false
+            },
             renderer = {
                 group_empty = true,
+                indent_markers = {
+                    enable = true
+                }
             },
             filters = {
                 dotfiles = true,
+            },
+            view = {
+                -- hide_root_folder = true,
+                number = true,
+                relativenumber = true,
             },
         }
         vim.keymap.set('n', '<leader>nt', function()
