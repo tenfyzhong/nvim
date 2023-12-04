@@ -6,6 +6,8 @@
 - @created 2023-01-26 22:09:41
 --]]
 
+vim.o.shell = 'sh'
+
 vim.opt.clipboard:append { 'unnamedplus' }
 
 vim.o.directory = '.'
