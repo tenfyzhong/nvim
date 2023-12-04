@@ -1,6 +1,6 @@
 --[[
 - @file nvim-cmp.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 17:25:34
@@ -80,12 +80,12 @@ local function cmp_config()
             ['<c-k>'] = super_prev,
         }),
         sources = cmp.config.sources({
-            { name = "codeium" },
             { name = 'nvim_lsp' },
             { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lua' },
             { name = "git" },
             { name = 'vsnip' }, -- For vsnip users.
+            { name = "codeium" },
             -- { name = 'luasnip' }, -- For luasnip users.
             -- { name = 'ultisnips' }, -- For ultisnips users.
             -- { name = 'snippy' }, -- For snippy users.
@@ -94,8 +94,8 @@ local function cmp_config()
         }),
         formatting = {
             format = lspkind.cmp_format({
-                mode = 'symbol', -- show only symbol annotations
-                maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                mode = 'symbol',       -- show only symbol annotations
+                maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                 ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
                 -- The function below will be called before any actual modifications from lspkind
