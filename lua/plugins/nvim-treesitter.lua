@@ -1,6 +1,6 @@
 --[[
 - @file nvim-treesitter.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 08:35:40
@@ -14,7 +14,22 @@ local function treesister_config()
             -- [options]
         },
         -- A list of parser names, or "all" (the four listed parsers should always be installed)
-        ensure_installed = { "go", "lua", "vim", "help" },
+        ensure_installed = {
+            "go",
+            "lua",
+            "vim",
+            "help",
+            "gomod",
+            "gowork",
+            "gosum",
+            "fish",
+            "sql",
+            "json",
+            "git_config",
+            "git_rebase",
+            "gitcommit",
+            "gitignore",
+        },
 
         -- Install parsers synchronously (only applied to `ensure_installed`)
         sync_install = false,
