@@ -17,10 +17,10 @@ require('lazy').setup('plugins', {
     },
     dev = {
         -- directory where you store your local plugin projects
-        path = "~/.config/nvim/lua/local-plugins",
+        path = "~/.config/nvim/lua/dev",
         ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
-        patterns = { 'tenfyzhong' }, -- For example {"folke"}
-        fallback = true,             -- Fallback to git when local plugin doesn't exist
+        patterns = { 'tenfyzhong', 'zhongtenghui' }, -- For example {"folke"}
+        fallback = true,                             -- Fallback to git when local plugin doesn't exist
     },
     install = {
         -- install missing plugins on startup. This doesn't increase startup time.
