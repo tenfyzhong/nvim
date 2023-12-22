@@ -1,6 +1,6 @@
 --[[
 - @file vim-fugitive.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 10:06:47
@@ -15,7 +15,6 @@ local function fugitive_config()
         { silent = true, remap = false, desc = 'fugitive: git diff vsplit' })
     vim.keymap.set('n', '<leader>gl', ':silent Gclog!<cr>', { silent = true, remap = false, desc = 'fugitive: git log' })
     vim.keymap.set('n', '<leader>gt', ':Git<cr>', { silent = true, remap = false, desc = 'fugitive: git' })
-    vim.keymap.set('n', '<leader>gf', ':GBrowse<cr>', { silent = true, remap = false, desc = 'fugitive: git browse' })
     vim.api.nvim_create_user_command('Gpush', function()
         local gitdir = vim.fn.FugitiveGitDir()
         local escape = vim.fn.fnamemodify(gitdir, ':p:h:h')
