@@ -1,21 +1,105 @@
 --[[
 - @file go.nvim.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-02-01 00:12:36
 --]]
 
+local run = function(fmtargs, bufnr, cmd)
+    local utils = require('go.utils')
+    local api = vim.api
+    local vfn = vim.fn
+
+    bufnr = bufnr or vim.api.nvim_get_current_buf()
+    if vim.o.mod == true then
+        vim.cmd('noautocmd write')
+    end
+
+    local args = vim.deepcopy(fmtargs)
+    table.insert(args, api.nvim_buf_get_name(bufnr))
+
+    local old_lines = api.nvim_buf_get_lines(0, 0, -1, true)
+    table.insert(args, 1, cmd)
+
+    local j = vfn.jobstart(args, {
+        on_stdout = function(_, data, _)
+            data = utils.handle_job_data(data)
+            if not data then
+                return
+            end
+            if not utils.check_same(old_lines, data) then
+                vim.notify('updating codes', vim.log.levels.DEBUG)
+                api.nvim_buf_set_lines(0, 0, -1, false, data)
+                vim.cmd('write')
+            else
+                vim.notify('already formatted', vim.log.levels.DEBUG)
+            end
+            old_lines = nil
+        end,
+        on_stderr = function(_, data, _)
+            data = utils.handle_job_data(data)
+            if data then
+                vim.notify(vim.inspect(data) .. ' from stderr', vim.log.levels.DEBUG)
+            end
+        end,
+        on_exit = function(_, data, _) -- id, data, event
+            if data ~= 0 then
+                return vim.notify('golines failed ' .. tostring(data), vim.log.levels.ERROR)
+            end
+            old_lines = nil
+            vim.defer_fn(function()
+                if vfn.getbufinfo('%')[1].changed == 1 then
+                    vim.cmd('noautocmd write')
+                end
+            end, 200)
+        end,
+        stdout_buffered = true,
+        stderr_buffered = true,
+    })
+    vfn.chansend(j, old_lines)
+    vfn.chanclose(j, 'stdin')
+end
+
+local imports = function(...)
+    local goimport = 'goimports'
+    local args = { ... }
+    local buf = vim.api.nvim_get_current_buf()
+    require('go.install').install(goimport)
+    return run(args, buf, 'goimports')
+end
+
+
 local go = {
     'ray-x/go.nvim',
     config = function()
         require('go').setup {
-            dap_debug_vt = false,
+            lsp_gofumpt = true,
+            lsp_document_formatting = false,
+            goimport = 'goimports',
+            fillstruct = 'fillstruct',
         }
 
-        local group = vim.api.nvim_create_augroup('go_nvim_local', {})
+        vim.api.nvim_create_user_command('GoImports', function(opts)
+            imports(unpack(opts.fargs))
+        end, {
+            desc = 'go.vim: goimports',
+            nargs = '*',
+        })
+
+        -- Run gofmt on save
+        local format_sync_grp = vim.api.nvim_create_augroup("go_format", {})
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*.go",
+            callback = function()
+                require('go.format').gofmt()
+            end,
+            group = format_sync_grp,
+        })
+
+        local go_nvim_local_group = vim.api.nvim_create_augroup('go_nvim_local', {})
         vim.api.nvim_create_autocmd('FileType', {
-            group = group,
+            group = go_nvim_local_group,
             pattern = 'go',
             callback = function()
                 vim.keymap.set('n', '<leader>r', '<NOP>', { buffer = true, remap = true })
@@ -53,6 +137,9 @@ local go = {
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAltS' })
                 vim.keymap.set('n', '<leader>av', ':GoAltS<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAltV' })
+                vim.keymap.set('n', '<leader>af',
+                    ':GoImports<cr>',
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoImports' })
             end,
         })
     end,
@@ -62,6 +149,7 @@ local go = {
     ft = 'go',
     dependencies = { 'neovim/nvim-lspconfig', 'nvim-treesitter/nvim-treesitter', 'mfussenegger/nvim-dap' },
     event = 'VeryLazy',
+    goimports = imports,
 }
 
 return { go }

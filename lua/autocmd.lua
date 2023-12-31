@@ -66,6 +66,9 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     group = init_group,
     pattern = '*',
     callback = function()
+        if vim.bo.filetype == 'go' then
+            return
+        end
         vim.lsp.buf.format { async = false }
     end,
 })
@@ -83,7 +86,7 @@ vim.api.nvim_create_autocmd('FileType', {
     pattern = 'json',
     callback = function()
         vim.keymap.set('n', '<leader>af', function()
-            vim.lsp.buf.format { async = true }
+            vim.lsp.buf.format { async = false }
         end, { remap = false, silent = true })
     end
 })
