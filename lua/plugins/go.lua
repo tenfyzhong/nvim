@@ -62,7 +62,7 @@ local run = function(fmtargs, bufnr, cmd)
 end
 
 local imports = function(...)
-    local goimport = 'goimports'
+    -- local goimport = 'goimports'
     local args = { ... }
     local buf = vim.api.nvim_get_current_buf()
     require('go.install').install(goimport)
