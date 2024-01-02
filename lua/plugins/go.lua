@@ -13,7 +13,7 @@ local run = function(fmtargs, bufnr, cmd)
 
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     if vim.o.mod == true then
-        vim.cmd('noautocmd write')
+        vim.cmd('noautocmd silent write')
     end
 
     local args = vim.deepcopy(fmtargs)
@@ -31,9 +31,9 @@ local run = function(fmtargs, bufnr, cmd)
             if not utils.check_same(old_lines, data) then
                 vim.notify('updating codes', vim.log.levels.DEBUG)
                 api.nvim_buf_set_lines(0, 0, -1, false, data)
-                vim.cmd('write')
+                vim.cmd('silent write')
             else
-                vim.notify('already formatted', vim.log.levels.DEBUG)
+                vim.notify('already formatted', vim.log.levels.INFO)
             end
             old_lines = nil
         end,
@@ -50,7 +50,7 @@ local run = function(fmtargs, bufnr, cmd)
             old_lines = nil
             vim.defer_fn(function()
                 if vfn.getbufinfo('%')[1].changed == 1 then
-                    vim.cmd('noautocmd write')
+                    vim.cmd('noautocmd silent write')
                 end
             end, 200)
         end,
@@ -62,22 +62,22 @@ local run = function(fmtargs, bufnr, cmd)
 end
 
 local imports = function(...)
-    -- local goimport = 'goimports'
+    local goimport = 'goimports'
     local args = { ... }
     local buf = vim.api.nvim_get_current_buf()
     require('go.install').install(goimport)
-    return run(args, buf, 'goimports')
+    return run(args, buf, goimport)
 end
 
 
 local go = {
-    'ray-x/go.nvim',
+    'tenfyzhong/go.nvim',
     config = function()
         require('go').setup {
             lsp_gofumpt = true,
             lsp_document_formatting = false,
-            goimport = 'goimports',
-            fillstruct = 'fillstruct',
+            -- goimport = 'goimports',
+            -- fillstruct = 'fillstruct',
         }
 
         vim.api.nvim_create_user_command('GoImports', function(opts)
@@ -138,7 +138,7 @@ local go = {
                 vim.keymap.set('n', '<leader>av', ':GoAltS<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAltV' })
                 vim.keymap.set('n', '<leader>af',
-                    ':GoImports<cr>',
+                    ':silent GoImports<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoImports' })
             end,
         })
