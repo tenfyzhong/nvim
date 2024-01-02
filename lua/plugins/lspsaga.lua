@@ -10,7 +10,11 @@ local lspsaga = {
     'glepnir/lspsaga.nvim',
     branch = "main",
     config = function()
-        require("lspsaga").setup({})
+        require("lspsaga").setup({
+            lightbulb = {
+                enable = false,
+            },
+        })
 
         local keymap = vim.keymap.set
         -- you can use <C-t> to jump back
