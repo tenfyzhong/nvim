@@ -1,15 +1,15 @@
 --[[
 - @file fzf.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 20:06:26
 --]]
 
 local function find_tag()
-    if vim.bo.filetype == 'thrift' then
-        vim.cmd('silent FZFBTags')
-    elseif vim.bo.filetype == 'NvimTree' then
+    -- if vim.bo.filetype == 'thrift' then
+    -- vim.cmd('silent FZFBTags')
+    if vim.bo.filetype == 'NvimTree' then
         vim.cmd('silent FZFBLines')
     else
         vim.fn['aerial#fzf']()
@@ -25,7 +25,6 @@ local fzf_vim = {
         vim.g.fzf_history_dir = '~/.fzf-history'
     end,
     config = function()
-
         vim.keymap.set('n', '<leader>ff', ':FZFFiles<cr>', { silent = true, remap = false, desc = 'fzf: files' })
         vim.keymap.set('n', '<leader>fg', ':FZFGFiles<cr>', { silent = true, remap = false, desc = 'fzf: git files' })
         vim.keymap.set('n', '<leader>fb', ':FZFBuffers<cr>', { silent = true, remap = false, desc = 'fzf: buffers' })
@@ -51,7 +50,6 @@ local fzf_vim = {
             { silent = false, remap = true, desc = 'fzf: omap' })
         vim.keymap.set({ 'x' }, '<leader><leader>', '<plug>(fzf-maps-x)',
             { silent = false, remap = true, desc = 'fzf: xmap' })
-
     end,
 }
 
