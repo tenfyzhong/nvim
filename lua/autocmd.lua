@@ -72,11 +72,3 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         vim.lsp.buf.format { async = false }
     end,
 })
-
--- vim.api.nvim_create_autocmd('VimLeavePre', {
---     group = init_group,
---     pattern = '*',
---     callback = function()
---         vim.lsp.buf.format { async = false }
---     end,
--- })
