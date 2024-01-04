@@ -33,7 +33,7 @@ local run = function(fmtargs, bufnr, cmd)
                 api.nvim_buf_set_lines(0, 0, -1, false, data)
                 vim.cmd('silent write')
             else
-                vim.notify('already formatted', vim.log.levels.INFO)
+                vim.notify('already formatted:' .. table.concat(args, ' '), vim.log.levels.INFO)
             end
             old_lines = nil
         end,
@@ -69,6 +69,16 @@ local imports = function(...)
     return run(args, buf, goimport)
 end
 
+local function table_contains(tbl, x)
+    local found = false
+    for _, v in pairs(tbl) do
+        if v == x then
+            found = true
+        end
+    end
+    return found
+end
+
 
 local go = {
     'tenfyzhong/go.nvim',
@@ -81,9 +91,15 @@ local go = {
         }
 
         vim.api.nvim_create_user_command('GoImports', function(opts)
-            imports(unpack(opts.fargs))
+            local l = os.getenv('GOIMPORTS_LOCAL')
+            local args = opts.fargs
+            if not table_contains(args, '-local') and l ~= '' then
+                table.insert(args, '-local')
+                table.insert(args, l)
+            end
+            imports(unpack(args))
         end, {
-            desc = 'go.vim: goimports',
+            desc = 'go.vim: goimports, use env<$GOIMPORTS_LOCAL> to set the -local option',
             nargs = '*',
         })
 
