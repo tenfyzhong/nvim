@@ -45,7 +45,7 @@ local run = function(fmtargs, bufnr, cmd)
         end,
         on_exit = function(_, data, _) -- id, data, event
             if data ~= 0 then
-                return vim.notify('golines failed ' .. tostring(data), vim.log.levels.ERROR)
+                return vim.notify('goimports failed ' .. tostring(data), vim.log.levels.ERROR)
             end
             old_lines = nil
             vim.defer_fn(function()
