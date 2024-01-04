@@ -33,8 +33,6 @@ vim.keymap.set({ 'i', 'c' }, '<c-j>', '<Down>', { silent = true, remap = false }
 vim.keymap.set({ 'n', 'x' }, ';', ':', { silent = false, remap = false })
 vim.keymap.set({ 'n' }, ',', ';', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, '<leader>w', write_redraw, { silent = true, remap = false })
-vim.keymap.set({ 'n' }, 'do', diffget, { silent = true, remap = false })
-vim.keymap.set({ 'n' }, 'dp', diffput, { silent = true, remap = false })
 vim.keymap.set({ 'n' }, '<leader>nn', function() require('feature').PollNumber() end, { silent = true, remap = false })
 vim.keymap.set({ 'v' }, '<', '<gv', { remap = false })
 vim.keymap.set({ 'v' }, '>', '>gv', { remap = false })
