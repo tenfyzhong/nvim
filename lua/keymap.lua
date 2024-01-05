@@ -23,11 +23,29 @@ local function diffput()
     vim.cmd('diffupdate')
 end
 
+local function j()
+    local count = vim.v.count
+    if count == 0 then
+        vim.cmd('normal! gj')
+    else
+        vim.cmd('normal! ' .. count .. 'j')
+    end
+end
+
+local function k()
+    local count = vim.v.count
+    if count == 0 then
+        vim.cmd('normal! gk')
+    else
+        vim.cmd('normal! ' .. count .. 'k')
+    end
+end
+
 vim.keymap.set({ 'n' }, '<leader>', '<NOP>', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, 'gj', 'j', { silent = true, remap = false })
 vim.keymap.set({ 'n' }, 'gk', 'k', { silent = true, remap = false })
-vim.keymap.set({ 'n' }, 'j', 'gj', { silent = true, remap = false })
-vim.keymap.set({ 'n' }, 'k', 'gk', { silent = true, remap = false })
+vim.keymap.set({ 'n' }, 'j', j, { silent = true, remap = false })
+vim.keymap.set({ 'n' }, 'k', k, { silent = true, remap = false })
 vim.keymap.set({ 'i', 'c' }, '<c-k>', '<Up>', { silent = true, remap = false })
 vim.keymap.set({ 'i', 'c' }, '<c-j>', '<Down>', { silent = true, remap = false })
 vim.keymap.set({ 'n', 'x' }, ';', ':', { silent = false, remap = false })
