@@ -14,11 +14,19 @@ local function write_redraw()
 end
 
 local function diffget()
+    if not vim.o.diff then
+        vim.cmd('echohl ErrorMsg | echom "Current buffer is not in diff mode" | echohl None')
+        return
+    end
     vim.cmd('diffget')
     vim.cmd('diffupdate')
 end
 
 local function diffput()
+    if not vim.o.diff then
+        vim.cmd('echohl ErrorMsg | echom "Current buffer is not in diff mode" | echohl None')
+        return
+    end
     vim.cmd('diffput')
     vim.cmd('diffupdate')
 end
