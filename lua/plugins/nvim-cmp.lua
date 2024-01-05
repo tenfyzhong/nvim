@@ -197,7 +197,6 @@ local function lspkind_config()
     })
 end
 
-local lspconfig = { 'neovim/nvim-lspconfig' }
 local cmp_nvim_lsp = { 'hrsh7th/cmp-nvim-lsp' }
 local cmp_buffer = { 'hrsh7th/cmp-buffer' }
 local cmp_path = { 'hrsh7th/cmp-path' }
@@ -247,7 +246,6 @@ local nvim_cmp = {
 
 return {
     cmp_nvim_lsp,
-    lspconfig,
     lspkind,
     neodev,
     plenary,
