@@ -98,7 +98,7 @@
   "vim-fugitive": { "branch": "master", "commit": "59659093581aad2afacedc81f009ed6a4bfad275" },
   "vim-git-msg-wheel": { "branch": "master", "commit": "4a5fbc93d9759ac63f0dd1fccd79a2b1f805168a" },
   "vim-grepper": { "branch": "master", "commit": "2b93535752ffcb312f9fab73d90e80dc9f2e60fc" },
-  "vim-illuminate": { "branch": "master", "commit": "763c0f8f99617bb0b2fbf37f2226bd60ddecfb8a" },
+  "vim-illuminate": { "branch": "master", "commit": "3bd2ab64b5d63b29e05691e624927e5ebbf0fb86" },
   "vim-json": { "branch": "master", "commit": "3029554ee1619f478fc5222bf4c6c08909b1be9c" },
   "vim-jsonpath": { "branch": "master", "commit": "af9c07b87765fc5aee176a894bc91fb04a5e3c47" },
   "vim-jsx-typescript": { "branch": "master", "commit": "22df470d92651426f2377e3166488672f7b4b4ef" },
