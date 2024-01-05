@@ -66,7 +66,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     group = init_group,
     pattern = '*',
     callback = function()
-        if vim.bo.filetype == 'go' then
+        if vim.bo.filetype == 'go' or vim.bo.filetype == 'markdown' then
             return
         end
         vim.lsp.buf.format { async = false }
