@@ -91,7 +91,8 @@ local go = {
     config = function()
         require('go').setup {
             lsp_gofumpt = true,
-            lsp_document_formatting = false,
+            lsp_document_formatting = true,
+            comment_placeholder = '',
             -- goimport = 'goimports',
             -- fillstruct = 'fillstruct',
         }
@@ -121,33 +122,35 @@ local go = {
             callback = function()
                 vim.keymap.set('n', '<leader>r', '<NOP>', { buffer = true, remap = true })
                 vim.keymap.set('n', '<leader>rb', ':GoBuild<cr>',
-                    { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoBuild' })
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoBuild' })
                 vim.keymap.set('n', '<leader>rd', ':GoDoc<cr>',
-                    { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoDoc' })
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoDoc' })
                 vim.keymap.set('n', '<leader>re', ':silent GoRename<cr>',
-                    { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoRename' })
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoRename' })
                 vim.keymap.set('n', '<leader>rc', ':GoCoverage -gcflags=all=-l<cr>',
-                    { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoCoverage' })
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoCoverage' })
+                vim.keymap.set('n', '<leader>rm', ':GoCmt<cr>',
+                    { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoCmt' })
                 vim.keymap.set('n', '<leader>ri', ':GoImport ',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoImport' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoImport' })
                 vim.keymap.set('n', '<leader>rr', ':GoRun<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoRun' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoRun' })
                 vim.keymap.set('n', '<leader>rtt', ':GoTestFunc<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoTestFunc' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoTestFunc' })
                 vim.keymap.set('n', '<leader>rtf', ':GoTestFile<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoTestFile' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoTestFile' })
                 -- vim.keymap.set('n', '<leader>rg', ':GoGet<cr>',
                 --     { buffer = true, remap = true, silent = true, desc = 'go.nvim: GoGet' })
                 vim.keymap.set('n', '<leader>rfe', ':GoIfErr<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoIfErr' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoIfErr' })
                 vim.keymap.set('n', '<leader>rtw', ':GoFillSwitch<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoFillSwitch' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoFillSwitch' })
                 vim.keymap.set('n', '<leader>rts', ':GoFillStruct<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoFillStruct' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoFillStruct' })
                 vim.keymap.set('n', '<leader>rtp', ':GoFixPlurals<cr>',
                     { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoFixPlurals' })
                 vim.keymap.set('n', '<leader>rtg', ':GoAddTest<cr>',
-                    { buffer = true, remap = true, silent = false, desc = 'go.nvim: GoAddTest' })
+                    { buffer = true, remap = false, silent = false, desc = 'go.nvim: GoAddTest' })
                 vim.keymap.set('n', '<leader>aa', ':GoAlt<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoAlt' })
                 vim.keymap.set('n', '<leader>as', ':GoAltS<cr>',
