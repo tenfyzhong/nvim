@@ -27,6 +27,7 @@ local mason = {
         local lspconfig = require("lspconfig")
         require("mason-lspconfig").setup({
             automatic_installation = true,
+            ensure_installed = { 'bashls', 'bufls', 'gopls', 'jsonls', 'lua_ls', 'sqlls', 'thriftls', 'vimls', 'yamlls' },
         })
         require("mason-lspconfig").setup_handlers {
             -- The first entry (without a key) will be the default handler
