@@ -1,6 +1,6 @@
 --[[
 - @file nvim-lastplace.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-02-07 10:24:45
@@ -8,6 +8,7 @@
 
 local lastplace = {
     'ethanholz/nvim-lastplace',
+    event = 'VeryLazy',
     config = function()
         require 'nvim-lastplace'.setup {
             lastplace_ignore_buftype = { "quickfix", "nofile", "help" },

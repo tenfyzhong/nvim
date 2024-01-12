@@ -1,5 +1,6 @@
 local gito = {
     'tenfyzhong/nvim-gito',
+    event = 'VeryLazy',
     config = function()
         require('gito').setup({})
         vim.keymap.set('n', '<leader>gf', ':GitoOpenFile<cr>',

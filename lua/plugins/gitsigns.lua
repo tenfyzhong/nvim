@@ -1,6 +1,6 @@
 --[[
 - @file gitsigns.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 08:51:22
@@ -36,7 +36,6 @@ local function gitsigns_config()
             map('n', '<leader>gp', gs.preview_hunk, { silent = true, desc = 'gitsigns: preview hunk' })
             map('n', '<leader>gb', function() gs.blame_line { full = true } end,
                 { silent = true, desc = 'gitsigns: blame line' })
-
         end
     }
 end
@@ -44,5 +43,6 @@ end
 local gitsigns = {
     'lewis6991/gitsigns.nvim',
     config = gitsigns_config,
+    event = 'VeryLazy',
 }
 return { gitsigns }
