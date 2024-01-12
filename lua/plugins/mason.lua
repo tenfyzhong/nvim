@@ -3,31 +3,58 @@ local mason_lspconfig = {
 }
 
 local lsp = {
-    'neovim/nvim-lspconfig'
+    'neovim/nvim-lspconfig',
 }
 
 local cmp_nvim_lsp = {
-    'hrsh7th/cmp-nvim-lsp'
+    'hrsh7th/cmp-nvim-lsp',
 }
 
 local mason = {
     "williamboman/mason.nvim",
-    build = ":MasonUpdate", -- :MasonUpdate updates registry contents
+    build = function()
+        vim.cmd('MasonUpdate')
+
+        local pkg = {
+            'bash-language-server',
+            'buf-language-server',
+            'gofumpt',
+            'goimports',
+            'golangci-lint',
+            'golines',
+            'gotests',
+            'iferr',
+            'impl',
+            'json-lsp',
+            'json-to-struct',
+            'lua-language-server',
+            'luacheck',
+            'luaformatter',
+            'python-lsp-server',
+            'sqlfmt',
+            'sqlls',
+            'thriftls',
+            'vim-language-server',
+            'yaml-language-server' }
+        local str = table.concat(pkg, ' ')
+        vim.cmd(
+            'MasonInstall ' .. str)
+    end,
     config = function()
         require("mason").setup({
             ui = {
                 icons = {
                     package_installed = "✓",
                     package_pending = "➜",
-                    package_uninstalled = "✗"
-                }
-            }
+                    package_uninstalled = "✗",
+                },
+            },
+            max_concurrent_installers = 8,
         })
 
         local lspconfig = require("lspconfig")
         require("mason-lspconfig").setup({
             automatic_installation = true,
-            ensure_installed = { 'bashls', 'bufls', 'gopls', 'jsonls', 'lua_ls', 'sqlls', 'thriftls', 'vimls', 'yamlls' },
         })
         require("mason-lspconfig").setup_handlers {
             -- The first entry (without a key) will be the default handler
