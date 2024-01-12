@@ -1,14 +1,15 @@
 --[[
 - @file hop.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-02-07 23:59:35
 --]]
 
 local hop = {
-    'phaazon/hop.nvim',
-    branch = 'v2', -- optional but strongly recommended
+    'smoka7/hop.nvim',
+    version = '*', -- optional but strongly recommended
+    event = 'VeryLazy',
     config = function()
         -- you can configure Hop the way you like here; see :h hop-config
         local hop = require('hop')
@@ -41,12 +42,18 @@ local hop = {
             hop.hint_words({ direction = directions.BEFORE_CURSOR, current_line_only = false })
         end, { remap = true, desc = 'hop: b' })
         vim.keymap.set('n', '<tab>e', function()
-            hop.hint_words({ direction = directions.AFTER_CURSOR, current_line_only = false,
-                hint_position = position.END })
+            hop.hint_words({
+                direction = directions.AFTER_CURSOR,
+                current_line_only = false,
+                hint_position = position.END
+            })
         end, { remap = true, desc = 'hop: e' })
         vim.keymap.set('n', '<tab>ge', function()
-            hop.hint_words({ direction = directions.BEFORE_CURSOR, current_line_only = false,
-                hint_position = position.END })
+            hop.hint_words({
+                direction = directions.BEFORE_CURSOR,
+                current_line_only = false,
+                hint_position = position.END
+            })
         end, { remap = true, desc = 'hop: ge' })
 
         vim.keymap.set('n', '<tab>j', function()
