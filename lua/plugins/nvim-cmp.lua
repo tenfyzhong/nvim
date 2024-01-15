@@ -85,7 +85,7 @@ local function cmp_config()
             { name = 'nvim_lua' },
             { name = "git" },
             { name = 'vsnip' }, -- For vsnip users.
-            { name = "codeium" },
+            -- { name = "codeium" },
             -- { name = 'luasnip' }, -- For luasnip users.
             -- { name = 'ultisnips' }, -- For ultisnips users.
             -- { name = 'snippy' }, -- For snippy users.
@@ -212,17 +212,17 @@ local neodev = { 'folke/neodev.nvim', event = 'VeryLazy' }
 local plenary = { 'nvim-lua/plenary.nvim' }
 local cmp_git = { 'petertriho/cmp-git' }
 
-local codeium = {
-    "jcdickinson/codeium.nvim",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        -- "hrsh7th/nvim-cmp",
-    },
-    config = function()
-        require("codeium").setup({
-        })
-    end
-}
+-- local codeium = {
+--     "jcdickinson/codeium.nvim",
+--     dependencies = {
+--         "nvim-lua/plenary.nvim",
+--         -- "hrsh7th/nvim-cmp",
+--     },
+--     config = function()
+--         require("codeium").setup({
+--         })
+--     end
+-- }
 
 local nvim_cmp = {
     'hrsh7th/nvim-cmp',
@@ -240,7 +240,7 @@ local nvim_cmp = {
         cmp_git,
         cmp_path,
         cmp_buffer,
-        codeium,
+        -- codeium,
     },
 }
 
