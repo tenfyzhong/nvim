@@ -18,7 +18,6 @@ local function treesister_config()
             "go",
             "lua",
             "vim",
-            "help",
             "gomod",
             "gowork",
             "gosum",
