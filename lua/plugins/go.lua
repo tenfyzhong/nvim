@@ -72,6 +72,10 @@ local function table_contains(tbl, x)
 end
 
 local imports = function(...)
+    if vim.o.diff then
+        return
+    end
+
     local goimport = 'goimports'
     local args = { ... }
 
