@@ -1,20 +1,13 @@
 # nvim
-neovim configuration for myself
+my neovim config. 
 
 # Install 
-package management: [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim)  
-1. Install packer.nvim first: 
+1. Install lazy.nvim first: 
 ```sh
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+git clone --filter=blob:none git@github.com:folke/lazy.nvim.git --branch=stable ~/.local/share/nvim/lazy/lazy.nvim
 ```
 
 2. Clone the repo
 ```sh
 git clone https://github.com/tenfyzhong/nvim ~/.config/nvim
-```
-
-3. Setup plugins in vim
-```vim
-PackerInstall
-PackerCompile
 ```
