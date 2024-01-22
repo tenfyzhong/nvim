@@ -22,7 +22,9 @@ local run = function(fmtargs, bufnr, cmd)
     local old_lines = api.nvim_buf_get_lines(0, 0, -1, true)
     table.insert(args, 1, cmd)
 
-    local j = vfn.jobstart(args, {
+    local command = table.concat(args, ' ')
+
+    local j = vfn.jobstart(command, {
         on_stdout = function(_, data, _)
             data = utils.handle_job_data(data)
             if not data then
@@ -31,7 +33,7 @@ local run = function(fmtargs, bufnr, cmd)
             if not utils.check_same(old_lines, data) then
                 vim.notify('updating codes', vim.log.levels.DEBUG)
                 api.nvim_buf_set_lines(0, 0, -1, false, data)
-                vim.cmd('silent write')
+                vim.cmd('noautocmd silent write')
             else
                 vim.notify('already formatted.', vim.log.levels.INFO)
             end
@@ -80,7 +82,7 @@ local imports = function(...)
     local args = { ... }
 
     local l = os.getenv('GOIMPORTS_LOCAL')
-    if not table_contains(args, '-local') and l ~= '' then
+    if l ~= nil and not table_contains(args, '-local') and l ~= '' then
         table.insert(args, '-local')
         table.insert(args, l)
     end
