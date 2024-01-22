@@ -22,6 +22,10 @@ local mason = {
             'goimports',
             'golines',
             'gotests',
+            -- do not install golangci-lint, it will generate
+            -- an error "Running error: context loading failed: no go files to
+            -- analyze" always
+            -- 'golangci-lint',
             'iferr',
             'impl',
             'json-lsp',
