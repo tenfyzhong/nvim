@@ -63,7 +63,7 @@ local run = function(fmtargs, bufnr, cmd)
     vfn.chanclose(j, 'stdin')
 end
 
-local function table_contains(tbl, x)
+local table_contains = function(tbl, x)
     local found = false
     for _, v in pairs(tbl) do
         if v == x then
