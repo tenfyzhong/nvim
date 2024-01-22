@@ -20,7 +20,6 @@ local mason = {
             'buf-language-server',
             'gofumpt',
             'goimports',
-            'golangci-lint',
             'golines',
             'gotests',
             'iferr',
