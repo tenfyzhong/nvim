@@ -63,14 +63,14 @@ local function cmp_config()
             end,
         },
         window = {
-            -- completion = cmp.config.window.bordered(),
-            -- documentation = cmp.config.window.bordered(),
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
         },
-        mapping = cmp.mapping.preset.insert({
+        mapping = {
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.abort(),
+            ['<C-d>'] = cmp.mapping.abort(),
             ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
             ['<c-n>'] = cmp.mapping.select_next_item(),
             ['<c-p>'] = cmp.mapping.select_prev_item(),
@@ -78,13 +78,14 @@ local function cmp_config()
             ['<S-Tab>'] = super_prev,
             ['<c-j>'] = super_next,
             ['<c-k>'] = super_prev,
-        }),
+        },
         sources = cmp.config.sources({
             { name = 'nvim_lsp' },
             { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lua' },
             { name = "git" },
             { name = 'vsnip' }, -- For vsnip users.
+            { name = 'crates' },
             -- { name = "codeium" },
             -- { name = 'luasnip' }, -- For luasnip users.
             -- { name = 'ultisnips' }, -- For ultisnips users.
@@ -97,13 +98,14 @@ local function cmp_config()
                 mode = 'symbol',       -- show only symbol annotations
                 maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                 ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                symbol_map = { Codeium = "", },
 
                 -- The function below will be called before any actual modifications from lspkind
                 -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
                 before = function(entry, vim_item)
                     -- ...
                     return vim_item
-                end
+                end,
             })
         },
         preselect = cmp.PreselectMode.None,
@@ -211,12 +213,23 @@ local cmp_nvim_lsp_signature_help = { 'hrsh7th/cmp-nvim-lsp-signature-help' }
 local neodev = { 'folke/neodev.nvim', event = 'VeryLazy' }
 local plenary = { 'nvim-lua/plenary.nvim' }
 local cmp_git = { 'petertriho/cmp-git' }
+local crates = {
+    {
+        "Saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        opts = {
+            src = {
+                cmp = { enabled = true },
+            },
+        },
+    },
+}
 
 -- local codeium = {
---     "jcdickinson/codeium.nvim",
+--     "Exafunction/codeium.nvim",
 --     dependencies = {
 --         "nvim-lua/plenary.nvim",
---         -- "hrsh7th/nvim-cmp",
+--         "hrsh7th/nvim-cmp",
 --     },
 --     config = function()
 --         require("codeium").setup({
@@ -240,6 +253,7 @@ local nvim_cmp = {
         cmp_git,
         cmp_path,
         cmp_buffer,
+        crates,
         -- codeium,
     },
 }
@@ -250,5 +264,5 @@ return {
     neodev,
     plenary,
     nvim_cmp,
-    codeium,
+    -- codeium,
 }
