@@ -9,7 +9,7 @@
 local function find_tag()
     if vim.bo.filetype == 'thrift' then
         vim.cmd('silent FZFBTags')
-    elseif vim.bo.filetype == 'NvimTree' then
+    elseif vim.bo.filetype == 'NvimTree' or vim.bo.filetype == 'neo-tree' then
         vim.cmd('silent FZFBLines')
     else
         vim.fn['aerial#fzf']()
