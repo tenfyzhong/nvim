@@ -37,9 +37,7 @@ local tree = {
     end,
     cmd = { 'Neotree' },
     keys = {
-        {
-            { '<leader>nt', function() require('neo-tree.command').execute({ toggle = true, }) end, mode = { 'n' }, remap = false, desc = 'Neotree toggle=true' },
-        },
+        { '<leader>nt', function() require('neo-tree.command').execute({ toggle = true, }) end, mode = { 'n' }, remap = false, desc = 'Neotree toggle=true' },
     },
 }
 
