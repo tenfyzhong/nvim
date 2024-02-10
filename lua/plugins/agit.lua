@@ -1,6 +1,6 @@
 --[[
 - @file agit.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 22:54:54
@@ -10,17 +10,11 @@ local agit = {
     'cohama/agit.vim',
     config = function()
         local group = vim.api.nvim_create_augroup('agit_init', {})
-        vim.api.nvim_create_autocmd('FileType', {
-            group = group,
-            pattern = { 'agit,agit_stat,agit_diff' },
-            callback = function()
-                vim.keymap.set({ 'n' }, 'C', '<Plug>(agit-git-cherry-pick)',
-                    { buffer = true, desc = 'agit: git cherry-pick' })
-                vim.keymap.set({ 'n' }, 'co', '<Plug>(agit-git-checkout)', { buffer = true, desc = 'agit: git checkout' })
-            end,
-        })
     end,
-    event = 'VeryLazy',
+    keys = {
+        { 'C',  '<Plug>(agit-git-cherry-pick)', mode = { 'n' }, ft = { 'agit', 'agit_stat', 'agit_diff' }, buffer = true, desc = 'agit: git cherry-pick' },
+        { 'co', '<Plug>(agit-git-checkout)',    mode = { 'n' }, ft = { 'agit', 'agit_stat', 'agit_diff' }, buffer = true, desc = 'agit: git checkout' },
+    },
 }
 
 return { agit }

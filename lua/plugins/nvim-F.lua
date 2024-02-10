@@ -1,9 +1,9 @@
 local f = {
     'tenfyzhong/nvim-F',
-    event = 'VeryLazy',
     config = function()
         require('f').setup({})
-    end
+    end,
+    cmd = { 'F' },
 }
 
 return { f }

@@ -14,23 +14,29 @@ local overseer = {
     'stevearc/overseer.nvim',
     dependencies = { 'stevearc/dressing.nvim', 'nvim-telescope/telescope.nvim' },
     config = function()
-        require('overseer').setup {
+        require('overseer').setup({
             templates = { 'builtin', 'tenfy.git_pull', 'tenfy.git_push' },
-        }
-
-        vim.keymap.set('n', '<leader>ot', '<cmd>OverseerToggle<cr>',
-            { silent = true, remap = false, desc = 'OverseerToggle' })
-
-        local group = vim.api.nvim_create_augroup('overseer_init', {})
-        vim.api.nvim_create_autocmd('FileType', {
-            group = group,
-            pattern = 'go',
-            callback = function()
-                vim.keymap.set('n', '<leader>rg', go_get, { silent = true, remap = false, desc = 'go get' })
-            end,
         })
     end,
-    event = 'VeryLazy',
+    cmd = {
+        'OverseerOpen',
+        'OverseerClose',
+        'OverseerToggle',
+        'OverseerSaveBundle',
+        'OverseerLoadBundle',
+        'OverseerDeleteBundle',
+        'OverseerRunCmd',
+        'OverseerRun',
+        'OverseerInfo',
+        'OverseerBuild',
+        'OverseerQuickAction',
+        'OverseerTaskAction',
+        'OverseerClearCache',
+    },
+    keys = {
+        { '<leader>ot', '<cmd>OverseerToggle<cr>', mode = 'n', silent = true, remap = false, desc = 'OverseerToggle' },
+        { '<leader>rg', go_get,                    mode = 'n', ft = 'go',     silent = true, remap = false,          desc = 'go get' },
+    }
 }
 
 return { overseer }

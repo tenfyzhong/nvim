@@ -1,6 +1,6 @@
 --[[
 - @file nvim-luapad.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 21:19:35
@@ -9,7 +9,6 @@
 local luapad = {
     'rafcamlet/nvim-luapad',
     ft = 'lua',
-    event = 'VeryLazy',
 }
 
 return { luapad }

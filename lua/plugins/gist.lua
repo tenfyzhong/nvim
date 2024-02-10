@@ -11,7 +11,6 @@ local unception = {
     init = function()
         vim.g.unception_block_while_host_edits = true
     end,
-    event = 'VeryLazy',
 }
 
 local gist = {

@@ -1,6 +1,6 @@
 --[[
 - @file iswap.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-02-15 10:18:33
@@ -51,11 +51,11 @@ local iswap = {
             debug = nil,
             hl_grey_priority = '1000',
         }
-
-        vim.keymap.set('n', 'g>', '<cmd>silent ISwapNodeWithRight<cr>', { remap = false, silent = true })
-        vim.keymap.set('n', 'g<', '<cmd>silent ISwapNodeWithLeft<cr>', { remap = false, silent = true })
     end,
-    event = 'VeryLazy',
+    keys = {
+        { 'g>', '<cmd>silent ISwapNodeWithRight<cr>', remap = false, silent = true },
+        { 'g<', '<cmd>silent ISwapNodeWithLeft<cr>',  remap = false, silent = true },
+    },
 }
 
 return { iswap }

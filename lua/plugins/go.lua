@@ -174,7 +174,6 @@ local go = {
     end,
     ft = 'go',
     dependencies = { 'neovim/nvim-lspconfig', 'nvim-treesitter/nvim-treesitter', 'mfussenegger/nvim-dap' },
-    event = 'VeryLazy',
     goimports = imports,
 }
 

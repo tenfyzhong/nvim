@@ -9,66 +9,129 @@
 local hop = {
     'smoka7/hop.nvim',
     version = '*', -- optional but strongly recommended
-    event = 'VeryLazy',
     config = function()
         -- you can configure Hop the way you like here; see :h hop-config
         local hop = require('hop')
         hop.setup {
             keys = 'asdfghjklqwertyuiopzxcvbnm'
         }
-
-        local directions = require('hop.hint').HintDirection
-        local position = require('hop.hint').HintPosition
-        vim.keymap.set('n', '<tab>f', function()
-            hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = false })
-        end, { remap = true, desc = 'hop: f char' })
-        vim.keymap.set('n', '<tab>F', function()
-            hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = false })
-        end, { remap = true, desc = 'hop: F char' })
-        vim.keymap.set('n', '<tab>t', function()
-            hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = false, hint_offset = -1 })
-        end, { remap = true, desc = 'hop: t char' })
-        vim.keymap.set('n', '<tab>T', function()
-            hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = false, hint_offset = 1 })
-        end, { remap = true, desc = 'hop: T char' })
-
-        vim.keymap.set('n', '<tab>w', function()
-            hop.hint_words({ direction = directions.AFTER_CURSOR, current_line_only = false })
-        end, { remap = true, desc = 'hop: w' })
-        vim.keymap.set('n', '<tab>W', function()
-            hop.hint_words({ direction = directions.AFTER_CURSOR, current_line_only = false, multi_windows = true })
-        end, { remap = true, desc = 'hop: W' })
-        vim.keymap.set('n', '<tab>b', function()
-            hop.hint_words({ direction = directions.BEFORE_CURSOR, current_line_only = false })
-        end, { remap = true, desc = 'hop: b' })
-        vim.keymap.set('n', '<tab>e', function()
-            hop.hint_words({
-                direction = directions.AFTER_CURSOR,
-                current_line_only = false,
-                hint_position = position.END
-            })
-        end, { remap = true, desc = 'hop: e' })
-        vim.keymap.set('n', '<tab>ge', function()
-            hop.hint_words({
-                direction = directions.BEFORE_CURSOR,
-                current_line_only = false,
-                hint_position = position.END
-            })
-        end, { remap = true, desc = 'hop: ge' })
-
-        vim.keymap.set('n', '<tab>j', function()
-            hop.hint_lines({ direction = directions.AFTER_CURSOR, current_line_only = false })
-        end, { remap = true, desc = 'hop: j' })
-        vim.keymap.set('n', '<tab>k', function()
-            hop.hint_lines({ direction = directions.BEFORE_CURSOR, current_line_only = false })
-        end, { remap = true, desc = 'hop: k' })
-        vim.keymap.set('n', '<tab>J', function()
-            hop.hint_lines({ direction = directions.AFTER_CURSOR, current_line_only = false, multi_windows = true })
-        end, { remap = true, desc = 'hop: J' })
-        vim.keymap.set('n', '<tab>K', function()
-            hop.hint_lines({ direction = directions.BEFORE_CURSOR, current_line_only = false, multi_windows = true })
-        end, { remap = true, desc = 'hop: K' })
     end,
+    keys = {
+        {
+            '<tab>f',
+            function()
+                require('hop').hint_char1({ direction = require('hop.hint').HintDirection.AFTER_CURSOR, current_line_only = false })
+            end,
+            remap = true,
+            desc = 'hop: f char',
+        },
+        {
+            '<tab>F',
+            function()
+                require('hop').hint_char1({ direction = require('hop.hint').HintDirection.BEFORE_CURSOR, current_line_only = false })
+            end,
+            remap = true,
+            desc = 'hop: F char',
+        },
+        {
+            '<tab>t',
+            function()
+                require('hop').hint_char1({ direction = require('hop.hint').HintDirection.AFTER_CURSOR, current_line_only = false, hint_offset = -1 })
+            end,
+            remap = true,
+            desc = 'hop: t char',
+        },
+        {
+            '<tab>T',
+            function()
+                require('hop').hint_char1({ direction = require('hop.hint').HintDirection.BEFORE_CURSOR, current_line_only = false, hint_offset = 1 })
+            end,
+            remap = true,
+            desc = 'hop: T char',
+        },
+
+        {
+            '<tab>w',
+            function()
+                require('hop').hint_words({ direction = require('hop.hint').HintDirection.AFTER_CURSOR, current_line_only = false })
+            end,
+            remap = true,
+            desc = 'hop: w',
+        },
+        {
+            '<tab>W',
+            function()
+                require('hop').hint_words({ direction = require('hop.hint').HintDirection.AFTER_CURSOR, current_line_only = false, multi_windows = true })
+            end,
+            remap = true,
+            desc = 'hop: W',
+        },
+        {
+            '<tab>b',
+            function()
+                require('hop').hint_words({ direction = require('hop.hint').HintDirection.BEFORE_CURSOR, current_line_only = false })
+            end,
+            remap = true,
+            desc = 'hop: b',
+        },
+        {
+            '<tab>e',
+            function()
+                require('hop').hint_words({
+                    direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+                    current_line_only = false,
+                    hint_position = require('hop.hint').HintPosition.END
+                })
+            end,
+            remap = true,
+            desc = 'hop: e',
+        },
+        {
+            '<tab>ge',
+            function()
+                require('hop').hint_words({
+                    direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+                    current_line_only = false,
+                    hint_position = require('hop.hint').HintPosition.END
+                })
+            end,
+            remap = true,
+            desc = 'hop: ge',
+        },
+
+        {
+            '<tab>j',
+            function()
+                require('hop').hint_lines({ direction = require('hop.hint').HintDirection.AFTER_CURSOR, current_line_only = false })
+            end,
+            remap = true,
+            desc = 'hop: j',
+        },
+        {
+            '<tab>k',
+            function()
+                require('hop').hint_lines({ direction = require('hop.hint').HintDirection.BEFORE_CURSOR, current_line_only = false })
+            end,
+            remap = true,
+            desc = 'hop: k',
+        },
+        {
+            '<tab>J',
+            function()
+                require('hop').hint_lines({ direction = require('hop.hint').HintDirection.AFTER_CURSOR, current_line_only = false, multi_windows = true })
+            end,
+            remap = true,
+            desc = 'hop: J',
+        },
+        {
+            '<tab>K',
+            function()
+                require('hop').hint_lines({ direction = require('hop.hint').HintDirection.BEFORE_CURSOR, current_line_only = false, multi_windows = true })
+            end,
+            remap = true,
+            desc = 'hop: K',
+        },
+    },
 }
 
 return { hop }

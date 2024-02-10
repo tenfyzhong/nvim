@@ -1,6 +1,6 @@
 --[[
 - @file vim-bookmarks.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 22:18:23
@@ -17,26 +17,33 @@ local bookmarks = {
         vim.g.bookmark_disable_ctrlp           = 1
     end,
     config = function()
-        vim.keymap.set('n', 'Mm', '<Plug>BookmarkToggle',
-            { silent = true, remap = true, desc = 'bookmarks: toogle a bookmark' })
-        vim.keymap.set('n', 'Ma', '<Plug>BookmarkAnnotate',
-            { silent = true, remap = true, desc = 'bookmarks: annotate a bookmark' })
-        vim.keymap.set('n', 'Ms', '<Plug>BookmarkShowAll',
-            { silent = true, remap = true, desc = 'bookmarks: show all bookmarks' })
-        vim.keymap.set('n', 'Mn', '<Plug>BookmarkNext',
-            { silent = true, remap = true, desc = 'bookmarks: goto next bookmark' })
-        vim.keymap.set('n', 'Mp', '<Plug>BookmarkPrev',
-            { silent = true, remap = true, desc = 'bookmarks: goto prev bookmark' })
-        vim.keymap.set('n', 'Mc', '<Plug>BookmarkClear',
-            { silent = true, remap = true, desc = 'bookmarks: clear bookmark' })
-        vim.keymap.set('n', 'Mx', '<Plug>BookmarkClearAll',
-            { silent = true, remap = true, desc = 'bookmarks: clear all bookmarks' })
-        vim.keymap.set('n', 'Mu', '<Plug>BookmarkMoveUp',
-            { silent = true, remap = true, desc = 'bookmarks: bookmark move up' })
-        vim.keymap.set('n', 'Md', '<Plug>BookmarkMoveDown',
-            { silent = true, remap = true, desc = 'bookmarks: bookmark move down' })
     end,
-    event = 'VeryLazy',
+    cmd = {
+        'BookmarkToggle',
+        'BookmarkAnnotate',
+        'BookmarkNext',
+        'BookmarkPrev',
+        'BookmarkShowAll',
+        'BookmarkClear',
+        'BookmarkClearAll',
+        'BookmarkMoveUp',
+        'BookmarkMoveDown',
+        'BookmarkMoveToLine',
+        'BookmarkSave',
+        'BookmarkLoad',
+    },
+    keys = {
+        { 'Mm', '<Plug>BookmarkToggle',   mode = 'n', silent = true, remap = true, desc = 'bookmarks: toogle a bookmark' },
+        { 'Ma', '<Plug>BookmarkAnnotate', mode = 'n', silent = true, remap = true, desc = 'bookmarks: annotate a bookmark' },
+        { 'Ms', '<Plug>BookmarkShowAll',  mode = 'n', silent = true, remap = true, desc = 'bookmarks: show all bookmarks' },
+        { 'Mn', '<Plug>BookmarkNext',     mode = 'n', silent = true, remap = true, desc = 'bookmarks: goto next bookmark' },
+        { 'Mp', '<Plug>BookmarkPrev',     mode = 'n', silent = true, remap = true, desc = 'bookmarks: goto prev bookmark' },
+        { 'Mc', '<Plug>BookmarkClear',    mode = 'n', silent = true, remap = true, desc = 'bookmarks: clear bookmark' },
+        { 'Mx', '<Plug>BookmarkClearAll', mode = 'n', silent = true, remap = true, desc = 'bookmarks: clear all bookmarks' },
+        { 'Mu', '<Plug>BookmarkMoveUp',   mode = 'n', silent = true, remap = true, desc = 'bookmarks: bookmark move up' },
+        { 'Md', '<Plug>BookmarkMoveDown', mode = 'n', silent = true, remap = true, desc = 'bookmarks: bookmark move down' },
+    },
+
 }
 
 return { bookmarks }

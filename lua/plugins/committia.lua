@@ -1,6 +1,6 @@
 --[[
 - @file committia.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 19:12:03
@@ -16,7 +16,7 @@ function! g:committia_hooks.edit_open(info)
     setlocal nornu
     augroup edit_open_init
         autocmd InsertEnter * set nonumber norelativenumber
-        autocmd InsertLeave * set nonumber norelativenumber 
+        autocmd InsertLeave * set nonumber norelativenumber
     augroup END
 
     " Scroll the diff window from insert mode
@@ -30,14 +30,14 @@ function! g:committia_hooks.status_open(info)
     setlocal nornu
     augroup edit_open_init
         autocmd InsertEnter * set nonumber norelativenumber
-        autocmd InsertLeave * set nonumber norelativenumber 
+        autocmd InsertLeave * set nonumber norelativenumber
     augroup END
 
 endfunction
 
         ]])
     end,
-    event = 'VeryLazy',
+    ft = 'gitcommit',
 }
 
 return { committia }

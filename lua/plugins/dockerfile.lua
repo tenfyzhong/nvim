@@ -1,6 +1,6 @@
 --[[
 - @file dockerfile.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 14:12:38
@@ -8,7 +8,7 @@
 
 local dockerfile = {
     'ekalinin/Dockerfile.vim',
-    event = 'VeryLazy',
+    ft = 'dockerfile',
 }
 
 return { dockerfile }

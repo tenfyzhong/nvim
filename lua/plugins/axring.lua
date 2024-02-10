@@ -147,7 +147,7 @@ local axring = {
             { "f32", "f64" },
         }
     end,
-    event = 'VeryLazy',
+    keys = { '<c-a>', '<c-x>' },
 }
 
 return { axring }

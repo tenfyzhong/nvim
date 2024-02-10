@@ -1,6 +1,6 @@
 --[[
 - @file quickhl.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 19:49:01
@@ -9,12 +9,6 @@
 local quickhl = {
     't9md/vim-quickhl',
     config = function()
-        vim.keymap.set({ 'n' }, '<leader>m', '<Plug>(quickhl-manual-this-whole-word)',
-            { remap = true, silent = true, desc = 'quickhl: highlight this whole word' })
-        vim.keymap.set({ 'x' }, '<leader>m', '<Plug>(quickhl-manual-this)',
-            { remap = true, silent = true, desc = 'quickhl: highlight this' })
-        vim.keymap.set({ 'n' }, '<tab>m', '<Plug>(quickhl-manual-reset)',
-            { remap = true, silent = true, desc = 'quickhl: reset highlight' })
         vim.g.quickhl_manual_colors = {
             'ctermfg=17  ctermbg=112 cterm=none guifg=#001767 guibg=#8fd757 gui=none',
             'ctermfg=52  ctermbg=221 cterm=none guifg=#570000 guibg=#fcd757 gui=none',
@@ -28,7 +22,36 @@ local quickhl = {
             'ctermfg=22  ctermbg=194 cterm=bold guifg=#004f00 guibg=#d7f7df gui=bold',
         }
     end,
-    event = 'VeryLazy',
+    cmd = {
+        'QuickhlManualEnable',
+        'QuickhlManualDisable',
+        'QuickhlManualAdd',
+        'QuickhlManualAdd',
+        'QuickhlManualDelete',
+        'QuickhlManualDelete',
+        'QuickhlManualReset',
+        'QuickhlManualList',
+        'QuickhlManualColors',
+        'QuickhlManualLock',
+        'QuickhlManualUnlock',
+        'QuickhlManualLockToggle',
+        'QuickhlManualLockWindow',
+        'QuickhlManualUnlockWindow',
+        'QuickhlManualLockWindowToggle',
+        'QuickhlManualGoToNext',
+        'QuickhlManualGoToPrev',
+        'QuickhlCwordEnable',
+        'QuickhlCwordDisable',
+        'QuickhlCwordToggle',
+        'QuickhlTagEnable',
+        'QuickhlTagDisable',
+        'QuickhlTagToggle',
+    },
+    keys = {
+        { '<leader>m', '<Plug>(quickhl-manual-this-whole-word)', mode = 'n', remap = true, silent = true, desc = 'quickhl: highlight this whole word' },
+        { '<leader>m', '<Plug>(quickhl-manual-this)',            mode = 'x', remap = true, silent = true, desc = 'quickhl: highlight this' },
+        { '<tab>m',    '<Plug>(quickhl-manual-reset)',           mode = 'n', remap = true, silent = true, desc = 'quickhl: reset highlight' },
+    },
 }
 
 return { quickhl }

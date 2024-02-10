@@ -7,7 +7,7 @@
 --]]
 
 local function treesister_config()
-    require 'nvim-treesitter.configs'.setup {
+    require 'nvim-treesitter.configs'.setup({
         matchup = {
             enable = true, -- mandatory, false will disable the whole extension
             -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
@@ -67,7 +67,7 @@ local function treesister_config()
             -- Instead of true it can also be a list of languages
             additional_vim_regex_highlighting = false,
         },
-    }
+    })
     -- vim.o.foldmethod = 'expr'
     -- vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
     -- vim.o.foldenable = false
