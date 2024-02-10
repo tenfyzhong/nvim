@@ -5,7 +5,6 @@ local toc = {
             toc_header = "Table of Contents"
         })
     end,
-    ft = { "markdown" },
     cmd = { 'TOC', 'TOCList' },
 }
 

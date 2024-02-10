@@ -10,6 +10,7 @@
 local fzf = {
     'junegunn/fzf',
     build = ":call fzf#install()",
+    lazy = true,
 }
 
 local function find_tag()
