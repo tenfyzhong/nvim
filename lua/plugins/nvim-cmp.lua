@@ -85,7 +85,7 @@ local function cmp_config()
             { name = 'nvim_lua' },
             { name = "git" },
             { name = 'vsnip' }, -- For vsnip users.
-            { name = 'crates' },
+            -- { name = 'crates' },
             -- { name = "codeium" },
             -- { name = 'luasnip' }, -- For luasnip users.
             -- { name = 'ultisnips' }, -- For ultisnips users.
@@ -117,6 +117,12 @@ local function cmp_config()
             { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
         }, {
             { name = 'buffer' },
+        })
+    })
+
+    cmp.setup.filetype('cargo.toml', {
+        sources = cmp.config.sources({
+            { name = 'crates' }, -- You can specify the `cmp_git` source if you were installed it.
         })
     })
 
