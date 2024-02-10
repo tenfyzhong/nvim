@@ -1,6 +1,6 @@
 --[[
 - @file coverage-highlight.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 13:30:30
@@ -18,7 +18,7 @@ local highlight = {
         })
     end,
     ft = 'python',
-    event = 'VeryLazy',
+    cmd = { 'HighlightCoverage' },
 }
 
 return { highlight }

@@ -1,13 +1,13 @@
 --[[
 - @file vim-rename.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 23:24:00
 --]]
 local rename = {
     'artnez/vim-rename',
-    event = 'VeryLazy',
+    cmd = { 'Rename' },
 }
 
 return { rename }

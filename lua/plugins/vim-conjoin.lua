@@ -1,13 +1,17 @@
 --[[
 - @file vim-conjoin.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 21:15:13
 --]]
 local conjoin = {
     'flwyd/vim-conjoin',
-    event = 'VeryLazy',
+    cmd = { 'Join' },
+    keys = {
+        { 'J',  mode = { 'n', 'x' } },
+        { 'gJ', mode = { 'n', 'x' } },
+    },
 }
 
 return { conjoin }

@@ -1,6 +1,6 @@
 --[[
 - @file treesj.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-02-13 10:15:41
@@ -16,10 +16,11 @@ local treesj = {
             -- ]]
             use_default_keymaps = false,
         }
-
-        vim.keymap.set({ 'n' }, '<leader>aw', '<cmd>silent TSJToggle<cr>', { silent = true, remap = false })
     end,
-    event = 'VeryLazy',
+    cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
+    keys = {
+        { '<leader>aw', '<cmd>silent TSJToggle<cr>', mode = 'n', silent = true, remap = false },
+    },
 }
 
 return { treesj }

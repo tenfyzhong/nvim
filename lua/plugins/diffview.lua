@@ -21,8 +21,7 @@ local diffview = {
             }
         }
     end,
-    event = { 'VeryLazy' },
-    cmd = { 'DiffviewOpen' },
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh', 'DiffviewLog' },
 }
 
 return { diffview }

@@ -6,6 +6,7 @@ local toc = {
         })
     end,
     ft = { "markdown" },
+    cmd = { 'TOC', 'TOCList' },
 }
 
 return { toc }

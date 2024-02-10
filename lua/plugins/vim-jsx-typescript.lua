@@ -1,6 +1,6 @@
 local jsx = {
     'peitalin/vim-jsx-typescript',
-    event = 'VeryLazy',
+    ft = 'typescriptreact',
 }
 
 return { jsx }

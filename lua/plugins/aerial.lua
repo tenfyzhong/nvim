@@ -1,14 +1,11 @@
 --[[
 - @file aerial.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 22:15:47
 --]]
 local function aerial_config()
-    -- You probably also want to set a keymap to toggle aerial
-    vim.keymap.set('n', '<leader>tb', '<cmd>AerialToggle!<CR>', { silent = true, desc = 'aerial: AerialToggle' })
-
     -- Call the setup function to change the default behavior
     require("aerial").setup({
         -- Priority list of preferred backends for aerial.
@@ -286,8 +283,14 @@ local function aerial_config()
 end
 
 local aerial = {
-    'stevearc/aerial.nvim', config = aerial_config,
+    'stevearc/aerial.nvim',
+    config = aerial_config,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cmd = { 'AerialToggle' },
+    keys = {
+        -- You probably also want to set a keymap to toggle aerial
+        { '<leader>tb', '<cmd>AerialToggle!<CR>', mode = 'n', silent = true, desc = 'aerial: AerialToggle' },
+    },
 }
 
 return { aerial }

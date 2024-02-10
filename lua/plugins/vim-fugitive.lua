@@ -7,14 +7,6 @@
 --]]
 
 local function fugitive_config()
-    vim.keymap.set('n', '<leader>gw', ':Gwrite<cr>',
-        { silent = true, remap = false, desc = 'fugitive: add current to git index' })
-    vim.keymap.set('n', '<leader>gc', ':Git commit<cr>', { silent = true, remap = false, desc = 'fugitive: git commit' })
-    vim.keymap.set('n', '<leader>gb', ':Git blame<cr>', { silent = true, remap = false, desc = 'fugitive: git blame' })
-    vim.keymap.set('n', '<leader>gd', ':Gvdiffsplit<cr>',
-        { silent = true, remap = false, desc = 'fugitive: git diff vsplit' })
-    vim.keymap.set('n', '<leader>gl', ':silent Gclog!<cr>', { silent = true, remap = false, desc = 'fugitive: git log' })
-    vim.keymap.set('n', '<leader>gt', ':Git<cr>', { silent = true, remap = false, desc = 'fugitive: git' })
     vim.api.nvim_create_user_command('Gpush', function()
         local gitdir = vim.fn.FugitiveGitDir()
         local escape = vim.fn.fnamemodify(gitdir, ':p:h:h')
@@ -39,11 +31,23 @@ local gitlab = {
 local fugitive = {
     'tpope/vim-fugitive',
     config = fugitive_config,
-    event = 'VeryLazy',
     dependencies = {
         rhubarb,
         gitlab,
-    }
+    },
+    cmd = {
+        'G', 'Git', 'Ggrep', 'Glgrep', 'Gclog', 'Gllog', 'Gcd', 'Glcd', 'Gedit', 'Gsplit', 'Gvsplit', 'Gtabedit',
+        'Gpedit', 'Gdrop', 'Gread', 'Gwrite', 'Gwq', 'Gdiffsplit', 'Gvdiffsplit', 'Ghdiffsplit', 'GMove', 'GRename',
+        'GDelete', 'GRemove', 'GUnlink', 'GBrowse', 'Gpush', 'Gpull',
+    },
+    keys = {
+        { '<leader>gw', ':Gwrite<cr>',        mode = 'n', silent = true, remap = false, desc = 'fugitive: add current to git index' },
+        { '<leader>gc', ':Git commit<cr>',    mode = 'n', silent = true, remap = false, desc = 'fugitive: git commit' },
+        { '<leader>gb', ':Git blame<cr>',     mode = 'n', silent = true, remap = false, desc = 'fugitive: git blame' },
+        { '<leader>gd', ':Gvdiffsplit<cr>',   mode = 'n', silent = true, remap = false, desc = 'fugitive: git diff vsplit' },
+        { '<leader>gl', ':silent Gclog!<cr>', mode = 'n', silent = true, remap = false, desc = 'fugitive: git log' },
+        { '<leader>gt', ':Git<cr>',           mode = 'n', silent = true, remap = false, desc = 'fugitive: git' },
+    },
 }
 
 return { fugitive }

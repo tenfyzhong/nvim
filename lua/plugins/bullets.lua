@@ -1,6 +1,6 @@
 --[[
 - @file bullets.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 23:25:18
@@ -20,7 +20,7 @@ let g:bullets_checkbox_markers = ' x'
 let g:bullets_renumber_on_change = 0
             ]])
     end,
-    event = 'VeryLazy',
+    ft = { 'markdown', 'text', 'gitcommit' },
 }
 
 return { bullets }

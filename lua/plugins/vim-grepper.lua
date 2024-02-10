@@ -18,11 +18,12 @@ local grepper = {
         vim.api.nvim_create_user_command('Todo',
             "Grepper -noprompt -tool rg -grepprg rg --vimgrep '(// todo\\b|// bug\\b|// error\\b)'",
             { desc = 'grepper: Find todo bug error' })
-        vim.keymap.set({ 'n', 'x' }, 'gr', '<plug>(GrepperOperator)', { remap = true, desc = 'grepper: grep' })
-        vim.keymap.set({ 'n' }, '<leader>*', ':Grepper -tool rg -cword -noprompt<cr>',
-            { remap = false, desc = 'grepper: grep cword' })
     end,
-    event = 'VeryLazy',
+    cmd = { 'Grepper', 'Todo' },
+    keys = {
+        { 'gr',        '<plug>(GrepperOperator)',                mode = { 'n', 'x' }, remap = true, desc = 'grepper: grep' },
+        { '<leader>*', ':Grepper -tool rg -cword -noprompt<cr>', mode = 'n',        remap = false, desc = 'grepper: grep cword' },
+    },
 }
 
 return { grepper }

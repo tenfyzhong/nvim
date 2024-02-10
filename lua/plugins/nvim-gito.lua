@@ -1,11 +1,12 @@
 local gito = {
     'tenfyzhong/nvim-gito',
-    event = 'VeryLazy',
     config = function()
         require('gito').setup({})
-        vim.keymap.set('n', '<leader>gf', ':GitoOpenFile<cr>',
-            { silent = true, remap = false, desc = 'Open current file in browser' })
-    end
+    end,
+    cmd = { 'GitoOpen', 'GitoCopy', 'GitoOpenFile', 'GitoCopyFile' },
+    keys = {
+        { '<leader>gf', ':GitoOpenFile<cr>', mode = 'n', silent = true, remap = false, desc = 'Open current file in browser' },
+    },
 }
 
 return { gito }

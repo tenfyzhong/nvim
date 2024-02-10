@@ -1,6 +1,6 @@
 --[[
 - @file agit.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-26 22:54:54
@@ -20,7 +20,7 @@ local agit = {
             end,
         })
     end,
-    event = 'VeryLazy',
+    ft = { 'agit', 'agit_stat', 'agit_diff' },
 }
 
 return { agit }

@@ -1,6 +1,6 @@
 --[[
 - @file quickhl.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 19:49:01
@@ -28,7 +28,36 @@ local quickhl = {
             'ctermfg=22  ctermbg=194 cterm=bold guifg=#004f00 guibg=#d7f7df gui=bold',
         }
     end,
-    event = 'VeryLazy',
+    cmd = {
+        'QuickhlManualEnable',
+        'QuickhlManualDisable',
+        'QuickhlManualAdd',
+        'QuickhlManualAdd',
+        'QuickhlManualDelete',
+        'QuickhlManualDelete',
+        'QuickhlManualReset',
+        'QuickhlManualList',
+        'QuickhlManualColors',
+        'QuickhlManualLock',
+        'QuickhlManualUnlock',
+        'QuickhlManualLockToggle',
+        'QuickhlManualLockWindow',
+        'QuickhlManualUnlockWindow',
+        'QuickhlManualLockWindowToggle',
+        'QuickhlManualGoToNext',
+        'QuickhlManualGoToPrev',
+        'QuickhlCwordEnable',
+        'QuickhlCwordDisable',
+        'QuickhlCwordToggle',
+        'QuickhlTagEnable',
+        'QuickhlTagDisable',
+        'QuickhlTagToggle',
+    },
+    keys = {
+        { '<leader>m', '<Plug>(quickhl-manual-this-whole-word)', mode = 'n', remap = true, silent = true, desc = 'quickhl: highlight this whole word' },
+        { '<leader>m', '<Plug>(quickhl-manual-this)',            mode = 'x', remap = true, silent = true, desc = 'quickhl: highlight this' },
+        { '<tab>m',    '<Plug>(quickhl-manual-reset)',           mode = 'n', remap = true, silent = true, desc = 'quickhl: reset highlight' },
+    },
 }
 
 return { quickhl }

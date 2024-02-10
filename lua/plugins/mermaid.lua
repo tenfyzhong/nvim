@@ -1,6 +1,6 @@
 local mermaid = {
     'mracos/mermaid.vim',
-    event = 'VeryLazy',
+    ft = 'mermaid',
 }
 
 return { mermaid }
