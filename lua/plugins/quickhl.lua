@@ -9,12 +9,6 @@
 local quickhl = {
     't9md/vim-quickhl',
     config = function()
-        vim.keymap.set({ 'n' }, '<leader>m', '<Plug>(quickhl-manual-this-whole-word)',
-            { remap = true, silent = true, desc = 'quickhl: highlight this whole word' })
-        vim.keymap.set({ 'x' }, '<leader>m', '<Plug>(quickhl-manual-this)',
-            { remap = true, silent = true, desc = 'quickhl: highlight this' })
-        vim.keymap.set({ 'n' }, '<tab>m', '<Plug>(quickhl-manual-reset)',
-            { remap = true, silent = true, desc = 'quickhl: reset highlight' })
         vim.g.quickhl_manual_colors = {
             'ctermfg=17  ctermbg=112 cterm=none guifg=#001767 guibg=#8fd757 gui=none',
             'ctermfg=52  ctermbg=221 cterm=none guifg=#570000 guibg=#fcd757 gui=none',

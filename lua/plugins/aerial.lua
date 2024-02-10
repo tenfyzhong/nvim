@@ -288,9 +288,9 @@ local aerial = {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     cmd = { 'AerialToggle' },
     keys = {
-        -- You probably also want to set a keymap to toggle aerial
         { '<leader>tb', '<cmd>AerialToggle!<CR>', mode = 'n', silent = true, desc = 'aerial: AerialToggle' },
     },
+    event = 'VeryLazy',
 }
 
 return { aerial }

@@ -34,15 +34,13 @@ local tree = {
                 },
             },
         }
-
-        vim.keymap.set('n', '<leader>nt', function()
-            require('neo-tree.command').execute({
-                toggle = true,
-            })
-        end, { remap = false, desc = 'Neotree toggle=true' })
     end,
     cmd = { 'Neotree' },
-    keys = { '<leader>nt' },
+    keys = {
+        {
+            { '<leader>nt', function() require('neo-tree.command').execute({ toggle = true, }) end, mode = { 'n' }, remap = false, desc = 'Neotree toggle=true' },
+        },
+    },
 }
 
 return { tree }
