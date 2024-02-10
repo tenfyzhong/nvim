@@ -206,21 +206,25 @@ local cmp_cmdline = { 'hrsh7th/cmp-cmdline' }
 local cmp_vsnip = { 'hrsh7th/cmp-vsnip' }
 local vim_vsnip = { 'hrsh7th/vim-vsnip' }
 local lspkind = { 'onsails/lspkind.nvim', config = lspkind_config }
-local cmp_nvim_lua = { 'hrsh7th/cmp-nvim-lua' }
+
+local cmp_nvim_lua = { 'hrsh7th/cmp-nvim-lua', ft = 'lua' }
+
 local tsnippets = { 'tenfyzhong/tsnippets.vim' }
 local friendly_snippets = { 'rafamadriz/friendly-snippets' }
+
 local cmp_nvim_lsp_signature_help = { 'hrsh7th/cmp-nvim-lsp-signature-help' }
-local neodev = { 'folke/neodev.nvim', event = 'VeryLazy' }
-local plenary = { 'nvim-lua/plenary.nvim' }
-local cmp_git = { 'petertriho/cmp-git' }
+
+local neodev = { 'folke/neodev.nvim', ft = 'lua' }
+-- local plenary = { 'nvim-lua/plenary.nvim' }
+
+local cmp_git = { 'petertriho/cmp-git', ft = { 'git', 'gitcommit' } }
+
 local crates = {
-    {
-        "Saecki/crates.nvim",
-        event = { "BufRead Cargo.toml" },
-        opts = {
-            src = {
-                cmp = { enabled = true },
-            },
+    "Saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+        src = {
+            cmp = { enabled = true },
         },
     },
 }
@@ -262,7 +266,7 @@ return {
     cmp_nvim_lsp,
     lspkind,
     neodev,
-    plenary,
+    -- plenary,
     nvim_cmp,
     -- codeium,
 }

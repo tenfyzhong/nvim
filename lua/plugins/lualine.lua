@@ -1,6 +1,6 @@
 --[[
 - @file lualine.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 18:20:59
@@ -37,7 +37,7 @@ local lualine = {
                 lualine_c = { 'filename' },
                 lualine_x = { 'branch', 'diff', 'diagnostics' },
                 lualine_y = { pos, 'progress' },
-                lualine_z = { 'overseer' },
+                -- lualine_z = { 'overseer' },
             },
             inactive_sections = {
                 lualine_a = {},
