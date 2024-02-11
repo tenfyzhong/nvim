@@ -7,6 +7,7 @@
 --]]
 local ftemplate = {
     'tenfyzhong/ftemplate.vim',
+    enabled = false,
 }
 
 return { ftemplate }
