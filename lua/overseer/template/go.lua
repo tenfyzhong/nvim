@@ -67,17 +67,17 @@ return {
         local ret = {}
 
         local commands = {
-            { args = { "build" },      tags = { TAG.BUILD } },
-            { args = { "test" },       tags = { TAG.TEST } },
-            { args = { "clean" } },
-            { args = { "run" } },
-            { args = { "install" } },
-            { args = { "mod", "tidy" } },
-            { args = { "get", "." } },
+            { args = { "build" },       tags = { TAG.BUILD }, priority = 55 },
+            { args = { "test" },        tags = { TAG.TEST },  priority = 55 },
+            { args = { "clean" },       priority = 55 },
+            { args = { "run" },         priority = 55 },
+            { args = { "install" },     priority = 65 },
+            { args = { "mod", "tidy" }, priority = 55 },
+            { args = { "get", "." },    priority = 60 },
         }
         local pkg = cur_line_go_pkg()
         if pkg then
-            table.insert(commands, { args = { "get", pkg } })
+            table.insert(commands, { args = { "get", pkg }, priority = 55 })
         end
 
         for _, command in ipairs(commands) do
@@ -88,7 +88,7 @@ return {
                     {
                         name = string.format("go %s", table.concat(command.args, " ")),
                         tags = command.tags,
-                        priority = 55,
+                        priority = command.priority or 60,
                     },
                     { args = command.args, cwd = go_dir, }
                 )
