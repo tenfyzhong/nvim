@@ -60,10 +60,13 @@ return {
         local ret = {}
 
         local commands = {
-            { args = { "build" }, tags = { TAG.BUILD } },
-            { args = { "test" },  tags = { TAG.TEST } },
+            { args = { "build" },      tags = { TAG.BUILD } },
+            { args = { "test" },       tags = { TAG.TEST } },
             { args = { "clean" } },
             { args = { "run" } },
+            { args = { "install" } },
+            { args = { "get", "." } },
+            { args = { "mod", "tidy" } },
         }
         for _, command in ipairs(commands) do
             table.insert(
