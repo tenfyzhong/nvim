@@ -15,7 +15,7 @@ local overseer = {
     dependencies = { 'stevearc/dressing.nvim', 'nvim-telescope/telescope.nvim' },
     config = function()
         require('overseer').setup({
-            templates = { 'builtin', 'tenfy.git_pull', 'tenfy.git_push' },
+            templates = { 'builtin', 'custom' },
         })
     end,
     cmd = {

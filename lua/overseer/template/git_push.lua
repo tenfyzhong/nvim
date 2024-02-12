@@ -1,12 +1,13 @@
 return {
-    name = 'git pull',
+    name = 'git push',
     builder = function(params)
         return {
             cmd = 'git',
-            args = { 'pull' },
-            name = 'git pull',
+            args = { 'push' },
+            name = 'git push',
             cwd = vim.fn.getcwd(),
         }
     end,
-    desc = 'git pull',
+    desc = 'git push',
+    priority = 100,
 }
