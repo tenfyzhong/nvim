@@ -10,6 +10,12 @@ local tree = {
     config = function()
         require('neo-tree').setup {
             use_default_mappings = true,
+            close_if_last_window = true,
+            filesystem = {
+                filtered_items = {
+                    show_hidden_count = false, -- when true, the number of hidden items in each folder will be shown as the last entry
+                },
+            },
             event_handlers = {
                 {
                     event = "neo_tree_buffer_enter",
