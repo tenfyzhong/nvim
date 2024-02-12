@@ -1,6 +1,4 @@
 local constants = require("overseer.constants")
-local json = require("overseer.json")
-local log = require("overseer.log")
 local overseer = require("overseer")
 local TAG = constants.TAG
 
@@ -40,6 +38,15 @@ local function get_go_file(opts)
     return vim.fs.find("go.mod", { upward = true, type = "file", path = opts.dir })[1]
 end
 
+-- get current line go package
+--@return string
+local function cur_line_go_pkg()
+    local line = vim.fn.line('.')
+    local content = vim.fn.getline(line)
+    local pkg = string.match(content, '"(.*)"')
+    return pkg
+end
+
 return {
     cache_key = function(opts)
         return get_go_file(opts)
@@ -65,9 +72,14 @@ return {
             { args = { "clean" } },
             { args = { "run" } },
             { args = { "install" } },
-            { args = { "get", "." } },
             { args = { "mod", "tidy" } },
+            { args = { "get", "." } },
         }
+        local pkg = cur_line_go_pkg()
+        if pkg then
+            table.insert(commands, { args = { "get", pkg } })
+        end
+
         for _, command in ipairs(commands) do
             table.insert(
                 ret,

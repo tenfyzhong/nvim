@@ -7,7 +7,9 @@ end
 
 local function go_get()
     local pkg = cur_line_go_pkg()
-    vim.cmd('OverseerRunCmd go get ' .. pkg)
+    if pkg then
+        vim.cmd('OverseerRunCmd go get ' .. pkg)
+    end
 end
 
 local overseer = {
