@@ -1,5 +1,4 @@
 return {
-    'git_pull',
-    'git_push',
+    'git',
     'go',
 }
