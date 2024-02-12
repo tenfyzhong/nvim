@@ -15,6 +15,9 @@ end
 local overseer = {
     'stevearc/overseer.nvim',
     dependencies = { 'stevearc/dressing.nvim', 'nvim-telescope/telescope.nvim' },
+    init = function()
+        vim.cmd('cab O OverseerRunCmd')
+    end,
     config = function()
         require('overseer').setup({
             templates = { 'builtin', 'custom' },
