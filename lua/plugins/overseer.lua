@@ -35,6 +35,7 @@ local overseer = {
     },
     keys = {
         { '<leader>ot', '<cmd>OverseerToggle<cr>', mode = 'n', silent = true, remap = false, desc = 'OverseerToggle' },
+        { '<leader>or', '<cmd>OverseerRun<cr>',    mode = 'n', silent = true, remap = false, desc = 'OverseerRun' },
         { '<leader>rg', go_get,                    mode = 'n', ft = 'go',     silent = true, remap = false,          desc = 'go get' },
     }
 }
