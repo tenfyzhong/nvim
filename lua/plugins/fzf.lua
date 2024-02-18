@@ -18,6 +18,8 @@ local function find_tag()
         vim.cmd('silent FZFBTags')
     elseif vim.bo.filetype == 'NvimTree' or vim.bo.filetype == 'neo-tree' then
         vim.cmd('silent FZFBLines')
+    elseif vim.bo.filetype == 'fish' then
+        vim.cmd('silent FZFBTags')
     else
         vim.fn['aerial#fzf']()
     end
