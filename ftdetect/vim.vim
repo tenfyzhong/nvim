@@ -1,3 +1,3 @@
 autocmd FileType vim setlocal foldmethod=marker
-autocmd FileType vim setlocal shiftwidth=2 softtabstop=2
+autocmd FileType vim setlocal shiftwidth=4 softtabstop=4
 
