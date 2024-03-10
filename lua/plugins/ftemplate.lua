@@ -7,7 +7,9 @@
 --]]
 local ftemplate = {
     'tenfyzhong/ftemplate.vim',
-    enabled = false,
+    config = function()
+        vim.g.ftemplate_ignore_ft = { 'go' }
+    end,
 }
 
 return { ftemplate }
