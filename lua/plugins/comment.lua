@@ -12,7 +12,15 @@ local comment = {
             ignore = '^$',
         }
     end,
-    keys = { 'gb', 'gc', 'gbc', 'gcc', 'gco', 'gcO', 'gcA' },
+    keys = {
+        { 'gb',  mode = { 'v' } },
+        { 'gc',  mode = { 'v' } },
+        { 'gbc', mode = { 'n', 'v' } },
+        { 'gcc', mode = { 'n', 'v' } },
+        { 'gco', mode = { 'n' } },
+        { 'gcO', mode = { 'n' } },
+        { 'gcA', mode = { 'n' } },
+    },
 }
 
 return { comment }
