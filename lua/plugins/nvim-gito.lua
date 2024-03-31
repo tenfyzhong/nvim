@@ -6,6 +6,8 @@ local gito = {
     cmd = { 'GitoOpen', 'GitoCopy', 'GitoOpenFile', 'GitoCopyFile' },
     keys = {
         { '<leader>gf', ':GitoOpenFile<cr>', mode = 'n', silent = true, remap = false, desc = 'Open current file in browser' },
+        { '<leader>gy' },
+        { '<leader>go' },
     },
 }
 
