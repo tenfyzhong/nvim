@@ -32,7 +32,12 @@ local function gitsigns_config()
 
             -- Actions
             map('n', '<leader>ga', ':Gitsigns stage_hunk<CR>', { silent = true, desc = 'gitsigns: stage hunk' })
-            map('n', '<leader>gr', gs.undo_stage_hunk, { silent = true, desc = 'gitsigns: undo stage hunk' })
+            map('n', '<leader>gu', ':Gitsigns undo_stage_hunk<CR>', { silent = true, desc = 'gitsigns: undo stage hunk' })
+            map('n', '<leader>gr', ':Gitsigns reset_hunk<CR>', { silent = true, desc = 'gitsigns: reset stage hunk' })
+            map('n', '<leader>gA', ':Gitsigns stage_buffer<CR>', { silent = true, desc = 'gitsigns: stage buffer' })
+            map('n', '<leader>gU', ':Gitsigns reset_buffer_index<CR>',
+                { silent = true, desc = 'gitsigns: reset buffer index' })
+            map('n', '<leader>gR', ':Gitsigns reset_buffer<CR>', { silent = true, desc = 'gitsigns: reset buffer' })
             map('n', '<leader>gp', gs.preview_hunk, { silent = true, desc = 'gitsigns: preview hunk' })
             map('n', '<leader>gb', function() gs.blame_line { full = true } end,
                 { silent = true, desc = 'gitsigns: blame line' })
