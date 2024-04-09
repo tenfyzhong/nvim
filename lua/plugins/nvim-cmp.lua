@@ -124,6 +124,7 @@ local function cmp_config()
     cmp.setup.filetype('cargo.toml', {
         sources = cmp.config.sources({
             { name = 'crates' }, -- You can specify the `cmp_git` source if you were installed it.
+            { name = 'vsnip' },  -- For vsnip users.
         })
     })
 
