@@ -1,6 +1,6 @@
 --[[
 - @file nvim-dap.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-02-09 09:53:53
@@ -21,7 +21,7 @@ local ui = {
 local dap = {
     'mfussenegger/nvim-dap',
     event = 'VeryLazy',
-    dependencies = { ui },
+    dependencies = { ui, 'nvim-neotest/nvim-nio' },
 }
 
 
