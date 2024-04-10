@@ -21,6 +21,9 @@ local neogit = {
         vim.cmd('cab Git Neogit')
     end,
     cmd = { 'Neogit', 'NeogitResetState' },
+    keys = {
+        { '<leader>gc', ':Neogit commit<CR>', silent = true, remap = false, desc = 'neogit: git commit' },
+    }
 }
 
 return { neogit }
