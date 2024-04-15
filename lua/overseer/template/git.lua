@@ -56,8 +56,8 @@ return {
         local ret = {}
 
         local commands = {
-            { args = { "pull" }, priority = 70 },
-            { args = { "push" }, priority = 70 },
+            { args = { "pull", "--no-ff" }, priority = 70 },
+            { args = { "push" },            priority = 70 },
         }
 
         for _, command in ipairs(commands) do
