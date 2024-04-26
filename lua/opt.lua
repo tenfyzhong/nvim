@@ -63,5 +63,6 @@ vim.o.t_vb = ''
 vim.opt.sessionoptions:remove { 'buffers' }
 vim.o.updatetime = 200
 vim.opt.termguicolors = true
+vim.o.undofile = true
 
 vim.o.background = 'dark'
