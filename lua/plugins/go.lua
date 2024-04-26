@@ -27,7 +27,7 @@ local run = function(fmtargs, bufnr, cmd)
 
     local command = table.concat(args, ' ')
 
-    local j = vfn.jobstart(command, {
+    vfn.jobstart(command, {
         on_stdout = function(_, data, _)
             -- if the changedtick incremented, the file was edited after the
             -- format action. so the format result is outdated
@@ -67,8 +67,6 @@ local run = function(fmtargs, bufnr, cmd)
         stdout_buffered = true,
         stderr_buffered = true,
     })
-    vfn.chansend(j, old_lines)
-    vfn.chanclose(j, 'stdin')
 end
 
 local table_contains = function(tbl, x)
