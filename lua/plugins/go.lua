@@ -16,8 +16,11 @@ local run = function(fmtargs, bufnr, cmd)
         vim.cmd('noautocmd silent write')
     end
 
+    local oldtick = vfn.getbufvar(bufnr, 'changedtick')
+
     local args = vim.deepcopy(fmtargs)
-    table.insert(args, api.nvim_buf_get_name(bufnr))
+    local bufname = api.nvim_buf_get_name(bufnr)
+    table.insert(args, bufname)
 
     local old_lines = api.nvim_buf_get_lines(0, 0, -1, true)
     table.insert(args, 1, cmd)
@@ -26,18 +29,23 @@ local run = function(fmtargs, bufnr, cmd)
 
     local j = vfn.jobstart(command, {
         on_stdout = function(_, data, _)
+            -- if the changedtick incremented, the file was edited after the
+            -- format action. so the format result is outdated
+            local newtick = vfn.getbufvar(bufnr, 'changedtick')
+            if newtick > oldtick then
+                return
+            end
+
             data = utils.handle_job_data(data)
             if not data then
                 return
             end
             if not utils.check_same(old_lines, data) then
                 vim.notify('updating codes', vim.log.levels.DEBUG)
-                api.nvim_buf_set_lines(0, 0, -1, false, data)
+                api.nvim_buf_set_lines(bufnr, 0, -1, false, data)
                 vim.cmd('noautocmd silent write')
-            else
-                vim.notify('already formatted.', vim.log.levels.INFO)
+                vim.notify('autoformatted.', vim.log.levels.INFO)
             end
-            old_lines = nil
         end,
         on_stderr = function(_, data, _)
             data = utils.handle_job_data(data)
@@ -51,7 +59,7 @@ local run = function(fmtargs, bufnr, cmd)
             end
             old_lines = nil
             vim.defer_fn(function()
-                if vfn.getbufinfo('%')[1].changed == 1 then
+                if vfn.getbufinfo(bufnr)[1].changed == 1 then
                     vim.cmd('noautocmd silent write')
                 end
             end, 200)
@@ -133,7 +141,7 @@ local go = {
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoDoc' })
                 vim.keymap.set('n', '<leader>re', ':silent GoRename<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoRename' })
-                vim.keymap.set('n', '<leader>rc', ':GoCoverage -gcflags=all=-l<cr>',
+                vim.keymap.set('n', '<leader>rc', ':GoCoverage -t -gcflags=all=-l<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoCoverage' })
                 vim.keymap.set('n', '<leader>rm', ':GoCmt<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoCmt' })
