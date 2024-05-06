@@ -13,8 +13,8 @@ local lspsaga = {
         require("lspsaga").setup({
             lightbulb = {
                 enable = true,
-                sign = true,
-                virtual_text = false,
+                sign = false,
+                virtual_text = true,
             },
             definition = {
                 keys = {
