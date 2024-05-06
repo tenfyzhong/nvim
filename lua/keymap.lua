@@ -76,5 +76,9 @@ vim.keymap.set({ 'n' }, 'N', function() return vim.v.searchforward and 'N' or 'n
 vim.keymap.set({ 'n' }, '<esc><esc>', function() vim.cmd('nohlsearch') end, { silent = true })
 vim.keymap.set({ 'n' }, 'H', '0', { remap = false, desc = '0' })
 vim.keymap.set({ 'n' }, 'L', '$', { remap = false, desc = '$' })
-vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.format { async = false } end,
+vim.keymap.set('n', '<leader>af', function()
+        require('feature').format(function()
+            vim.lsp.buf.format { async = false }
+        end)
+    end,
     { remap = false, silent = true, desc = 'format' })
