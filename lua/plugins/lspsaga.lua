@@ -64,7 +64,6 @@ local lspsaga = {
             },
         })
     end,
-    enable = false,
     event = 'LspAttach',
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
