@@ -62,6 +62,12 @@ local lspsaga = {
                     jump = 'e',
                 },
             },
+            code_action = {
+                keys = {
+                    quit = { 'q', '<ESC>' },
+                    exec = '<cr>',
+                },
+            },
         })
     end,
     event = 'LspAttach',
