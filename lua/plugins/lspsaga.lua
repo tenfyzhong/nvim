@@ -7,26 +7,76 @@
 --]]
 
 local lspsaga = {
-    'glepnir/lspsaga.nvim',
+    'nvimdev/lspsaga.nvim',
     branch = "main",
     config = function()
         require("lspsaga").setup({
             lightbulb = {
-                enable = false,
+                enable = true,
+                sign = true,
+                virtual_text = false,
+            },
+            definition = {
+                keys = {
+                    edit = { 'o', '<cr>' },
+                    vsplit = 'v',
+                    split = 's',
+                    tabe = 't',
+                    -- quit = { 'q', '<ESC>' },
+                    close = { 'q', '<ESC>' },
+                },
+            },
+            callhierarchy = {
+                keys = {
+                    edit = { 'o', '<cr>' },
+                    vsplit = 'v',
+                    split = 's',
+                    tabe = 't',
+                    -- quit = { 'q', '<ESC>' },
+                    close = { 'q', '<ESC>' },
+                    shuttle = { '<c-l>', '<c-h>' },
+                    toggle_or_req = 'u',
+                },
+            },
+            diagnostic = {
+                keys = {
+                    quit = { 'q', '<ESC>' },
+                },
+            },
+            finder = {
+                keys = {
+                    shuttle = { '<c-l>', '<c-h>' },
+                    toggle_or_open = { 'o', '<cr>' },
+                    vsplit = 'v',
+                    split = 's',
+                    tabe = 't',
+                    tabnew = 'r',
+                    -- quit = { 'q', '<ESC>' },
+                    close = { 'q', '<ESC>' },
+                },
+            },
+            outline = {
+                keys = {
+                    toggle_or_jump = { 'o', '<cr>' },
+                    quit = { 'q', '<ESC>' },
+                    jump = 'e',
+                },
             },
         })
     end,
+    enable = false,
+    event = 'LspAttach',
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
 
         -- you can use <C-t> to jump back
-        { "gh",         "<cmd>silent Lspsaga lsp_finder<CR>",              mode = "n",          silent = true, remap = false },
+        { "gh",         "<cmd>silent Lspsaga finder<CR>",                  mode = "n",          silent = true, remap = false },
 
         -- Code action
         { "<leader>la", "<cmd>silent Lspsaga code_action<CR>",             mode = { "n", "v" }, silent = true, remap = false },
 
         -- Rename all occurrences of the hovered word for the entire file
-        { "<leader>lr", "<cmd>silent Lspsaga rename<CR>",                  mode = "n",          silent = true, remap = false },
+        { "<leader>re", "<cmd>silent Lspsaga rename<CR>",                  mode = "n",          silent = true, remap = false },
 
         -- Peek definition
         -- You can edit the file containing the definition in the floating window
@@ -76,7 +126,7 @@ local lspsaga = {
         },
 
         -- Toggle outline
-        { "<leader>lt", "<cmd>silent Lspsaga outline<CR>",          mode = "n",          silent = true, remap = false },
+        { "<leader>lt", "<cmd>silent Lspsaga outline<CR>",        mode = "n",          silent = true, remap = false },
 
         -- Hover Doc
         -- If there is no hover doc,
@@ -91,14 +141,14 @@ local lspsaga = {
         -- Note that if you use hover with ++keep, pressing this key again will
         -- close the hover window. If you want to jump to the hover window
         -- you should use the wincmd command "<C-w>w"
-        { "K",          "<cmd>silent Lspsaga hover_doc ++keep<CR>", mode = "n",          silent = true, remap = false },
+        { "K",          "<cmd>silent Lspsaga hover_doc<CR>",      mode = "n",          silent = true, remap = false },
 
         -- Call hierarchy
-        { "<Leader>li", "<cmd>silent Lspsaga incoming_calls<CR>",   mode = "n",          silent = true, remap = false },
-        { "<Leader>lo", "<cmd>silent Lspsaga outgoing_calls<CR>",   mode = "n",          silent = true, remap = false },
+        { "<Leader>li", "<cmd>silent Lspsaga incoming_calls<CR>", mode = "n",          silent = true, remap = false },
+        { "<Leader>lo", "<cmd>silent Lspsaga outgoing_calls<CR>", mode = "n",          silent = true, remap = false },
 
         -- Floating terminal
-        { "<A-d>",      "<cmd>silent Lspsaga term_toggle<CR>",      mode = { "n", "t" }, silent = true, remap = false },
+        { "<A-d>",      "<cmd>silent Lspsaga term_toggle<CR>",    mode = { "n", "t" }, silent = true, remap = false },
     },
 }
 
