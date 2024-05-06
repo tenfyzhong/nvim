@@ -17,6 +17,8 @@ local run = function(fmtargs, bufnr, cmd)
     end
 
     local oldtick = vfn.getbufvar(bufnr, 'changedtick')
+    local oldwinnr = vfn.winnr()
+    local winview = vfn.winsaveview()
 
     local args = vim.deepcopy(fmtargs)
     local bufname = api.nvim_buf_get_name(bufnr)
@@ -34,6 +36,15 @@ local run = function(fmtargs, bufnr, cmd)
             local newtick = vfn.getbufvar(bufnr, 'changedtick')
             if newtick > oldtick then
                 return
+            end
+
+            local newwinnr = vfn.winnr()
+            if newwinnr == oldwinnr then
+                local pos = vfn.getcurpos()
+                vfn.winrestview(winview)
+                -- the pos maybe not equal to the winview data
+                -- so we will move to the new pos after restview
+                vfn.setpos('.', pos)
             end
 
             data = utils.handle_job_data(data)
