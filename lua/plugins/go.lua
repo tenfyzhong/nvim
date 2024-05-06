@@ -17,8 +17,8 @@ local run = function(fmtargs, bufnr, cmd)
     end
 
     local oldtick = vfn.getbufvar(bufnr, 'changedtick')
-    local oldwinnr = vfn.winnr()
-    local winview = vfn.winsaveview()
+    -- local oldwinnr = vfn.winnr()
+    -- local winview = vfn.winsaveview()
 
     local args = vim.deepcopy(fmtargs)
     local bufname = api.nvim_buf_get_name(bufnr)
@@ -38,23 +38,37 @@ local run = function(fmtargs, bufnr, cmd)
                 return
             end
 
-            local newwinnr = vfn.winnr()
-            if newwinnr == oldwinnr then
-                local pos = vfn.getcurpos()
-                vfn.winrestview(winview)
-                -- the pos maybe not equal to the winview data
-                -- so we will move to the new pos after restview
-                vfn.setpos('.', pos)
-            end
-
             data = utils.handle_job_data(data)
             if not data then
                 return
             end
+
             if not utils.check_same(old_lines, data) then
                 vim.notify('updating codes', vim.log.levels.DEBUG)
+
+                vim.o.lazyredraw = true
+
+                -- save the winview belongs to the buffer
+                local winnrs = vfn.win_findbuf(bufnr)
+                for _, winnr in ipairs(winnrs) do
+                    vfn.win_execute(winnr, 'let w:go_view = winsaveview()')
+                end
+                vim.cmd('wshada')
+
+                -- format
                 api.nvim_buf_set_lines(bufnr, 0, -1, false, data)
                 vim.cmd('noautocmd silent write')
+
+                -- restore the winview belongs to the buf
+                for _, winnr in ipairs(winnrs) do
+                    vfn.win_execute(winnr, 'call winrestview(get(w:, "go_view", winsaveview()))')
+                end
+
+                vim.o.lazyredraw = false
+
+                vim.cmd('rshada')
+                vim.cmd('redraw!')
+
                 vim.notify('autoformatted.', vim.log.levels.INFO)
             end
         end,
