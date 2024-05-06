@@ -139,7 +139,7 @@ local go = {
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoDoc' })
                 vim.keymap.set('n', '<leader>re', ':silent GoRename<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoRename' })
-                vim.keymap.set('n', '<leader>rc', ':GoCoverage -t -gcflags=all=-l<cr>',
+                vim.keymap.set('n', '<leader>rc', ':GoCoverage -gcflags=all=-l<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoCoverage' })
                 vim.keymap.set('n', '<leader>rm', ':GoCmt<cr>',
                     { buffer = true, remap = false, silent = true, desc = 'go.nvim: GoCmt' })
