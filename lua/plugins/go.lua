@@ -46,27 +46,9 @@ local run = function(fmtargs, bufnr, cmd)
             if not utils.check_same(old_lines, data) then
                 vim.notify('updating codes', vim.log.levels.DEBUG)
 
-                vim.o.lazyredraw = true
-
-                -- save the winview belongs to the buffer
-                local winnrs = vfn.win_findbuf(bufnr)
-                for _, winnr in ipairs(winnrs) do
-                    vfn.win_execute(winnr, 'let w:go_view = winsaveview()')
-                end
-                vim.cmd('wshada')
-
-                -- format
-                api.nvim_buf_set_lines(bufnr, 0, -1, false, data)
-                vim.cmd('noautocmd silent write')
-
-                -- restore the winview belongs to the buf
-                for _, winnr in ipairs(winnrs) do
-                    vfn.win_execute(winnr, 'call winrestview(get(w:, "go_view", winsaveview()))')
-                end
-
-                vim.cmd('rshada')
-                vim.o.lazyredraw = false
-                vim.cmd('redraw!')
+                require('feature').format(function()
+                    api.nvim_buf_set_lines(bufnr, 0, -1, false, data)
+                end)
 
                 vim.notify('autoformatted.', vim.log.levels.INFO)
             end

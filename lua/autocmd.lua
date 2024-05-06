@@ -69,6 +69,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         if vim.bo.filetype == 'go' or vim.bo.filetype == 'markdown' then
             return
         end
-        vim.lsp.buf.format { async = false }
+        require('feature').format(function()
+            vim.lsp.buf.format { async = false }
+        end)
     end,
 })

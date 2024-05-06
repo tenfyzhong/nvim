@@ -29,3 +29,28 @@ function XXD()
     end
     vim.o.mod = mod
 end
+
+function format(fmt)
+    local bufnr = vim.api.nvim_get_current_buf()
+
+    vim.o.lazyredraw = true
+
+    local winnrs = vim.fn.win_findbuf(bufnr)
+    for _, winnr in ipairs(winnrs) do
+        vim.fn.win_execute(winnr, 'let w:go_view = winsaveview()')
+    end
+    vim.cmd('wshada')
+
+    fmt()
+
+    vim.cmd('noautocmd silent write')
+
+    -- restore the winview belongs to the buf
+    for _, winnr in ipairs(winnrs) do
+        vim.fn.win_execute(winnr, 'call winrestview(get(w:, "go_view", winsaveview()))')
+    end
+
+    vim.cmd('rshada')
+    vim.o.lazyredraw = false
+    vim.cmd('redraw!')
+end
