@@ -1,6 +1,4 @@
-module('feature', package.seeall)
-
-function PollNumber()
+function poll_number()
     if vim.o.number and vim.o.relativenumber then
         vim.o.number = true
         vim.o.relativenumber = false
@@ -13,7 +11,7 @@ function PollNumber()
     end
 end
 
-function XXD()
+function xxd()
     if vim.b.is_xxd == nil then
         vim.b.is_xxd = false
     end
@@ -54,3 +52,9 @@ function format(fmt)
     vim.o.lazyredraw = false
     vim.cmd('redraw!')
 end
+
+return {
+    poll_number = poll_number,
+    xxd = xxd,
+    format = format,
+}
