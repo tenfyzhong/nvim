@@ -64,9 +64,8 @@ local run = function(fmtargs, bufnr, cmd)
                     vfn.win_execute(winnr, 'call winrestview(get(w:, "go_view", winsaveview()))')
                 end
 
-                vim.o.lazyredraw = false
-
                 vim.cmd('rshada')
+                vim.o.lazyredraw = false
                 vim.cmd('redraw!')
 
                 vim.notify('autoformatted.', vim.log.levels.INFO)
