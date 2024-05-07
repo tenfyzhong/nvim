@@ -78,6 +78,8 @@ local function cmp_config()
             ['<S-Tab>'] = super_prev,
             ['<c-j>'] = super_next,
             ['<c-k>'] = super_prev,
+            ['<Down>'] = super_next,
+            ['<Up>'] = super_prev,
         },
         sources = cmp.config.sources({
             { name = 'nvim_lsp' },
