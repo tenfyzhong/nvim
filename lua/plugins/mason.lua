@@ -125,15 +125,12 @@ local mason = {
                     capabilities = capabilities,
                     cmd = { 'gopls' },
                     settings = {
+                        -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
                         gopls = {
                             analyses = {
-                                nilness = true,
-                                unusedparams = true,
-                                unusedwrite = true,
                                 useany = true,
                                 unusedvariable = true,
                                 fieldalignment = true,
-                                shadow = true,
                             },
                             experimentalPostfixCompletions = true,
                             gofumpt = true,
