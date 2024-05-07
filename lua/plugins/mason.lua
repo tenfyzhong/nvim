@@ -130,7 +130,7 @@ local mason = {
                             analyses = {
                                 useany = true,
                                 unusedvariable = true,
-                                fieldalignment = true,
+                                fieldalignment = false,
                             },
                             experimentalPostfixCompletions = true,
                             gofumpt = true,
