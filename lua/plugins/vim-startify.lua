@@ -1,6 +1,6 @@
 --[[
 - @file vim-startify.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 14:14:29
@@ -21,7 +21,7 @@ let g:startify_skiplist = [
             \ 'COMMIT_EDITMSG',
             \ ]
 
-let g:startify_custom_header = 
+let g:startify_custom_header =
             \['*---------------------------------------------------*',
             \ '| Open: b(buffer) s(split) v(vertical split) t(tab) |',
             \ '| Action: q(quit) e(empty buffer) i(insert) - tenfy |',

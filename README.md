@@ -1,8 +1,8 @@
 # nvim
-my neovim config. 
+my neovim config.
 
-# Install 
-1. Install lazy.nvim first: 
+# Install
+1. Install lazy.nvim first:
 ```sh
 git clone --filter=blob:none git@github.com:folke/lazy.nvim.git --branch=stable ~/.local/share/nvim/lazy/lazy.nvim
 ```

@@ -1,6 +1,6 @@
 --[[
 - @file nvim-autopairs.lua
-- @brief  
+- @brief
 - @author tenfyzhong
 - @email tenfy@tenfy.cn
 - @created 2023-01-27 18:42:42
