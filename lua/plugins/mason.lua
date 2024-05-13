@@ -17,7 +17,6 @@ local mason = {
 
         local pkg = {
             'bash-language-server',
-            'buf-language-server',
             'gofumpt',
             'goimports',
             'golines',
