@@ -22,8 +22,7 @@ vim.o.mouse = ''
 vim.o.wrap = true
 vim.o.wrapmargin = 0
 vim.o.textwidth = 79
-vim.o.colorcolumn = 120
-vim.o.backspace = 2
+vim.o.colorcolumn = "120"
 vim.opt.backspace:append { 'indent', 'eol', 'start' }
 vim.o.whichwrap = 'b,s,<,>,h,l'
 vim.o.formatoptions = 'tcrqn'
@@ -37,15 +36,14 @@ vim.o.showmatch = false
 vim.o.ruler = true
 vim.o.showmode = false
 vim.o.confirm = true
-vim.o.hisearch = true
+vim.o.hlsearch = true
 vim.o.incsearch = true
 vim.o.wildmenu = true
 vim.o.history = 500
 vim.o.cursorline = true
-vim.o.t_Co = 256
-vim.o.tabshop = 4
+vim.o.tabstop = 4
 vim.o.shiftwidth = 4
-vim.o.softtabshop = 4
+vim.o.softtabstop = 4
 vim.o.expandtab = true
 vim.o.smarttab = true
 vim.o.showtabline = 0
@@ -59,7 +57,6 @@ vim.opt.shada:append { "'0" }
 vim.o.belloff = 'all'
 vim.o.errorbells = false
 vim.o.visualbell = false
-vim.o.t_vb = ''
 vim.opt.sessionoptions:remove { 'buffers' }
 vim.o.updatetime = 200
 vim.opt.termguicolors = true
