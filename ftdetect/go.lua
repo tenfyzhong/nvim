@@ -5,5 +5,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         vim.bo.shiftwidth = 4
         vim.bo.softtabstop = 4
         vim.bo.expandtab = false
+        vim.opt_local.iskeyword:remove { '-' }
     end,
 })
