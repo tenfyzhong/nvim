@@ -33,7 +33,7 @@
   "fzf.vim": { "branch": "master", "commit": "71b0e0fb94f4cd5102fb0ece4fdccf2a97649367" },
   "gist.nvim": { "branch": "main", "commit": "92b13e486dd9fd083750450e0d262fcc68a62b91" },
   "gitsigns.nvim": { "branch": "main", "commit": "805610a9393fa231f2c2b49cb521bfa413fadb3d" },
-  "go.nvim": { "branch": "master", "commit": "4ad39d32fc648455dd4e8b6fbfa4c4fdd7a9805d" },
+  "go.nvim": { "branch": "master", "commit": "e80846dec565dac6418334cfc4eecc087678ff69" },
   "hop.nvim": { "branch": "master", "commit": "059e88e9dcaad3280ea1fd5c757f6904f274aed5" },
   "hydra.nvim": { "branch": "master", "commit": "55de54543d673824435930ecf533256eea2e565b" },
   "iptables-vim": { "branch": "master", "commit": "0447d4fa319a9228dbcf4d0f512a227be4c0b8ac" },

@@ -105,7 +105,7 @@ local imports = function(...)
 end
 
 local go = {
-    'tenfyzhong/go.nvim',
+    'ray-x/go.nvim',
     config = function()
         require('go').setup {
             lsp_gofumpt = true,
