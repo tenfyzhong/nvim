@@ -339,13 +339,12 @@ local cmp_git = {
 }
 
 local crates = {
-    "Saecki/crates.nvim",
+    "saecki/crates.nvim",
+    tag = 'stable',
     event = { "BufRead Cargo.toml" },
-    opts = {
-        src = {
-            cmp = { enabled = true },
-        },
-    },
+    config = function()
+        require('crates').setup()
+    end,
 }
 
 -- local codeium = {
