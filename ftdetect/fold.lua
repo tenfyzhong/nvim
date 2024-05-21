@@ -4,3 +4,10 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         vim.bo.foldmethod = 'indent'
     end,
 })
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+    pattern = { 'vim' },
+    callback = function()
+        vim.bo.foldmethod = 'marker'
+    end,
+})

@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-    pattern = { 'c' },
+    pattern = { 'markdown' },
     callback = function()
-        vim.opt_local.iskeyword:remove { '-' }
+        vim.bo.wrap = true
     end,
 })
