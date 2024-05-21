@@ -5,6 +5,7 @@ vim.filetype.add({
         kdl = 'kdl',
         mmd = 'mermaid',
         mermaid = 'mermaid',
+        coffee = 'coffee',
     },
     filename = {
         ['Cargo.toml'] = 'cargo.toml',
