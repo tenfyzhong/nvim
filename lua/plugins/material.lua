@@ -9,7 +9,7 @@
 local material = {
     'marko-cerovac/material.nvim',
     init = function()
-        -- vim.g.material_style = "deep ocean"
+        vim.g.material_style = "palenight"
     end,
     config = function()
         require('material').setup({
