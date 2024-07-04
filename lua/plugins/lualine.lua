@@ -7,7 +7,7 @@
 --]]
 local lualine = {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons', 'stevearc/dressing.nvim', 'nvim-telescope/telescope.nvim' },
     config = function()
         local pos = function()
             return string.format('%d/%d:%d', vim.fn.line('.'), vim.fn.line('$'), vim.fn.col('.'))
@@ -37,8 +37,8 @@ local lualine = {
                 lualine_c = { 'filename' },
                 lualine_x = { 'branch', 'diff', 'diagnostics' },
                 lualine_y = { pos, 'progress' },
-                -- lualine_z = {},
-                lualine_z = { 'overseer' },
+                lualine_z = {},
+                -- lualine_z = { 'overseer' },
             },
             inactive_sections = {
                 lualine_a = {},
