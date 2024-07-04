@@ -245,6 +245,36 @@ local cmp_git = {
         local format = require("cmp_git.format")
         local sort = require("cmp_git.sort")
 
+        local commits = {
+            label = function(trigger_char, commit)
+                return string.format("%s: %s", commit.sha, commit.title)
+            end,
+            filterText = function(trigger_char, commit)
+                -- If the trigger char is not part of the label, no items will show up
+                return string.format("%s %s %s", trigger_char, commit.sha, commit.title)
+            end,
+            insertText = function(trigger_char, commit)
+                if commit.description == nil or commit.description == '' then
+                    return string.format("%s", commit.title)
+                else
+                    return string.format("%s\n\n%s", commit.title, commit.description)
+                end
+            end,
+            documentation = function(trigger_char, commit)
+                return {
+                    kind = "markdown",
+                    value = string.format(
+                        "# %s\n\n%s\n\nCommited by %s (%s) on %s",
+                        commit.title,
+                        commit.description,
+                        commit.author_name,
+                        commit.author_mail,
+                        os.date("%c", commit.commit_timestamp)
+                    ),
+                }
+            end,
+        }
+
         require("cmp_git").setup({
             -- defaults
             filetypes = { "gitcommit", "octo" },
@@ -254,7 +284,8 @@ local cmp_git = {
                 commits = {
                     limit = 100,
                     sort_by = sort.git.commits,
-                    format = format.git.commits,
+                    -- format = format.git.commits,
+                    format = commits,
                 },
             },
             github = {
