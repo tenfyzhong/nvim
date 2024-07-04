@@ -42,6 +42,18 @@ local function cmp_config()
     local lspkind = require('lspkind')
 
     cmp.setup({
+        sorting = {
+            comparators = {
+                cmp.config.compare.offset,
+                cmp.config.compare.exact,
+                cmp.config.compare.sort_text,
+                cmp.config.compare.score,
+                cmp.config.compare.recently_used,
+                cmp.config.compare.kind,
+                cmp.config.compare.length,
+                cmp.config.compare.order,
+            },
+        },
         enabled = function()
             -- disable completion in comments
             local context = require 'cmp.config.context'
@@ -85,7 +97,6 @@ local function cmp_config()
             { name = 'nvim_lsp' },
             { name = 'nvim_lsp_signature_help' },
             { name = 'nvim_lua' },
-            { name = "git" },
             { name = 'vsnip' }, -- For vsnip users.
             -- { name = 'crates' },
             -- { name = "codeium" },
@@ -116,7 +127,7 @@ local function cmp_config()
     -- Set configuration for specific filetype.
     cmp.setup.filetype('gitcommit', {
         sources = cmp.config.sources({
-            { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+            { name = 'git' }, -- You can specify the `cmp_git` source if you were installed it.
             { name = 'vsnip' },
         }, {
             { name = 'buffer' },
@@ -125,8 +136,8 @@ local function cmp_config()
 
     cmp.setup.filetype('cargo.toml', {
         sources = cmp.config.sources({
-            { name = 'crates' }, -- You can specify the `cmp_git` source if you were installed it.
-            { name = 'vsnip' },  -- For vsnip users.
+            { name = 'crates' },
+            { name = 'vsnip' },
         })
     })
 
@@ -378,6 +389,7 @@ local nvim_cmp = {
         crates,
         -- codeium,
     },
+    event = { 'InsertEnter', 'CmdlineEnter' },
 }
 
 return {
