@@ -11,6 +11,7 @@ local fidget = {
     config = function()
         require "fidget".setup {}
     end,
+    event = 'LspAttach',
 }
 
 return { fidget }
