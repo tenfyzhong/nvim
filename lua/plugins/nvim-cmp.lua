@@ -254,11 +254,8 @@ local cmp_git = {
                 return string.format("%s %s %s", trigger_char, commit.sha, commit.title)
             end,
             insertText = function(trigger_char, commit)
-                if commit.description == nil or commit.description == '' then
-                    return string.format("%s", commit.title)
-                else
-                    return string.format("%s\n\n%s", commit.title, commit.description)
-                end
+                return (commit.description == nil or commit.description == '') and commit.title or
+                string.format("%s\n\n%s", commit.title, commit.description)
             end,
             documentation = function(trigger_char, commit)
                 return {
