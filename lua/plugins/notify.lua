@@ -9,6 +9,7 @@ local notify = {
         })
         vim.notify = notify
     end,
+    event = 'VeryLazy',
 }
 
 return { notify }
