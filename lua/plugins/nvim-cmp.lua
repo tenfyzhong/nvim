@@ -54,17 +54,17 @@ local function cmp_config()
                 cmp.config.compare.order,
             },
         },
-        enabled = function()
-            -- disable completion in comments
-            local context = require 'cmp.config.context'
-            -- keep command mode completion enabled when cursor is in a comment
-            if vim.api.nvim_get_mode().mode == 'c' then
-                return true
-            else
-                return not context.in_treesitter_capture("comment")
-                    and not context.in_syntax_group("Comment")
-            end
-        end,
+        -- enabled = function()
+        --     -- disable completion in comments
+        --     local context = require 'cmp.config.context'
+        --     -- keep command mode completion enabled when cursor is in a comment
+        --     if vim.api.nvim_get_mode().mode == 'c' then
+        --         return true
+        --     else
+        --         return not context.in_treesitter_capture("comment")
+        --             and not context.in_syntax_group("Comment")
+        --     end
+        -- end,
         snippet = {
             -- REQUIRED - you must specify a snippet engine
             expand = function(args)
@@ -244,7 +244,6 @@ local cmp_git = {
     config = function()
         local format = require("cmp_git.format")
         local sort = require("cmp_git.sort")
-
         local commits = {
             label = format.git.commits.label,
             filterText = format.git.commits.filterText,
@@ -254,6 +253,18 @@ local cmp_git = {
             end,
             documentation = format.git.commits.documentation,
         }
+
+        local github_hosts = { 'github.com' }
+        local github_private = os.getenv('GITHUB_PRIVATE_HOST')
+        if github_private then
+            github_hosts[#github_hosts + 1] = github_private
+        end
+
+        local gitlab_hosts = { 'gitlab.com' }
+        local gitlab_private = os.getenv('GITLAB_PRIVATE_HOST')
+        if gitlab_private then
+            gitlab_hosts[#gitlab_hosts + 1] = gitlab_private
+        end
 
         require("cmp_git").setup({
             -- defaults
@@ -269,7 +280,7 @@ local cmp_git = {
                 },
             },
             github = {
-                hosts = { 'github.com' }, -- list of private instances of github
+                hosts = github_hosts, -- list of private instances of github
                 issues = {
                     fields = { "title", "number", "body", "updatedAt", "state" },
                     filter = "all", -- assigned, created, mentioned, subscribed, all, repos
@@ -292,7 +303,7 @@ local cmp_git = {
                 },
             },
             gitlab = {
-                hosts = { 'gitlab.com' }, -- list of private instances of gitlab
+                hosts = gitlab_hosts, -- list of private instances of gitlab
                 issues = {
                     limit = 100,
                     state = "opened", -- opened, closed, all
