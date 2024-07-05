@@ -12,6 +12,7 @@ local material = {
         vim.g.material_style = "palenight"
     end,
     config = function()
+        local colors = require 'material.colors'
         require('material').setup({
 
             contrast = {
@@ -40,7 +41,7 @@ local material = {
                 "dap",
                 -- "dashboard",
                 -- "eyeliner",
-                -- "fidget",
+                "fidget",
                 -- "flash",
                 "gitsigns",
                 -- "harpoon",
@@ -51,16 +52,16 @@ local material = {
                 -- "mini",
                 "neogit",
                 -- "neotest",
-                "neo-tree",
+                -- "neo-tree",
                 -- "neorg",
                 -- "noice",
                 "nvim-cmp",
                 -- "nvim-navic",
-                -- "nvim-tree",
-                -- "nvim-web-devicons",
+                "nvim-tree",
+                "nvim-web-devicons",
                 -- "rainbow-delimiters",
                 -- "sneak",
-                -- "telescope",
+                "telescope",
                 -- "trouble",
                 -- "which-key",
                 "nvim-notify",
@@ -86,7 +87,13 @@ local material = {
             custom_colors = nil,       -- If you want to override the default colors, set this to a function
 
             custom_highlights = {
-                Visual = { bg = "#FFFFCC" }
+                Folded = { bg = '#4F4E4E' },
+                Visual = { bg = "#066378" },
+                CurSearch = { bg = '#2970CC' },
+                IncSearch = { bg = '#1D477D' },
+                Search = { bg = '#1D477D' },
+                Cursor = { bg = '#F0F0F0' },
+                IlluminatedWordText = { bg = '#5E67A5' },
             }, -- Overwrite highlights with your own
         })
     end,
