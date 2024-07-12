@@ -6,8 +6,14 @@
 - @created 2024-07-08 13:45:54
 --]]
 local comments = {
-  "folke/ts-comments.nvim",
-  event = "VeryLazy",
+    "folke/ts-comments.nvim",
+    event = "VeryLazy",
+    opts = {
+        lang = {
+            thrift = "// %s",
+            proto = "// %s",
+        }
+    }
 }
 
-return {comments}
+return { comments }
