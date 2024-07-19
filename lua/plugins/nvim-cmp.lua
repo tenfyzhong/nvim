@@ -83,7 +83,7 @@ local function cmp_config()
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-d>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
             ['<c-n>'] = cmp.mapping.select_next_item(),
             ['<c-p>'] = cmp.mapping.select_prev_item(),
             ['<Tab>'] = super_next,
