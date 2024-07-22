@@ -31,6 +31,8 @@ local tree = {
                 mappings = {
                     ["S"] = "noop",
                     ["/"] = "noop",
+                    ["<c-b>"] = "noop",
+                    ["<c-f>"] = "noop",
                     ["s"] = { command = 'open_split' },
                     ["v"] = { command = 'open_vsplit' },
                     ["<esc>"] = {
