@@ -8,6 +8,7 @@
 
 local axring = {
     'tenfyzhong/axring.vim',
+    dependencies = { 'tpope/vim-repeat' },
     config = function()
         vim.g.axring_rings = {
             { '&&',      '||' },
