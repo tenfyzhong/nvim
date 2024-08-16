@@ -21,7 +21,7 @@ local function cmp_config()
 
     local super_next = cmp.mapping(function(fallback)
         if cmp.visible() then
-            cmp.select_next_item()
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
         elseif vim.fn["vsnip#available"](1) == 1 then
             feedkey("<Plug>(vsnip-expand-or-jump)", "")
             -- elseif has_words_before() then
@@ -31,11 +31,37 @@ local function cmp_config()
         end
     end, { "i", "s" })
 
-    local super_prev = cmp.mapping(function()
+    local super_prev = cmp.mapping(function(fallback)
         if cmp.visible() then
-            cmp.select_prev_item()
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
         elseif vim.fn["vsnip#jumpable"](-1) == 1 then
             feedkey("<Plug>(vsnip-jump-prev)", "")
+        else
+            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        end
+    end, { "i", "s" })
+
+    local snip_jump_next = cmp.mapping(function(fallback)
+        if vim.fn["vsnip#available"](1) == 1 then
+            feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        else
+            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        end
+    end, { "i", "s" })
+
+    local snip_jump_prev = cmp.mapping(function(fallback)
+        if vim.fn["vsnip#available"](-1) == 1 then
+            feedkey("<Plug>(vsnip-jump-prev)", "")
+        else
+            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        end
+    end, { "i", "s" })
+
+    local abort = cmp.mapping(function(fallback)
+        if cmp.visible() then
+            cmp.abort()
+        else
+            fallback()
         end
     end, { "i", "s" })
 
@@ -44,13 +70,11 @@ local function cmp_config()
     cmp.setup({
         sorting = {
             comparators = {
-                cmp.config.compare.offset,
-                cmp.config.compare.exact,
                 cmp.config.compare.sort_text,
-                cmp.config.compare.score,
                 cmp.config.compare.recently_used,
-                cmp.config.compare.kind,
+                cmp.config.compare.score,
                 cmp.config.compare.length,
+                cmp.config.compare.kind,
                 cmp.config.compare.order,
             },
         },
@@ -82,8 +106,9 @@ local function cmp_config()
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-d>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            -- ['<C-d>'] = cmp.mapping.abort(),
+            ['<C-e>'] = abort,
+            ['<CR>'] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace }),
             ['<c-n>'] = cmp.mapping.select_next_item(),
             ['<c-p>'] = cmp.mapping.select_prev_item(),
             ['<Tab>'] = super_next,
@@ -131,7 +156,19 @@ local function cmp_config()
             { name = 'vsnip' },
         }, {
             { name = 'buffer' },
-        })
+        }),
+        sorting = {
+            comparators = {
+                cmp.config.compare.offset,
+                cmp.config.compare.exact,
+                cmp.config.compare.sort_text,
+                cmp.config.compare.score,
+                cmp.config.compare.recently_used,
+                cmp.config.compare.kind,
+                cmp.config.compare.length,
+                cmp.config.compare.order,
+            },
+        },
     })
 
     cmp.setup.filetype('cargo.toml', {
