@@ -66,7 +66,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     group = init_group,
     pattern = '*',
     callback = function()
-        if vim.bo.filetype == 'go' or vim.bo.filetype == 'markdown' then
+        if vim.bo.filetype == 'go' or vim.bo.filetype == 'markdown' or vim.bo.filetype == 'thrift' or vim.bo.filetype == 'protobuf' then
             return
         end
         require('feature').format(function()
