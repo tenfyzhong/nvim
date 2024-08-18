@@ -24,8 +24,8 @@ local function cmp_config()
             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
         elseif vim.fn["vsnip#available"](1) == 1 then
             feedkey("<Plug>(vsnip-expand-or-jump)", "")
-            -- elseif has_words_before() then
-            --     cmp.complete()
+        elseif has_words_before() then
+            cmp.complete()
         else
             fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
         end
@@ -44,6 +44,8 @@ local function cmp_config()
     local snip_jump_next = cmp.mapping(function(fallback)
         if vim.fn["vsnip#available"](1) == 1 then
             feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        elseif cmp.visible() then
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
         else
             fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
         end
@@ -52,6 +54,8 @@ local function cmp_config()
     local snip_jump_prev = cmp.mapping(function(fallback)
         if vim.fn["vsnip#available"](-1) == 1 then
             feedkey("<Plug>(vsnip-jump-prev)", "")
+        elseif cmp.visible() then
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
         else
             fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
         end
@@ -105,16 +109,15 @@ local function cmp_config()
         mapping = {
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            -- ['<C-d>'] = cmp.mapping.abort(),
+            -- ['<C-d>'] = cmp.mapping.complete(),
             ['<C-e>'] = abort,
-            ['<CR>'] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace }),
+            ['<CR>'] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Insert }),
             ['<c-n>'] = cmp.mapping.select_next_item(),
             ['<c-p>'] = cmp.mapping.select_prev_item(),
             ['<Tab>'] = super_next,
             ['<S-Tab>'] = super_prev,
-            ['<c-j>'] = super_next,
-            ['<c-k>'] = super_prev,
+            ['<c-j>'] = snip_jump_next,
+            ['<c-k>'] = snip_jump_prev,
             ['<Down>'] = super_next,
             ['<Up>'] = super_prev,
         },
