@@ -13,10 +13,10 @@ local substitute = {
         }
     end,
     keys = {
-        { "s",  "<cmd>lua require('substitute').operator()<cr>", mode = "n", noremap = true, desc = 'substitute: operator' },
-        { "ss", "<cmd>lua require('substitute').line()<cr>",     mode = "n", noremap = true, desc = 'substitute: line' },
-        { "S",  "<cmd>lua require('substitute').eol()<cr>",      mode = "n", noremap = true, desc = 'substitute: eol' },
-        { "s",  "<cmd>lua require('substitute').visual()<cr>",   mode = "x", noremap = true, desc = 'substitute: visual' },
+        { "s",  function() require('substitute').operator() end, mode = "n", noremap = true, desc = 'substitute: operator' },
+        { "ss", function() require('substitute').line() end,     mode = "n", noremap = true, desc = 'substitute: line' },
+        { "S",  function() require('substitute').eol() end,      mode = "n", noremap = true, desc = 'substitute: eol' },
+        { "s",  function() require('substitute').visual() end,   mode = "x", noremap = true, desc = 'substitute: visual' },
     },
 }
 
