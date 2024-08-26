@@ -94,6 +94,7 @@ local material = {
                 Search = { bg = '#1D477D' },
                 Cursor = { bg = '#F0F0F0' },
                 IlluminatedWordText = { bg = '#5E67A5' },
+                LineNr = { fg = '#2e5343' }
             }, -- Overwrite highlights with your own
         })
     end,
