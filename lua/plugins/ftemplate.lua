@@ -8,7 +8,7 @@
 local ftemplate = {
     'tenfyzhong/ftemplate.vim',
     config = function()
-        vim.g.ftemplate_ignore_ft = { 'go' }
+        vim.g.ftemplate_ignore_ft = { 'go', 'lua' }
     end,
 }
 
