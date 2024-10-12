@@ -19,7 +19,7 @@ local bigfile = {
                 local file_contents = vim.fn.readfile(vim.api.nvim_buf_get_name(bufnr))
                 local file_length = #file_contents
                 local filetype = vim.filetype.match({ buf = bufnr })
-                if file_length > 5000 and filetype == "thrift" then
+                if file_length > 2000 and filetype == "thrift" then
                     return true
                 end
                 return false
@@ -36,6 +36,7 @@ local bigfile = {
             },
         })
     end,
+    enable = false,
 }
 
 return { bigfile }
