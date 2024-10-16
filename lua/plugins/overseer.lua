@@ -21,7 +21,9 @@ local overseer = {
     config = function()
         require('overseer').setup({
             templates = { 'builtin', 'custom' },
-            direction = "left",
+            task_list = {
+                direction = "left",
+            },
             -- Aliases for bundles of components. Redefine the builtins, or create your own.
             component_aliases = {
                 -- Most tasks are initialized with the default components
