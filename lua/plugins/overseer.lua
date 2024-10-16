@@ -21,6 +21,23 @@ local overseer = {
     config = function()
         require('overseer').setup({
             templates = { 'builtin', 'custom' },
+            direction = "left",
+            -- Aliases for bundles of components. Redefine the builtins, or create your own.
+            component_aliases = {
+                -- Most tasks are initialized with the default components
+                default = {
+                    { "display_duration",    detail_level = 2 },
+                    "on_output_summarize",
+                    "on_exit_set_status",
+                    { "on_complete_notify",  system = "always" },
+                    { "on_complete_dispose", require_view = { "SUCCESS", "FAILURE" } },
+                },
+                -- Tasks from tasks.json use these components
+                default_vscode = {
+                    "default",
+                    "on_result_diagnostics",
+                },
+            },
         })
     end,
     cmd = {
