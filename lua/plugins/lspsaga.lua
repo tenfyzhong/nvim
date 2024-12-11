@@ -34,7 +34,7 @@ local lspsaga = {
                     tabe = 't',
                     -- quit = { 'q', '<ESC>' },
                     close = { 'q', '<ESC>' },
-                    shuttle = { '<c-l>', '<c-h>' },
+                    shuttle = { '<leader>l', '<leader>h' },
                     toggle_or_req = 'u',
                 },
             },
@@ -45,7 +45,7 @@ local lspsaga = {
             },
             finder = {
                 keys = {
-                    shuttle = { '<c-l>', '<c-h>' },
+                    shuttle = { '<leader>l', '<leader>h' },
                     toggle_or_open = { 'o', '<cr>' },
                     vsplit = 'v',
                     split = 's',
