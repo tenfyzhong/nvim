@@ -30,6 +30,8 @@ local function deepseek_adapter()
             api_key = os.getenv("DEEPSEEK_API_KEY"),
             chat_url = os.getenv("DEEPSEEK_CHAT_URL"),
         },
+        name = "deepseek",
+        formatted_name = "Deepseek",
         handlers = {
             chat_output = handle_chat_output,
         },
@@ -57,6 +59,17 @@ local codecompanion = {
     "olimorris/codecompanion.nvim",
     config = function()
         require('codecompanion').setup({
+            display = {
+                chat = {
+                    icons = {
+                        pinned_buffer = " ",
+                        watched_buffer = "👀 ",
+                    },
+                },
+                token_count = function(tokens, adapter)
+                    return " (" .. tokens .. " tokens)"
+                end,
+            },
             adapters = {
                 deepseek = deepseek_adapter,
             },
