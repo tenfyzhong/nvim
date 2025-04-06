@@ -63,3 +63,5 @@ vim.opt.termguicolors = true
 vim.o.undofile = true
 
 vim.o.background = 'dark'
+
+vim.diagnostic.config({ virtual_text = true })
