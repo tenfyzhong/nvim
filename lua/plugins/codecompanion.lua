@@ -23,21 +23,21 @@ local function handle_chat_output(self, data)
     end
 end
 
-local function deepseek_adapter()
+local function deepseek_adapter(name, formatted_name, model_name)
     return require("codecompanion.adapters").extend("openai_compatible", {
         env = {
             url = os.getenv("DEEPSEEK_API_URL"),
             api_key = os.getenv("DEEPSEEK_API_KEY"),
             chat_url = os.getenv("DEEPSEEK_CHAT_URL"),
         },
-        name = "deepseek",
-        formatted_name = "Deepseek",
+        name = name,
+        formatted_name = formatted_name,
         handlers = {
             chat_output = handle_chat_output,
         },
         schema = {
             model = {
-                default = os.getenv("DEEPSEEK_MODEL_ID"),
+                default = model_name,
             },
             temperature = {
                 order = 2,
@@ -53,6 +53,14 @@ local function deepseek_adapter()
             },
         },
     })
+end
+
+local function deepseek_adapter_v3()
+    return deepseek_adapter("deepseek_v3", "Deepseek-V3", os.getenv("DEEPSEEK_MODEL_V3_ID"))
+end
+
+local function deepseek_adapter_r1()
+    return deepseek_adapter("deepseek_r1", "Deepseek-R1", os.getenv("DEEPSEEK_MODEL_R1_ID"))
 end
 
 local codecompanion = {
@@ -71,14 +79,15 @@ local codecompanion = {
                 end,
             },
             adapters = {
-                deepseek = deepseek_adapter,
+                deepseek_r1 = deepseek_adapter_r1,
+                deepseek_v3 = deepseek_adapter_v3,
             },
             strategies = {
                 chat = {
-                    adapter = "deepseek",
+                    adapter = "deepseek_r1",
                 },
                 inline = {
-                    adapter = "deepseek",
+                    adapter = "deepseek_r1",
                 },
             },
             opts = {
