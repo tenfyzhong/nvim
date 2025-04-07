@@ -79,6 +79,9 @@ local codecompanion = {
                 end,
             },
             adapters = {
+                opts = {
+                    show_defaults = false,
+                },
                 deepseek_r1 = deepseek_adapter_r1,
                 deepseek_v3 = deepseek_adapter_v3,
             },
