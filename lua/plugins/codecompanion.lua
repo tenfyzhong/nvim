@@ -1,66 +1,68 @@
-local function clean_streamed_data(data)
-    if type(data) == "table" then
-        return data.body
-    end
-    local find_json_start = string.find(data, "{") or 1
-    return string.sub(data, find_json_start)
-end
-
-local function handle_chat_output(self, data)
+---Output the data from the API ready for insertion into the chat buffer
+---@param self CodeCompanion.Adapter
+---@param data table The streamed JSON data from the API, also formatted by the format_data handler
+---@return { status: string, output: { role: string, content: string, reasoning: string? } } | nil
+local function chat_output(self, data)
     local output = {}
+
+    local utils = require("codecompanion.utils.adapters")
+
     if data and data ~= "" then
-        local data_mod = clean_streamed_data(data)
+        local data_mod = utils.clean_streamed_data(data)
         local ok, json = pcall(vim.json.decode, data_mod, { luanil = { object = true } })
+
         if ok and json.choices and #json.choices > 0 then
             local choice = json.choices[1]
             local delta = (self.opts and self.opts.stream) and choice.delta or choice.message
+
             if delta then
-                output.role = delta.role or nil
-                output.content = (delta.reasoning_content or "") .. (delta.content or "")
-                return { status = "success", output = output }
+                output.role = nil
+                if delta.role then
+                    output.role = delta.role
+                end
+                if delta.reasoning_content then
+                    output.reasoning = delta.reasoning_content
+                end
+                if delta.content and delta.content ~= "" then
+                    output.content = (output.content or "") .. delta.content
+                end
+                return {
+                    status = "success",
+                    output = output,
+                }
             end
         end
     end
 end
 
-local function deepseek_adapter(name, formatted_name, model_name)
-    return require("codecompanion.adapters").extend("openai_compatible", {
+local function deepseek_adapter_ark(name, formatted_name, model_id, can_reason)
+    return require("codecompanion.adapters").extend("deepseek", {
+        url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
         env = {
-            url = os.getenv("DEEPSEEK_API_URL"),
             api_key = os.getenv("DEEPSEEK_API_KEY"),
-            chat_url = os.getenv("DEEPSEEK_CHAT_URL"),
         },
         name = name,
         formatted_name = formatted_name,
         handlers = {
-            chat_output = handle_chat_output,
+            chat_output = chat_output,
         },
         schema = {
             model = {
-                default = model_name,
-            },
-            temperature = {
-                order = 2,
-                mapping = "parameters",
-                type = "number",
-                optional = true,
-                default = 0.0,
-                desc =
-                "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
-                validate = function(n)
-                    return n >= 0 and n <= 2, "Must be between 0 and 2"
-                end,
+                default = model_id,
+                choices = {
+                    [model_id] = { opts = { can_reason = can_reason } },
+                },
             },
         },
     })
 end
 
-local function deepseek_adapter_v3()
-    return deepseek_adapter("deepseek_v3", "Deepseek-V3", os.getenv("DEEPSEEK_MODEL_V3_ID"))
+local function deepseek_adapter_ark_r1()
+    return deepseek_adapter_ark("deepseek_r1", "DeepSeek-R1", os.getenv("DEEPSEEK_MODEL_R1_ID"), true)
 end
 
-local function deepseek_adapter_r1()
-    return deepseek_adapter("deepseek_r1", "Deepseek-R1", os.getenv("DEEPSEEK_MODEL_R1_ID"))
+local function deepseek_adapter_ark_v3()
+    return deepseek_adapter_ark("deepseek_v3", "DeepSeek-V3", os.getenv("DEEPSEEK_MODEL_V3_ID"), false)
 end
 
 local codecompanion = {
@@ -82,8 +84,8 @@ local codecompanion = {
                 opts = {
                     show_defaults = false,
                 },
-                deepseek_r1 = deepseek_adapter_r1,
-                deepseek_v3 = deepseek_adapter_v3,
+                deepseek_r1 = deepseek_adapter_ark_r1,
+                deepseek_v3 = deepseek_adapter_ark_v3,
             },
             strategies = {
                 chat = {
