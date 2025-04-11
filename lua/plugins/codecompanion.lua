@@ -112,6 +112,11 @@ local codecompanion = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
     },
+    cmd = { 'CodeCompanion', 'CodeCompanionCmd', 'CodeCompanionChat', 'CodeCompanionActions' },
+    keys = {
+        { '<leader>cc', ':CodeCompanionChat Toggle<cr>', silent = true, remap = false, desc = 'codecompanion: CodeCompanionChat' },
+        { '<leader>ca', ':CodeCompanionActions<cr>',     silent = true, remap = false, desc = 'codecompanion: CodeCompanionActions' },
+    }
 }
 
 return { codecompanion }
