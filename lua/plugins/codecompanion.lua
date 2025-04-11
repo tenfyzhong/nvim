@@ -90,7 +90,17 @@ local codecompanion = {
                     adapter = "deepseek_r1",
                 },
                 inline = {
-                    adapter = "deepseek_r1",
+                    adapter = "deepseek_v3",
+                    keymaps = {
+                        accept_change = {
+                            modes = { n = "ga" },
+                            description = "Accept the suggested change",
+                        },
+                        reject_change = {
+                            modes = { n = "gr" },
+                            description = "Reject the suggested change",
+                        },
+                    },
                 },
             },
             opts = {
