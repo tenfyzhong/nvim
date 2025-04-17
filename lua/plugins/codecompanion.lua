@@ -105,9 +105,9 @@ local codecompanion = {
                     },
                 },
             },
-            opts = {
-                language = "Chinese",
-            },
+            -- opts = {
+            --     language = "Chinese",
+            -- },
         })
     end,
     dependencies = {
