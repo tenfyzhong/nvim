@@ -89,7 +89,7 @@ local codecompanion = {
             },
             strategies = {
                 chat = {
-                    adapter = "deepseek_r3",
+                    adapter = "deepseek_v3",
                 },
                 inline = {
                     adapter = "deepseek_v3",
