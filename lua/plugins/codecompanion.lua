@@ -35,11 +35,11 @@ local function chat_output(self, data)
     end
 end
 
-local function deepseek_adapter_ark(name, formatted_name, model_id, can_reason)
+local function deepseek_adapter(url, api_key, name, formatted_name, model_id, can_reason)
     return require("codecompanion.adapters").extend("deepseek", {
-        url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
+        url = url,
         env = {
-            api_key = os.getenv("DEEPSEEK_API_KEY"),
+            api_key = api_key,
         },
         name = name,
         formatted_name = formatted_name,
@@ -57,12 +57,21 @@ local function deepseek_adapter_ark(name, formatted_name, model_id, can_reason)
     })
 end
 
-local function deepseek_adapter_ark_r1()
-    return deepseek_adapter_ark("deepseek_r1", "DeepSeek-R1", os.getenv("DEEPSEEK_MODEL_R1_ID"), true)
-end
+-- provider: ARK/OPENROUTER
+-- model_type: R1/V3
+-- can_reason: true/false
+local function deepseek_adapter_gen(provider, model_type, can_reason)
+    local env_url = provider .. "_DEEPSEEK_API_URL"
+    local env_key = provider .. "_DEEPSEEK_API_KEY"
+    local env_model = provider .. "_DEEPSEEK_MODEL_ID_" .. model_type
+    local url = os.getenv(env_url)
+    local key = os.getenv(env_key)
+    local model_id = os.getenv(env_model)
 
-local function deepseek_adapter_ark_v3()
-    return deepseek_adapter_ark("deepseek_v3", "DeepSeek-V3", os.getenv("DEEPSEEK_MODEL_V3_ID"), false)
+    local name = "DeepSeek-" .. model_type
+    local formatted_name = provider .. "-DeepSeek-" .. model_type
+
+    return deepseek_adapter(url, key, name, formatted_name, model_id, can_reason)
 end
 
 local codecompanion = {
@@ -84,15 +93,17 @@ local codecompanion = {
                 opts = {
                     show_defaults = false,
                 },
-                deepseek_r1 = deepseek_adapter_ark_r1,
-                deepseek_v3 = deepseek_adapter_ark_v3,
+                ark_deepseek_r1 = deepseek_adapter_gen("ARK", "R1", true),
+                ark_deepseek_v3 = deepseek_adapter_gen("ARK", "V3", false),
+                -- openrouter_deepseek_r1 = deepseek_adapter_gen("OPENROUTER", "R1", true),
+                -- openrouter_deepseek_v3 = deepseek_adapter_gen("OPENROUTER", "V3", false),
             },
             strategies = {
                 chat = {
-                    adapter = "deepseek_v3",
+                    adapter = "ark_deepseek_v3",
                 },
                 inline = {
-                    adapter = "deepseek_v3",
+                    adapter = "ark_deepseek_v3",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
