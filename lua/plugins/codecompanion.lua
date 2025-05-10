@@ -57,6 +57,29 @@ local function deepseek_adapter(url, api_key, name, formatted_name, model_id, ca
     })
 end
 
+local function grok_adapter(name, formatted_name, model_id, can_reason)
+    return require("codecompanion.adapters").extend("xai", {
+        env = {
+            api_key = os.getenv("GROK_API_KEY")
+        },
+        handlers = {
+            chat_output = chat_output,
+        },
+        name = name,
+        formatted_name = formatted_name,
+        schema = {
+            model = {
+                -- default = "grok-3-beta",
+                default = model_id,
+                choices = {
+                    [model_id] = { opts = { can_reason = can_reason } },
+                    -- ["grok-3-mini-beta"] = { opts = { can_reason = true } },
+                },
+            },
+        }
+    })
+end
+
 -- provider: ARK/OPENROUTER
 -- model_type: R1/V3
 -- can_reason: true/false
@@ -95,15 +118,17 @@ local codecompanion = {
                 },
                 ark_deepseek_r1 = deepseek_adapter_gen("ARK", "R1", true),
                 ark_deepseek_v3 = deepseek_adapter_gen("ARK", "V3", false),
+                grok_3 = grok_adapter("XAI-GROK-3", "XAI-GROK-3", "grok-3-beta", false),
+                grok_3_mini = grok_adapter("XAI-Grok-mini-3", "XAI-Grok-Mini-3", "grok-3-mini-beta", true),
                 -- openrouter_deepseek_r1 = deepseek_adapter_gen("OPENROUTER", "R1", true),
                 -- openrouter_deepseek_v3 = deepseek_adapter_gen("OPENROUTER", "V3", false),
             },
             strategies = {
                 chat = {
-                    adapter = "ark_deepseek_v3",
+                    adapter = "grok_3",
                 },
                 inline = {
-                    adapter = "ark_deepseek_v3",
+                    adapter = "grok_3",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
