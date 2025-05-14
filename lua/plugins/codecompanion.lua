@@ -73,8 +73,20 @@ local function xai_adapter(name, formatted_name, model_id, can_reason)
                 default = model_id,
                 choices = {
                     [model_id] = { opts = { can_reason = can_reason } },
-                    -- ["grok-3-mini-beta"] = { opts = { can_reason = true } },
                 },
+            },
+        }
+    })
+end
+
+local function gemini_adapter()
+    return require("codecompanion.adapters").extend("gemini", {
+        env = {
+            api_key = os.getenv("GEMINI_API_KEY")
+        },
+        schema = {
+            model = {
+                default = "gemini-2.0-flash",
             },
         }
     })
@@ -115,11 +127,13 @@ local codecompanion = {
             adapters = {
                 opts = {
                     show_defaults = false,
+                    show_model_choices = false,
                 },
                 ark_deepseek_r1 = deepseek_adapter_gen("ARK", "R1", true),
                 ark_deepseek_v3 = deepseek_adapter_gen("ARK", "V3", false),
                 grok_3 = xai_adapter("XAI-Grok-3", "XAI-Grok-3", "grok-3-beta", false),
                 grok_3_mini = xai_adapter("XAI-Grok-mini-3", "XAI-Grok-Mini-3", "grok-3-mini-beta", true),
+                gemini = gemini_adapter(),
             },
             strategies = {
                 chat = {
