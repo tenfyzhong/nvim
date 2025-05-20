@@ -10,7 +10,7 @@ local gemini = {
         'GeminiTask',
         'GeminiApply',
         'GeminiUnitTest',
-        'GeminiCodeReivew',
+        'GeminiCodeReview',
         'GeminiCodeExplain',
         'GeminiFunctionHint',
     }
