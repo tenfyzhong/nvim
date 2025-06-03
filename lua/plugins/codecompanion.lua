@@ -137,10 +137,10 @@ local codecompanion = {
             },
             strategies = {
                 chat = {
-                    adapter = "grok_3",
+                    adapter = "ark_deepseek_v3",
                 },
                 inline = {
-                    adapter = "grok_3",
+                    adapter = "ark_deepseek_v3",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
