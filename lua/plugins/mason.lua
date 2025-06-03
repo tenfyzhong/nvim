@@ -141,6 +141,12 @@ local mason = {
                     on_attach = on_attach,
                 }
             end,
+            ["rust_analyzer"] = function()
+                local rust_toolchain = "nightly" -- or read from rust-toolchain.toml
+                require("lspconfig").rust_analyzer.setup({
+                    cmd = { "rustup", "run", rust_toolchain, "rust-analyzer" },
+                })
+            end,
         }
     end,
     dependencies = {
