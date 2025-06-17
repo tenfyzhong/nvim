@@ -74,3 +74,11 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         end)
     end,
 })
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+    group = init_group,
+    pattern = '.envrc',
+    callback = function()
+        vim.cmd('!direnv allow')
+    end,
+})
