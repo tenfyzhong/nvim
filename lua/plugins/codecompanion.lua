@@ -86,7 +86,7 @@ local function gemini_adapter()
         },
         schema = {
             model = {
-                default = "gemini-2.0-flash",
+                default = os.getenv("GEMINI_FLASH_FREE_LATEST"),
             },
         }
     })
