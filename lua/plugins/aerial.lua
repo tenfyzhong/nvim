@@ -286,11 +286,10 @@ local aerial = {
     'stevearc/aerial.nvim',
     config = aerial_config,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    cmd = { 'AerialToggle' },
-    keys = {
-        { '<leader>tb', '<cmd>AerialToggle!<CR>', mode = 'n', silent = true, desc = 'aerial: AerialToggle' },
-    },
-    event = 'VeryLazy',
+    -- cmd = { 'AerialToggle' },
+    -- keys = {
+    --     { '<leader>tb', '<cmd>AerialToggle!<CR>', mode = 'n', silent = true, desc = 'aerial: AerialToggle' },
+    -- },
 }
 
 return { aerial }
