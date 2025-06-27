@@ -17,7 +17,8 @@ local augment = {
         vim.keymap.set('n', '<leader>aa', ':Augment<CR>', { desc = 'Open Augment' })
         vim.keymap.set('n', '<leader>ac', ':Augment chat<CR>', { desc = 'Augment Chat' })
         vim.keymap.set('v', '<leader>ac', ':Augment chat<CR>', { desc = 'Augment Chat with selection' })
-        vim.keymap.set('i', '<c-l>', '<cmd>call augment#Accept()<cr>', { desc = 'Accpet Augment suggestion' })
+        vim.keymap.set('i', '<c-e>', '<cmd>call augment#Accept()<cr>', { desc = 'Accpet Augment suggestion' })
+
 
         local augment_user = vim.api.nvim_create_augroup('augment_user', {})
         vim.api.nvim_create_autocmd("VimEnter", {
