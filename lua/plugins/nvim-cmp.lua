@@ -127,7 +127,7 @@ local function cmp_config()
             { name = 'nvim_lua' },
             { name = 'vsnip' }, -- For vsnip users.
             -- { name = 'crates' },
-            -- { name = "codeium" },
+            { name = "codeium" },
             -- { name = 'luasnip' }, -- For luasnip users.
             -- { name = 'ultisnips' }, -- For ultisnips users.
             -- { name = 'snippy' }, -- For snippy users.
@@ -139,7 +139,7 @@ local function cmp_config()
                 mode = 'symbol',       -- show only symbol annotations
                 maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                 ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-                -- symbol_map = { Codeium = "", },
+                symbol_map = { Codeium = "", },
 
                 -- The function below will be called before any actual modifications from lspkind
                 -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -420,17 +420,17 @@ local crates = {
     end,
 }
 
--- local codeium = {
---     "Exafunction/codeium.nvim",
---     dependencies = {
---         "nvim-lua/plenary.nvim",
---         "hrsh7th/nvim-cmp",
---     },
---     config = function()
---         require("codeium").setup({
---         })
---     end
--- }
+local codeium = {
+    "Exafunction/windsurf.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "hrsh7th/nvim-cmp",
+    },
+    config = function()
+        require("codeium").setup({
+        })
+    end
+}
 
 local nvim_cmp = {
     'hrsh7th/nvim-cmp',
@@ -460,5 +460,5 @@ return {
     neodev,
     -- plenary,
     nvim_cmp,
-    -- codeium,
+    codeium,
 }
