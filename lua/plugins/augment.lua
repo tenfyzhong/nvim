@@ -8,6 +8,7 @@ end
 
 local augment = {
     'augmentcode/augment.vim',
+    enabled = false, -- This will disable the plugin
     init = function()
         -- vim.g.augment_workspace_folders = { '~/go/src/github.com/pingcap/ticdc' }
     end,
