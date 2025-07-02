@@ -73,6 +73,12 @@ local mason = {
                             runtime = {
                                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                                 version = 'LuaJIT',
+                                -- Tell the language server how to find Lua modules same way as Neovim
+                                -- (see `:h lua-module-load`)
+                                path = {
+                                    'lua/?.lua',
+                                    'lua/?/init.lua',
+                                },
                             },
                             diagnostics = {
                                 -- Get the language server to recognize the `vim` global
@@ -80,7 +86,9 @@ local mason = {
                             },
                             workspace = {
                                 -- Make the server aware of Neovim runtime files
-                                library = vim.api.nvim_get_runtime_file("", true),
+                                library = {
+                                    vim.env.VIMRUNTIME
+                                },
                                 checkThirdParty = false,
                             },
                             -- Do not send telemetry data containing a randomized but unique identifier
