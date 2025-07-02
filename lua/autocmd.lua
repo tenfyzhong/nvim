@@ -62,11 +62,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end
 })
 
+local skip_format_filetypes = {
+    'go',
+    'markdown',
+    'thrift',
+    'proto',
+    'bash',
+    'sh',
+}
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = init_group,
     pattern = '*',
     callback = function()
-        if vim.bo.filetype == 'go' or vim.bo.filetype == 'markdown' or vim.bo.filetype == 'thrift' or vim.bo.filetype == 'proto' then
+        if vim.tbl_contains(skip_format_filetypes, vim.bo.filetype) then
             return
         end
         require('feature').format(function()
