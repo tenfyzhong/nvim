@@ -47,6 +47,58 @@ local function shfmt_args()
     return args
 end
 
+local function goimports_reviser_args(rm_unused)
+    -- GOIMPORTS_REVISER_FORMAT=
+    -- GOIMPORTS_REVISER_IMPORTS_ORDER=
+    -- GOIMPORTS_REVISER_PROJECT_NAME=
+    -- GOIMPORTS_REVISER_SEPARATE_NAMED=
+    -- GOIMPORTS_REVISER_SET_ALIAS=
+    -- GOIMPORTS_REVISER_USE_CACHE=
+    local args = {}
+    local format = os.getenv("GOIMPORTS_REVISER_FORMAT")
+    if is_not_whitespace(format) then
+        args[#args + 1] = '-format'
+    end
+
+    local imports_order = os.getenv("GOIMPORTS_REVISER_IMPORTS_ORDER")
+    if is_not_whitespace(imports_order) then
+        args[#args + 1] = '--imports-order'
+        args[#args + 1] = imports_order
+    end
+
+    local project_name = os.getenv("GOIMPORTS_REVISER_PROJECT_NAME")
+    if is_not_whitespace(project_name) then
+        args[#args + 1] = '-project-name'
+        args[#args + 1] = project_name
+    end
+
+    local separate_named = os.getenv("GOIMPORTS_REVISER_SEPARATE_NAMED")
+    if is_not_whitespace(separate_named) then
+        args[#args + 1] = '-separate-named'
+    end
+
+    local set_alias = os.getenv("GOIMPORTS_REVISER_SET_ALIAS")
+    if is_not_whitespace(set_alias) then
+        args[#args + 1] = '-set-alias'
+    end
+
+    local use_cache = os.getenv("GOIMPORTS_REVISER_USE_CACHE")
+    if is_not_whitespace(use_cache) then
+        args[#args + 1] = '-use-cache'
+    end
+
+    if rm_unused then
+        args[#args + 1] = '-rm-unused'
+    end
+
+    args[#args + 1] = '-output'
+    args[#args + 1] = 'stdout'
+
+    args[#args + 1] = '$FILENAME'
+
+    return args
+end
+
 local function format(args)
     local conform = require("conform")
     local feature = require('feature')
@@ -119,12 +171,12 @@ local conform = {
                 ['goimports-reviser'] = {
                     inherit = false,
                     command = 'goimports-reviser',
-                    args = { '-set-alias', '-format', '-output', 'stdout', '$FILENAME' },
+                    args = goimports_reviser_args(false),
                 },
                 ['goimports-reviser-rm-unused'] = {
                     inherit = false,
                     command = 'goimports-reviser',
-                    args = { '-rm-unused', '-set-alias', '-format', '-output', 'stdout', '$FILENAME' },
+                    args = goimports_reviser_args(true),
                 },
             }
         })
