@@ -222,7 +222,7 @@ local conform = {
         local go_formatters = get_auto_formatters_from_env('go', { 'goimports-reviser', 'gofumpt' })
 
         conform.setup({
-            log_level = vim.log.levels.TRACE,
+            -- log_level = vim.log.levels.TRACE,
             formatters_by_ft = {
                 sh = sh_formatters,
                 go = go_formatters,
