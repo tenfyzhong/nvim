@@ -126,17 +126,18 @@ local function gofumpt_args()
     return args
 end
 
-local function gci_args()
-    -- GCI_LOCAL=
-    local args = {}
+local function get_formatters_from_env(ft, default_formatters)
+    -- CONFORM_GO_FORMATTERS=goimports-reviser,gofumpt
+    -- CONFORM_SH_FORMATTERS=
 
-    local l = os.getenv("GCI_LOCAL")
-    if l ~= nil and l ~= '' then
-        args[#args + 1] = '--local'
-        args[#args + 1] = l
+    local upper_ft = ft:upper()
+    local key = 'CONFORM_' .. upper_ft .. '_FORMATTERS'
+    local str = os.getenv(key)
+    if str ~= nil then
+        -- split by ','
+        return vim.split(str, ',')
     end
-
-    return args
+    return default_formatters
 end
 
 local function format(args)
@@ -157,8 +158,14 @@ local function format(args)
     if vim.tbl_contains(skip_fts, vim.bo.filetype) then
         return
     elseif vim.tbl_contains(conform_fts, vim.bo.filetype) then
-        if args.formatters then
-            option.formatters = args.formatters
+        -- The format from env is the highest priority
+        local formatters = get_formatters_from_env(vim.bo.filetype)
+        if not formatters then
+            formatters = args.formatters
+        end
+
+        if formatters then
+            option.formatters = formatters
         end
         if args.async then
             option.async = args.async
@@ -195,11 +202,15 @@ local conform = {
     'stevearc/conform.nvim',
     config = function()
         local conform = require("conform")
+
+        local sh_formatters = get_formatters_from_env('sh', { 'shfmt' })
+        local go_formatters = get_formatters_from_env('go', { 'goimports-reviser', 'gofumpt' })
+
         conform.setup({
-            -- log_level = vim.log.levels.TRACE,
+            log_level = vim.log.levels.TRACE,
             formatters_by_ft = {
-                sh = { 'shfmt' },
-                go = { 'goimports-reviser', 'gofumpt' },
+                sh = sh_formatters,
+                go = go_formatters,
             },
             -- The format should print the formatted content to stdout
             formatters = {
@@ -212,11 +223,6 @@ local conform = {
                     inherit = false,
                     command = "gofumpt",
                     args = gofumpt_args,
-                },
-                gci = {
-                    inherit = false,
-                    command = "gci",
-                    args = gci_args,
                 },
                 ['goimports-reviser'] = {
                     inherit = false,
