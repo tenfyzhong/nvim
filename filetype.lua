@@ -9,6 +9,6 @@ vim.filetype.add({
     },
     filename = {
         ['Cargo.toml'] = 'cargo.toml',
-        ['.envrc'] = 'envrc.bash',
+        ['.envrc'] = 'envrc.sh',
     },
 })

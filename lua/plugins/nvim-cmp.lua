@@ -265,7 +265,6 @@ local cmp_buffer = { 'hrsh7th/cmp-buffer' }
 local cmp_path = { 'hrsh7th/cmp-path' }
 local cmp_cmdline = { 'hrsh7th/cmp-cmdline' }
 local cmp_vsnip = { 'hrsh7th/cmp-vsnip' }
-local vim_vsnip = { 'hrsh7th/vim-vsnip' }
 local lspkind = { 'onsails/lspkind.nvim', config = lspkind_config }
 
 local cmp_nvim_lua = { 'hrsh7th/cmp-nvim-lua', ft = 'lua' }
@@ -277,6 +276,16 @@ local cmp_nvim_lsp_signature_help = { 'hrsh7th/cmp-nvim-lsp-signature-help' }
 
 local neodev = { 'folke/neodev.nvim', ft = 'lua' }
 -- local plenary = { 'nvim-lua/plenary.nvim' }
+--
+local vim_vsnip = {
+    'hrsh7th/vim-vsnip',
+    init = function()
+        vim.g.vsnip_filetypes = {
+            ['envrc.sh'] = { 'sh', 'bash', 'envrc' },
+            ['sh'] = { 'sh', 'bash' },
+        }
+    end
+}
 
 local cmp_git = {
     'petertriho/cmp-git',
