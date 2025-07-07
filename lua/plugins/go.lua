@@ -108,30 +108,30 @@ local go = {
     'ray-x/go.nvim',
     config = function()
         require('go').setup {
-            lsp_gofumpt = true,
+            lsp_gofumpt = false,
             lsp_document_formatting = true,
             comment_placeholder = '',
             -- goimport = 'goimports',
             -- fillstruct = 'fillstruct',
         }
 
-        vim.api.nvim_create_user_command('GoImports', function(opts)
-            imports(unpack(opts.fargs))
-        end, {
-            desc = 'go.vim: goimports, use env<$GOIMPORTS_LOCAL> to set the -local option',
-            nargs = '*',
-        })
+        -- vim.api.nvim_create_user_command('GoImports', function(opts)
+        --     imports(unpack(opts.fargs))
+        -- end, {
+        --     desc = 'go.vim: goimports, use env<$GOIMPORTS_LOCAL> to set the -local option',
+        --     nargs = '*',
+        -- })
 
         -- Run gofmt on save
-        local format_sync_grp = vim.api.nvim_create_augroup("go_format", {})
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            pattern = "*.go",
-            callback = function()
-                -- require('go.format').gofmt()
-                imports('-format-only')
-            end,
-            group = format_sync_grp,
-        })
+        -- local format_sync_grp = vim.api.nvim_create_augroup("go_format", {})
+        -- vim.api.nvim_create_autocmd("BufWritePre", {
+        --     pattern = "*.go",
+        --     callback = function()
+        --         -- require('go.format').gofmt()
+        --         imports('-format-only')
+        --     end,
+        --     group = format_sync_grp,
+        -- })
 
         local go_nvim_local_group = vim.api.nvim_create_augroup('go_nvim_local', {})
         vim.api.nvim_create_autocmd('FileType', {

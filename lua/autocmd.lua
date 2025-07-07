@@ -61,32 +61,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
         vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
     end
 })
-
-local skip_format_filetypes = {
-    'go',
-    'markdown',
-    'thrift',
-    'proto',
-    'bash',
-    'sh',
-}
-vim.api.nvim_create_autocmd('BufWritePre', {
-    group = init_group,
-    pattern = '*',
-    callback = function()
-        if vim.tbl_contains(skip_format_filetypes, vim.bo.filetype) then
-            return
-        end
-        require('feature').format(function()
-            vim.lsp.buf.format { async = false }
-        end)
-    end,
-})
-
-vim.api.nvim_create_autocmd('BufWritePost', {
-    group = init_group,
-    pattern = '.envrc',
-    callback = function()
-        vim.cmd('!direnv allow')
-    end,
-})

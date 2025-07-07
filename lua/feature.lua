@@ -31,6 +31,10 @@ end
 function format(fmt)
     local bufnr = vim.api.nvim_get_current_buf()
 
+    if vim.o.mod == true then
+        vim.cmd('noautocmd silent write')
+    end
+
     vim.o.lazyredraw = true
 
     local winnrs = vim.fn.win_findbuf(bufnr)
@@ -41,7 +45,9 @@ function format(fmt)
 
     fmt()
 
-    vim.cmd('noautocmd silent write')
+    if vim.o.mod == true then
+        vim.cmd('noautocmd silent write')
+    end
 
     -- restore the winview belongs to the buf
     for _, winnr in ipairs(winnrs) do
