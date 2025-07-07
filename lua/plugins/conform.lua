@@ -99,6 +99,33 @@ local function goimports_reviser_args(rm_unused)
     return args
 end
 
+local function gofumpt_args()
+    -- GOFUMPT_EXTRA=
+    -- GOFUMPT_LANG=
+    -- GOFUMPT_MODPATH=
+
+    local args = {}
+
+    local extra = os.getenv("GOFUMPT_EXTRA")
+    if is_not_whitespace(extra) then
+        args[#args + 1] = '-extra'
+    end
+
+    local lang = os.getenv("GOFUMPT_LANG")
+    if is_not_whitespace(lang) then
+        args[#args + 1] = '-lang'
+        args[#args + 1] = lang
+    end
+
+    local modpath = os.getenv("GOFUMPT_MODPATH")
+    if is_not_whitespace(modpath) then
+        args[#args + 1] = '-modpath'
+        args[#args + 1] = modpath
+    end
+
+    return args
+end
+
 local function format(args)
     local conform = require("conform")
     local feature = require('feature')
@@ -167,6 +194,11 @@ local conform = {
                     inherit = false,
                     command = "shfmt",
                     args = shfmt_args,
+                },
+                gofumpt = {
+                    inherit = false,
+                    command = "gofumpt",
+                    args = gofumpt_args,
                 },
                 ['goimports-reviser'] = {
                     inherit = false,
