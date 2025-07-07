@@ -126,6 +126,19 @@ local function gofumpt_args()
     return args
 end
 
+local function gci_args()
+    -- GCI_LOCAL=
+    local args = {}
+
+    local l = os.getenv("GCI_LOCAL")
+    if l ~= nil and l ~= '' then
+        args[#args + 1] = '--local'
+        args[#args + 1] = l
+    end
+
+    return args
+end
+
 local function format(args)
     local conform = require("conform")
     local feature = require('feature')
@@ -199,6 +212,11 @@ local conform = {
                     inherit = false,
                     command = "gofumpt",
                     args = gofumpt_args,
+                },
+                gci = {
+                    inherit = false,
+                    command = "gci",
+                    args = gci_args,
                 },
                 ['goimports-reviser'] = {
                     inherit = false,
