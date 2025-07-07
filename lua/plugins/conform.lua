@@ -126,18 +126,32 @@ local function gofumpt_args()
     return args
 end
 
-local function get_formatters_from_env(ft, default_formatters)
-    -- CONFORM_GO_FORMATTERS=goimports-reviser,gofumpt
-    -- CONFORM_SH_FORMATTERS=
+local function get_formatters_from_env(typ, ft, default_formatters)
+    -- CONFORM_AUTO_GO_FORMATTERS=goimports-reviser,gofumpt
+    -- CONFORM_MANUAL_SH_FORMATTERS=
 
     local upper_ft = ft:upper()
-    local key = 'CONFORM_' .. upper_ft .. '_FORMATTERS'
+    local key = string.format('CONFORM_%s_%s_FORMATTERS', typ, upper_ft)
     local str = os.getenv(key)
     if str ~= nil then
         -- split by ','
         return vim.split(str, ',')
     end
     return default_formatters
+end
+
+local function get_manual_formatters_from_env(ft, default_formatters)
+    -- CONFORM_MANUAL_GO_FORMATTERS=goimports-reviser,gofumpt
+    -- CONFORM_MANUAL_SH_FORMATTERS=
+
+    return get_formatters_from_env('MANUAL', ft, default_formatters)
+end
+
+local function get_auto_formatters_from_env(ft, default_formatters)
+    -- CONFORM_AUTO_GO_FORMATTERS=goimports-reviser,gofumpt
+    -- CONFORM_AUTO_SH_FORMATTERS=
+
+    return get_formatters_from_env('AUTO', ft, default_formatters)
 end
 
 local function format(args)
@@ -159,7 +173,7 @@ local function format(args)
         return
     elseif vim.tbl_contains(conform_fts, vim.bo.filetype) then
         -- The format from env is the highest priority
-        local formatters = get_formatters_from_env(vim.bo.filetype)
+        local formatters = args.get_formatters_fn and args.get_formatters_fn(vim.bo.filetype) or nil
         if not formatters then
             formatters = args.formatters
         end
@@ -189,7 +203,8 @@ local function format_manual()
     if vim.bo.filetype == 'go' then
         format({
             buf = buf,
-            formatters = { 'goimports-reviser-rm-unused', 'gofumpt' }
+            formatters = { 'goimports-reviser-rm-unused', 'gofumpt' },
+            get_formatters_fn = get_manual_formatters_from_env,
         })
     else
         format({
@@ -203,8 +218,8 @@ local conform = {
     config = function()
         local conform = require("conform")
 
-        local sh_formatters = get_formatters_from_env('sh', { 'shfmt' })
-        local go_formatters = get_formatters_from_env('go', { 'goimports-reviser', 'gofumpt' })
+        local sh_formatters = get_auto_formatters_from_env('sh', { 'shfmt' })
+        local go_formatters = get_auto_formatters_from_env('go', { 'goimports-reviser', 'gofumpt' })
 
         conform.setup({
             log_level = vim.log.levels.TRACE,
@@ -245,6 +260,7 @@ local conform = {
                 format({
                     buf = args.buf,
                     async = true,
+                    get_formatters_fn = get_auto_formatters_from_env,
                 })
             end
         })
@@ -252,11 +268,12 @@ local conform = {
         vim.api.nvim_create_user_command('Format', function()
             format_manual()
         end, { desc = 'Run formatter manually' })
-
-        vim.keymap.set({ 'n' }, '<leader>af', function() format_manual() end,
-            { desc = 'Run formatter manually', silent = true, remap = false })
     end,
-    -- event = 'VeryLazy',
+    event = 'BufWritePre',
+    cmd = { 'Format' },
+    keys = {
+        { '<leader>af', function() format_manual() end, silent = true, remap = false, desc = 'Run formatter manually' },
+    }
 }
 
 return { conform }
