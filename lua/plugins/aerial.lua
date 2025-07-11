@@ -280,16 +280,14 @@ local function aerial_config()
             update_delay = 300,
         },
     })
+
+    vim.keymap.set({ 'n' }, '<leader>tb', '<cmd>AerialToggle!<CR>', { silent = true, desc = 'aerial: AerialToggle' })
 end
 
 local aerial = {
     'stevearc/aerial.nvim',
     config = aerial_config,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    -- cmd = { 'AerialToggle' },
-    -- keys = {
-    --     { '<leader>tb', '<cmd>AerialToggle!<CR>', mode = 'n', silent = true, desc = 'aerial: AerialToggle' },
-    -- },
 }
 
 return { aerial }
