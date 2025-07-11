@@ -226,6 +226,7 @@ local conform = {
             formatters_by_ft = {
                 sh = sh_formatters,
                 go = go_formatters,
+                markdown = { "markdownlint-cli2" },
             },
             -- The format should print the formatted content to stdout
             formatters = {
