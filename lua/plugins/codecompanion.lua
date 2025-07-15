@@ -60,7 +60,7 @@ end
 local function xai_adapter(name, formatted_name, model_id, can_reason)
     return require("codecompanion.adapters").extend("xai", {
         env = {
-            api_key = os.getenv("CODECOMPANION_XAI_API_KEY")
+            api_key = os.getenv("CODECOMPANION_XAI_API_KEY"),
         },
         handlers = {
             chat_output = chat_output,
@@ -75,20 +75,41 @@ local function xai_adapter(name, formatted_name, model_id, can_reason)
                     [model_id] = { opts = { can_reason = can_reason } },
                 },
             },
-        }
+        },
     })
 end
 
 local function gemini_adapter()
     return require("codecompanion.adapters").extend("gemini", {
         env = {
-            api_key = os.getenv("GEMINI_API_KEY")
+            api_key = os.getenv("GEMINI_API_KEY"),
         },
         schema = {
             model = {
                 default = os.getenv("GEMINI_FLASH_FREE_LATEST"),
             },
-        }
+        },
+    })
+end
+
+local function cli_proxy_api_adapter(model)
+    return require("codecompanion.adapters").extend("deepseek", {
+        url = "http://localhost:8317/v1/chat/completions",
+        name = "CliProxyCli",
+        formatted_name = "CliProxyCli-" .. model,
+        opts = {
+            stream = true,
+            tools = true,
+            vision = true,
+        },
+        schema = {
+            model = {
+                default = model,
+                choices = {
+                    [model] = { opts = { can_reason = true } },
+                },
+            },
+        },
     })
 end
 
@@ -112,7 +133,7 @@ end
 local codecompanion = {
     "olimorris/codecompanion.nvim",
     config = function()
-        require('codecompanion').setup({
+        require("codecompanion").setup({
             display = {
                 chat = {
                     icons = {
@@ -134,13 +155,15 @@ local codecompanion = {
                 grok_3 = xai_adapter("XAI-Grok-3", "XAI-Grok-3", "grok-3-beta", false),
                 grok_3_mini = xai_adapter("XAI-Grok-mini-3", "XAI-Grok-Mini-3", "grok-3-mini-beta", true),
                 gemini = gemini_adapter(),
+                gemini_cli_pro = cli_proxy_api_adapter("gemini-2.5-pro"),
+                gemini_cli_flash = cli_proxy_api_adapter("gemini-2.5-flash"),
             },
             strategies = {
                 chat = {
-                    adapter = "ark_deepseek_v3",
+                    adapter = "gemini_cli_pro",
                 },
                 inline = {
-                    adapter = "ark_deepseek_v3",
+                    adapter = "gemini_cli_pro",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
@@ -162,11 +185,23 @@ local codecompanion = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
     },
-    cmd = { 'CodeCompanion', 'CodeCompanionCmd', 'CodeCompanionChat', 'CodeCompanionActions' },
+    cmd = { "CodeCompanion", "CodeCompanionCmd", "CodeCompanionChat", "CodeCompanionActions" },
     keys = {
-        { '<leader>cc', ':CodeCompanionChat Toggle<cr>', silent = true, remap = false, desc = 'codecompanion: CodeCompanionChat' },
-        { '<leader>ca', ':CodeCompanionActions<cr>',     silent = true, remap = false, desc = 'codecompanion: CodeCompanionActions' },
-    }
+        {
+            "<leader>cc",
+            ":CodeCompanionChat Toggle<cr>",
+            silent = true,
+            remap = false,
+            desc = "codecompanion: CodeCompanionChat",
+        },
+        {
+            "<leader>ca",
+            ":CodeCompanionActions<cr>",
+            silent = true,
+            remap = false,
+            desc = "codecompanion: CodeCompanionActions",
+        },
+    },
 }
 
 return { codecompanion }
