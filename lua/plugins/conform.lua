@@ -228,6 +228,7 @@ local conform = {
                 go = go_formatters,
                 markdown = { "markdownlint-cli2" },
                 lua = { "stylua" },
+                fish = { "fish_indent" },
             },
             -- The format should print the formatted content to stdout
             formatters = {
@@ -281,20 +282,16 @@ local conform = {
         vim.api.nvim_create_user_command("Format", function()
             format_manual()
         end, { desc = "Run formatter manually" })
-    end,
-    event = "BufWritePre",
-    cmd = { "Format" },
-    keys = {
-        {
-            "<leader>af",
-            function()
-                format_manual()
-            end,
+
+        vim.keymap.set("n", "<leader>af", function()
+            format_manual()
+        end, {
             silent = true,
             remap = false,
             desc = "Run formatter manually",
-        },
-    },
+        })
+    end,
+    event = "VeryLazy",
 }
 
 return { conform }
