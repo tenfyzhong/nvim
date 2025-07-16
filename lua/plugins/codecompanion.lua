@@ -160,10 +160,10 @@ local codecompanion = {
             },
             strategies = {
                 chat = {
-                    adapter = "gemini_cli_pro",
+                    adapter = "ark_deepseek_v3",
                 },
                 inline = {
-                    adapter = "gemini_cli_pro",
+                    adapter = "ark_deepseek_v3",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
