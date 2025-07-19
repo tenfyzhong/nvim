@@ -1,8 +1,9 @@
 ---Output the data from the API ready for insertion into the chat buffer
 ---@param self CodeCompanion.Adapter
 ---@param data table The streamed JSON data from the API, also formatted by the format_data handler
+---@param tools? table The table to write any tool output to
 ---@return { status: string, output: { role: string, content: string, reasoning: string? } } | nil
-local function chat_output(self, data)
+local function chat_output(self, data, tools)
     local output = {}
 
     local utils = require("codecompanion.utils.adapters")
@@ -20,11 +21,53 @@ local function chat_output(self, data)
                 if delta.role then
                     output.role = delta.role
                 end
-                if delta.reasoning_content then
-                    output.reasoning = delta.reasoning_content
+                if delta.reasoning_content and delta.reasoning_content ~= "" then
+                    output.reasoning = output.reasoning or {}
+                    output.reasoning.content = delta.reasoning_content
                 end
                 if delta.content and delta.content ~= "" then
-                    output.content = (output.content or "") .. delta.content
+                    output.content = delta.content
+                end
+
+                -- Process tools
+                if self.opts.tools and delta.tool_calls and tools then
+                    for _, tool in ipairs(delta.tool_calls) do
+                        if self.opts.stream then
+                            local index = tool.index
+                            local found = false
+
+                            for i, existing_tool in ipairs(tools) do
+                                if existing_tool._index == index then
+                                    tools[i]["function"].arguments = (tools[i]["function"].arguments or "")
+                                        .. (tool["function"]["arguments"] or "")
+                                    found = true
+                                    break
+                                end
+                            end
+
+                            if not found then
+                                table.insert(tools, {
+                                    ["function"] = {
+                                        name = tool["function"]["name"],
+                                        arguments = tool["function"]["arguments"] or "",
+                                    },
+                                    id = tool.id,
+                                    type = "function",
+                                    _index = index,
+                                })
+                            end
+                        else
+                            table.insert(tools, {
+                                _index = tool.index,
+                                ["function"] = {
+                                    name = tool["function"]["name"],
+                                    arguments = tool["function"]["arguments"],
+                                },
+                                id = tool.id,
+                                type = "function",
+                            })
+                        end
+                    end
                 end
                 return {
                     status = "success",
@@ -92,21 +135,27 @@ local function gemini_adapter()
     })
 end
 
-local function cli_proxy_api_adapter(model)
-    return require("codecompanion.adapters").extend("deepseek", {
-        url = "http://localhost:8317/v1/chat/completions",
-        name = "CliProxyCli",
-        formatted_name = "CliProxyCli-" .. model,
+local function gemini_balance_adapter(model, can_reason)
+    return require("codecompanion.adapters").extend("gemini", {
+        url = "http://127.0.0.1:2460/v1/chat/completions",
+        name = "GeminiBalance",
+        formatted_name = "GeminiBalance-" .. model,
         opts = {
             stream = true,
             tools = true,
             vision = true,
         },
+        handlers = {
+            chat_output = chat_output,
+        },
+        env = {
+            api_key = os.getenv("GEMINI_BALANCE_API_KEY"),
+        },
         schema = {
             model = {
                 default = model,
                 choices = {
-                    [model] = { opts = { can_reason = true } },
+                    [model] = { opts = { can_reason = can_reason, can_use_tools = true } },
                 },
             },
         },
@@ -140,6 +189,7 @@ local codecompanion = {
                         pinned_buffer = " ",
                         watched_buffer = "👀 ",
                     },
+                    show_settings = true,
                 },
                 token_count = function(tokens, adapter)
                     return " (" .. tokens .. " tokens)"
@@ -147,23 +197,23 @@ local codecompanion = {
             },
             adapters = {
                 opts = {
-                    show_defaults = false,
-                    show_model_choices = false,
+                    show_defaults = true,
+                    show_model_choices = true,
                 },
                 ark_deepseek_r1 = deepseek_adapter_gen("ARK", "R1", true),
                 ark_deepseek_v3 = deepseek_adapter_gen("ARK", "V3", false),
                 grok_3 = xai_adapter("XAI-Grok-3", "XAI-Grok-3", "grok-3-beta", false),
                 grok_3_mini = xai_adapter("XAI-Grok-mini-3", "XAI-Grok-Mini-3", "grok-3-mini-beta", true),
                 gemini = gemini_adapter(),
-                gemini_cli_pro = cli_proxy_api_adapter("gemini-2.5-pro"),
-                gemini_cli_flash = cli_proxy_api_adapter("gemini-2.5-flash"),
+                gemini_balance_pro = gemini_balance_adapter("gemini-2.5-pro", true),
+                gemini_balance_flash = gemini_balance_adapter("gemini-2.5-flash", false),
             },
             strategies = {
                 chat = {
-                    adapter = "ark_deepseek_v3",
+                    adapter = "gemini_balance_pro",
                 },
                 inline = {
-                    adapter = "ark_deepseek_v3",
+                    adapter = "gemini_balance_pro",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
