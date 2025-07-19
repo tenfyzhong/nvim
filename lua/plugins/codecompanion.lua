@@ -137,9 +137,9 @@ end
 
 local function gemini_balance_adapter(model, can_reason)
     return require("codecompanion.adapters").extend("gemini", {
-        url = "http://127.0.0.1:2460/v1/chat/completions",
+        url = os.getenv("GEMINI_BALANCE_API_URL"),
         name = "GeminiBalance",
-        formatted_name = "GeminiBalance-" .. model,
+        formatted_name = "Balance/" .. model,
         opts = {
             stream = true,
             tools = true,
