@@ -197,7 +197,7 @@ local codecompanion = {
             },
             adapters = {
                 opts = {
-                    show_defaults = true,
+                    show_defaults = false,
                     show_model_choices = true,
                 },
                 ark_deepseek_r1 = deepseek_adapter_gen("ARK", "R1", true),
