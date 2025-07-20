@@ -139,7 +139,7 @@ local function gemini_balance_adapter(model, can_reason)
     return require("codecompanion.adapters").extend("gemini", {
         url = os.getenv("GEMINI_BALANCE_API_URL"),
         name = "GeminiBalance",
-        formatted_name = "Balance/" .. model,
+        formatted_name = "balance/" .. model,
         opts = {
             stream = true,
             tools = true,
@@ -189,7 +189,7 @@ local codecompanion = {
                         pinned_buffer = " ",
                         watched_buffer = "👀 ",
                     },
-                    show_settings = true,
+                    show_settings = false,
                 },
                 token_count = function(tokens, adapter)
                     return " (" .. tokens .. " tokens)"
