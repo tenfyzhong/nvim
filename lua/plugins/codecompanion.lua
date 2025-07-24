@@ -210,10 +210,10 @@ local codecompanion = {
             },
             strategies = {
                 chat = {
-                    adapter = "gemini_balance_flash",
+                    adapter = "gemini_balance_pro",
                 },
                 inline = {
-                    adapter = "gemini_balance_flash",
+                    adapter = "gemini_balance_pro",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
