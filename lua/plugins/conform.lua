@@ -257,6 +257,7 @@ local conform = {
                     command = "gofumpt",
                     args = gofumpt_args,
                 },
+                -- goimports-reviser will result in `no such file or directory` errors
                 ["goimports-reviser"] = {
                     inherit = false,
                     command = "goimports-reviser",
