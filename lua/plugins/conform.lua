@@ -126,6 +126,21 @@ local function gofumpt_args()
     return args
 end
 
+local function goimports_args(format_only)
+    -- GOIMPORTS_LOCAL=
+    local args = {}
+    local l = os.getenv("GOIMPORTS_LOCAL")
+    if is_not_whitespace(l) then
+        args[#args + 1] = "-local"
+    end
+
+    if format_only then
+        args[#args + 1] = "-format-only"
+    end
+
+    return args
+end
+
 local function get_formatters_from_env(typ, ft, default_formatters)
     -- CONFORM_AUTO_GO_FORMATTERS=goimports-reviser,gofumpt
     -- CONFORM_MANUAL_SH_FORMATTERS=
@@ -203,7 +218,7 @@ local function format_manual()
     if vim.bo.filetype == "go" then
         format({
             buf = buf,
-            formatters = { "goimports-reviser-rm-unused", "gofumpt" },
+            formatters = { "goimports", "gofumpt" },
             get_formatters_fn = get_manual_formatters_from_env,
         })
     else
@@ -219,7 +234,7 @@ local conform = {
         local conform = require("conform")
 
         local sh_formatters = get_auto_formatters_from_env("sh", { "shfmt" })
-        local go_formatters = get_auto_formatters_from_env("go", { "goimports-reviser", "gofumpt" })
+        local go_formatters = get_auto_formatters_from_env("go", { "goimports_format_only", "gofumpt" })
 
         conform.setup({
             -- log_level = vim.log.levels.TRACE,
@@ -251,6 +266,16 @@ local conform = {
                     inherit = false,
                     command = "goimports-reviser",
                     args = goimports_reviser_args(true),
+                },
+                goimports = {
+                    inherit = false,
+                    command = "goimports",
+                    args = goimports_args(false),
+                },
+                goimports_format_only = {
+                    inherit = false,
+                    command = "goimports",
+                    args = goimports_args(true),
                 },
             },
             default_format_opts = {
