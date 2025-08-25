@@ -162,6 +162,33 @@ local function gemini_balance_adapter(model, can_reason)
     })
 end
 
+local function cli_proxy_api_adapter(model, can_reason)
+    return require("codecompanion.adapters").extend("gemini", {
+        url = "http://localhost:8317/v1/chat/completions",
+        name = "CLIProxyAPI" .. model,
+        formatted_name = "CLIProxyAPI/" .. model,
+        opts = {
+            stream = true,
+            tools = true,
+            vision = true,
+        },
+        handlers = {
+            chat_output = chat_output,
+        },
+        env = {
+            api_key = "sk-dummy,",
+        },
+        schema = {
+            model = {
+                default = model,
+                choices = {
+                    [model] = { opts = { can_reason = can_reason, can_use_tools = true } },
+                },
+            },
+        },
+    })
+end
+
 -- provider: ARK/OPENROUTER
 -- model_type: R1/V3
 -- can_reason: true/false
@@ -207,13 +234,15 @@ local codecompanion = {
                 gemini = gemini_adapter(),
                 gemini_balance_pro = gemini_balance_adapter("gemini-2.5-pro", true),
                 gemini_balance_flash = gemini_balance_adapter("gemini-2.5-flash", false),
+                cli_proxy_api_2_5_pro = cli_proxy_api_adapter("gemini-2.5-pro", true),
+                cli_proxy_api_2_5_flash = cli_proxy_api_adapter("gemini-2.5-flash", false),
             },
             strategies = {
                 chat = {
-                    adapter = "gemini_balance_pro",
+                    adapter = "cli_proxy_api_2_5_pro",
                 },
                 inline = {
-                    adapter = "gemini_balance_pro",
+                    adapter = "cli_proxy_api_2_5_pro",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
