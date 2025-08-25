@@ -164,7 +164,7 @@ end
 
 local function cli_proxy_api_adapter(model, can_reason)
     return require("codecompanion.adapters").extend("gemini", {
-        url = "http://localhost:8317/v1/chat/completions",
+        url = os.getenv("CLI_PROXY_API_URL"),
         name = "CLIProxyAPI" .. model,
         formatted_name = "CLIProxyAPI/" .. model,
         opts = {
@@ -176,7 +176,7 @@ local function cli_proxy_api_adapter(model, can_reason)
             chat_output = chat_output,
         },
         env = {
-            api_key = "sk-dummy,",
+            api_key = os.getenv("CLI_PROXY_API_KEY"),
         },
         schema = {
             model = {
