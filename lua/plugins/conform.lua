@@ -206,7 +206,7 @@ local function format(args)
     else
         feature.format(function()
             option.formatters = nil
-            option.lsp_format = "prefer"
+            option.lsp_format = "fallback"
             conform.format(option)
         end)
     end
@@ -280,14 +280,14 @@ local conform = {
                 },
             },
             default_format_opts = {
-                lsp_format = "fallback",
+                lsp_format = "never",
             },
             -- If this is set, Conform will run the formatter on save.
             -- It will pass the table to conform.format().
             -- This can also be a function that returns the table.
             format_on_save = {
                 -- I recommend these options. See :help conform.format for details.
-                lsp_format = "fallback",
+                lsp_format = "never",
                 timeout_ms = 500,
             },
         })
