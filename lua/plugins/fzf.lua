@@ -13,7 +13,9 @@ local fzf = {
 }
 
 local function find_tag()
-	if vim.bo.filetype == "NvimTree" or vim.bo.filetype == "neo-tree" or vim.bo.filetype == "aerial" then
+	local backends = require("aerial.backends")
+	local backend = backends.get()
+	if not backend then
 		require("fzf-lua").blines()
 	else
 		require("aerial").fzf_lua_picker({ fzf_opts = {
@@ -106,7 +108,11 @@ local fzf_lua = {
 		},
 		{
 			"<leader>ft",
-			find_tag,
+			function()
+				xpcall(find_tag, function()
+					require("fzf-lua").blines()
+				end)
+			end,
 			silent = true,
 			remap = false,
 			desc = "fzf-lua: buffer tags",
