@@ -25,7 +25,7 @@ end
 local fzf_lua = {
 	"ibhagwan/fzf-lua",
 	-- optional for icon support
-	dependencies = { "nvim-tree/nvim-web-devicons", fzf },
+	dependencies = { "nvim-tree/nvim-web-devicons", "MattesGroeger/vim-bookmarks", fzf },
 	config = function()
 		require("fzf-lua").setup({
 			"hide",
@@ -160,6 +160,38 @@ local fzf_lua = {
 			desc = "fzf-lua: fzf-marks",
 		},
 		{
+			"<leader>fM",
+			function()
+				local edit_fn = function(action)
+					return function(selected)
+						local items = vim.fn.split(selected[1], ":")
+						if #items < 2 then
+							return
+						end
+						local cmd = string.format("silent %s +%s %s", action, items[2], items[1])
+						vim.cmd(cmd)
+					end
+				end
+				require("fzf-lua").fzf_exec(function(fzf_cb)
+					local data = vim.fn["bm#location_list"]()
+					for _, d in ipairs(data) do
+						fzf_cb(d)
+					end
+					fzf_cb()
+				end, {
+					actions = {
+						["default"] = edit_fn("edit"),
+						["ctrl-x"] = edit_fn("split"),
+						["ctrl-v"] = edit_fn("vsplit"),
+						["ctrl-t"] = edit_fn("tabedit"),
+					},
+				})
+			end,
+			silent = true,
+			remap = false,
+			desc = "fzf-lua: fzf-marks",
+		},
+		{
 			"<leader><leader>",
 			function()
 				require("fzf-lua").keymaps({
@@ -268,15 +300,15 @@ local fzf_lua = {
 -- 	cmd = { "FZFFzm" },
 -- }
 
-local bookmarks = {
-	"tenfyzhong/fzf-bookmarks.vim",
-	dependencies = { fzf[1] },
-	config = function() end,
-	keys = {
-		{ "<leader>fM", ":FZFBookmarks<cr>", silent = true, remap = false, desc = "fzf-bookmarks: bookmarks" },
-	},
-	cmd = { "FZFBookmarks" },
-}
+-- local bookmarks = {
+-- 	"tenfyzhong/fzf-bookmarks.vim",
+-- 	dependencies = { fzf[1] },
+-- 	config = function() end,
+-- 	-- keys = {
+-- 	-- 	{ "<leader>fM", ":FZFBookmarks<cr>", silent = true, remap = false, desc = "fzf-bookmarks: bookmarks" },
+-- 	-- },
+-- 	cmd = { "FZFBookmarks" },
+-- }
 
 -- local z = {
 -- 	"tenfyzhong/z.nvim",
@@ -300,4 +332,4 @@ local bookmarks = {
 -- 	cmd = { "FZFZ" },
 -- }
 --
-return { fzf, fzf_lua, marks, bookmarks }
+return { fzf, fzf_lua }
