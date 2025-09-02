@@ -144,13 +144,16 @@ local fzf_lua = {
 							end
 
 							local parts = vim.split(selected[1], ":")
-							if #parts >= 2 then
-								local path = vim.fn.expand(parts[2])
-								vim.fn.chdir(path)
-								require("neo-tree.command").execute({
-									action = "focus",
-								})
+							if #parts < 2 then
+								return
 							end
+							local path = vim.fn.expand(parts[2])
+							vim.fn.chdir(path)
+							require("neo-tree.command").execute({
+								action = "focus",
+							})
+							local msg = string.format("pwd: %s", path)
+							vim.notify(msg, vim.log.levels.INFO)
 						end,
 					},
 				})
