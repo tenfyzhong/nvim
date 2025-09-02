@@ -162,8 +162,23 @@ local fzf_lua = {
 		{
 			"<leader><leader>",
 			function()
-				require("fzf-lua").keymaps()
+				require("fzf-lua").keymaps({
+					modes = { "n" },
+				})
 			end,
+			mode = "n",
+			silent = true,
+			remap = false,
+			desc = "fzf-lua: keymaps",
+		},
+		{
+			"<leader><leader>",
+			function()
+				require("fzf-lua").keymaps({
+					modes = { "v" },
+				})
+			end,
+			mode = { "v", "x" },
 			silent = true,
 			remap = false,
 			desc = "fzf-lua: keymaps",
