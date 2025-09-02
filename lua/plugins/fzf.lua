@@ -163,6 +163,63 @@ local fzf_lua = {
 			desc = "fzf-lua: fzf-marks",
 		},
 		{
+			"<leader>fw",
+			function()
+				local open_fn = function(cmd)
+					return function(selected)
+						if not selected then
+							return
+						end
+
+						local parts = vim.split(selected[1], " ", { trimempty = true })
+						if #parts < 3 then
+							return
+						end
+						if cmd then
+							vim.cmd(cmd)
+						end
+						local path = vim.fn.expand(parts[1])
+						vim.fn.chdir(path)
+						require("neo-tree.command").execute({
+							action = "focus",
+						})
+						local msg = string.format("pwd: %s", path)
+						vim.notify(msg, vim.log.levels.INFO)
+					end
+				end
+				require("fzf-lua").fzf_exec(function(fzf_cb)
+					local is_git = vim.trim(vim.fn.system("git rev-parse --is-inside-work-tree"))
+					if is_git ~= "true" then
+						return
+					end
+
+					local cwd = vim.fn.getcwd()
+					cwd = vim.fn.fnamemodify(cwd, ":p")
+
+					local data = vim.fn.system("git worktree list")
+					local lines = vim.split(data, "\n")
+					for _, line in ipairs(lines) do
+						if line ~= "" then
+							local parts = vim.split(line, " ", { trimempty = true })
+							if #parts >= 3 and vim.fn.fnamemodify(parts[1], ":p") ~= cwd then
+								fzf_cb(line)
+							end
+						end
+					end
+
+					fzf_cb()
+				end, {
+					actions = {
+						["default"] = open_fn(),
+						["ctrl-t"] = open_fn("tabnew"),
+					},
+				})
+			end,
+			silent = true,
+			remap = false,
+			desc = "fzf-lua: git worktree",
+		},
+		{
 			"<leader>fM",
 			function()
 				local edit_fn = function(action)
