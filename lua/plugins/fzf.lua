@@ -252,8 +252,10 @@ local fzf_lua = {
                 end
                 require("fzf-lua").fzf_exec(function(fzf_cb)
                     local data = vim.fn["bm#location_list"]()
+                    local cwd = vim.fn.fnamemodify(vim.loop.cwd(), ":p")
                     for _, d in ipairs(data) do
-                        fzf_cb(d)
+                        local line = string.gsub(d, cwd, "", 1)
+                        fzf_cb(line)
                     end
                     fzf_cb()
                 end, {
