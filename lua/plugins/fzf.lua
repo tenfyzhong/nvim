@@ -18,9 +18,16 @@ local function find_tag()
     if not backend then
         require("fzf-lua").blines()
     else
-        require("aerial").fzf_lua_picker({ fzf_opts = {
-            ["--layout"] = "reverse",
-        } })
+        require("aerial").fzf_lua_picker({
+            fzf_opts = {
+                ["--layout"] = "reverse",
+            },
+            keymap = {
+                fzf = {
+                    load = "top",
+                },
+            },
+        })
     end
 end
 
