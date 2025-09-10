@@ -260,8 +260,9 @@ local fzf_lua = {
                 require("fzf-lua").fzf_exec(function(fzf_cb)
                     local data = vim.fn["bm#location_list"]()
                     local cwd = vim.fn.fnamemodify(vim.loop.cwd(), ":p")
+                    local feature = require("feature")
                     for _, d in ipairs(data) do
-                        local line = string.gsub(d, cwd, "", 1)
+                        local line = feature.getRelativePath(d, cwd)
                         fzf_cb(line)
                     end
                     fzf_cb()
@@ -272,6 +273,7 @@ local fzf_lua = {
                         ["ctrl-v"] = edit_fn("vsplit"),
                         ["ctrl-t"] = edit_fn("tabedit"),
                     },
+                    previewer = "builtin",
                 })
             end,
             silent = true,
