@@ -10,7 +10,7 @@ function get_pos_content(start_lnum, start_col, end_lnum, end_col) -- 1-indexed
     else
         lines[n_lines] = string.sub(lines[n_lines], 1, end_col)
     end
-    return table.concat(lines, '\n')
+    return table.concat(lines, "\n")
 end
 
 function get_visual_selection()
@@ -24,66 +24,60 @@ function grep_motion()
     _G.op_func_grug_far = function()
         -- the col is 0-indexed
         -- we should translate it to 1-indexed
-        local s_start = vim.api.nvim_buf_get_mark(0, '[')
-        local s_end = vim.api.nvim_buf_get_mark(0, ']')
+        local s_start = vim.api.nvim_buf_get_mark(0, "[")
+        local s_end = vim.api.nvim_buf_get_mark(0, "]")
         local content = get_pos_content(s_start[1], s_start[2] + 1, s_end[1], s_end[2] + 1)
-        if continue ~= nil then
-            require('grug-far').open({ prefills = { search = content } })
+        if content ~= nil then
+            require("grug-far").open({ prefills = { search = content } })
         end
         vim.go.operatorfunc = old_func
         _G.op_func_grug_far = nil
     end
-    vim.go.operatorfunc = 'v:lua.op_func_grug_far'
-    vim.api.nvim_feedkeys('g@', 'n', false)
+    vim.go.operatorfunc = "v:lua.op_func_grug_far"
+    vim.api.nvim_feedkeys("g@", "n", false)
 end
 
 local far = {
-    'MagicDuck/grug-far.nvim',
+    "MagicDuck/grug-far.nvim",
     config = function()
-        require('grug-far').setup({
+        require("grug-far").setup({
             -- options, see Configuration section below
             -- there are no required options atm
             -- engine = 'ripgrep' is default, but 'astgrep' can be specified
-        });
-
-        vim.api.nvim_create_user_command('Todo',
-            function()
-                require('grug-far').open({ prefills = { search = "TODO" } })
-            end,
-            { desc = 'grepper: Find todo bug error' })
+        })
     end,
-    cmd = { 'GrugFar', 'Todo' },
+    cmd = { "GrugFar" },
     keys = {
         {
-            '<leader>*',
+            "<leader>*",
             function()
-                local word = '\\b' .. vim.fn.expand("<cword>") .. '\\b'
-                require('grug-far').open({ prefills = { search = word } })
+                local word = "\\b" .. vim.fn.expand("<cword>") .. "\\b"
+                require("grug-far").open({ prefills = { search = word } })
             end,
-            mode = { 'n' },
+            mode = { "n" },
             remap = false,
-            desc = 'grug-far: grep cword',
+            desc = "grug-far: grep cword",
         },
         {
-            '<leader>*',
+            "<leader>*",
             function()
                 local word = get_visual_selection()
-                require('grug-far').open({ prefills = { search = word } })
+                require("grug-far").open({ prefills = { search = word } })
             end,
-            mode = { 'x' },
+            mode = { "x" },
             remap = false,
-            desc = 'grug-far: grep cword',
+            desc = "grug-far: grep cword",
         },
         {
-            '<leader>gr',
+            "<leader>gm",
             function()
                 grep_motion()
             end,
-            mode = { 'n' },
+            mode = { "n" },
             remap = false,
-            desc = 'grug-far: grep keyword with motion',
+            desc = "grug-far: grep keyword with motion",
         },
-    }
+    },
 }
 
 return { far }
