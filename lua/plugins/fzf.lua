@@ -90,7 +90,7 @@ local fzf_lua = {
             desc = "fzf-lua: grep_project",
         },
         {
-            "<leader>fh",
+            "<leader>f;",
             function()
                 require("fzf-lua").command_history()
             end,
