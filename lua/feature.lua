@@ -1,4 +1,4 @@
-function poll_number()
+local function poll_number()
     if vim.o.number and vim.o.relativenumber then
         vim.o.number = true
         vim.o.relativenumber = false
@@ -11,7 +11,7 @@ function poll_number()
     end
 end
 
-function xxd()
+local function xxd()
     if vim.b.is_xxd == nil then
         vim.b.is_xxd = false
     end
@@ -28,7 +28,7 @@ function xxd()
     vim.o.mod = mod
 end
 
-function format(fmt)
+local function format(fmt)
     local bufnr = vim.api.nvim_get_current_buf()
 
     if vim.o.mod == true then
@@ -66,7 +66,7 @@ end
 -- Returns:
 --   An array of tables, containing the path's components. For absolute paths,
 --   an empty string `""` is added at the beginning as a placeholder for the root directory.
-local function getNormalizedPathComponents(path, is_absolute_input)
+local function get_normalized_path_components(path, is_absolute_input)
     local components = {}
     local raw_segments = {}
 
@@ -107,7 +107,7 @@ end
 -- @param components table An array of path components.
 -- @param is_absolute_input boolean True if the original path was absolute.
 -- @return string The reconstructed normalized path string.
-local function reconstructNormalizedPath(components, is_absolute_input)
+local function reconstruct_normalized_path(components, is_absolute_input)
     if #components == 0 then
         -- If the component list is empty, for an absolute path it means the root "/", for a relative path it means an empty string ""
         return is_absolute_input and "/" or ""
@@ -135,7 +135,7 @@ end
 -- @param pathA string The target path.
 -- @param pathB string The base path.
 -- @return string The relative path of pathA based on pathB.
-local function getRelativePath(pathA, pathB)
+local function get_relative_path(pathA, pathB)
     -- First, determine if both paths are absolute
     local is_abs_A = pathA:sub(1, 1) == "/"
     local is_abs_B = pathB:sub(1, 1) == "/"
@@ -147,12 +147,12 @@ local function getRelativePath(pathA, pathB)
     end
 
     -- Get the normalized component lists for both paths
-    local partsA = getNormalizedPathComponents(pathA, is_abs_A)
-    local partsB = getNormalizedPathComponents(pathB, is_abs_B)
+    local partsA = get_normalized_path_components(pathA, is_abs_A)
+    local partsB = get_normalized_path_components(pathB, is_abs_B)
 
     -- Reconstruct normalized string paths to check if paths are completely identical.
-    local norm_str_A = reconstructNormalizedPath(partsA, is_abs_A)
-    local norm_str_B = reconstructNormalizedPath(partsB, is_abs_B)
+    local norm_str_A = reconstruct_normalized_path(partsA, is_abs_A)
+    local norm_str_B = reconstruct_normalized_path(partsB, is_abs_B)
 
     -- If the two normalized paths are identical, the relative path is "."
     if norm_str_A == norm_str_B then
@@ -190,5 +190,5 @@ return {
     poll_number = poll_number,
     xxd = xxd,
     format = format,
-    getRelativePath = getRelativePath,
+    get_relative_path = get_relative_path,
 }

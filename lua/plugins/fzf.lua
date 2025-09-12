@@ -262,7 +262,7 @@ local fzf_lua = {
                     local cwd = vim.fn.fnamemodify(vim.loop.cwd(), ":p")
                     local feature = require("feature")
                     for _, d in ipairs(data) do
-                        local line = feature.getRelativePath(d, cwd)
+                        local line = feature.get_relative_path(d, cwd)
                         fzf_cb(line)
                     end
                     fzf_cb()
