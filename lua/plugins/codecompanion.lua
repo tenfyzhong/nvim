@@ -239,10 +239,10 @@ local codecompanion = {
             },
             strategies = {
                 chat = {
-                    adapter = "cli_proxy_api_2_5_pro",
+                    adapter = "gemini_balance_pro",
                 },
                 inline = {
-                    adapter = "cli_proxy_api_2_5_pro",
+                    adapter = "gemini_balance_flash",
                     keymaps = {
                         accept_change = {
                             modes = { n = "ga" },
