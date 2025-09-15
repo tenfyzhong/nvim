@@ -1,15 +1,15 @@
 local notify = {
-    'rcarriga/nvim-notify',
+    "rcarriga/nvim-notify",
     config = function()
-        local notify = require('notify')
+        local notify = require("notify")
         notify.setup({
-            timeout = 1000,
-            render = 'wrapped-compact',
-            level = 2,
+            timeout = 3000,
+            render = "wrapped-compact",
+            level = vim.log.levels.INFO,
         })
         vim.notify = notify
     end,
-    event = 'VeryLazy',
+    event = "VeryLazy",
 }
 
 return { notify }
