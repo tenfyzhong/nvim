@@ -48,6 +48,7 @@ local fzf_lua = {
             buffers = {
                 actions = {
                     ["ctrl-x"] = fzf_lua.actions.file_split,
+                    ["ctrl-d"] = { fn = fzf_lua.actions.buf_del, reload = true },
                 },
             },
         })
