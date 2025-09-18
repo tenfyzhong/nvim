@@ -85,6 +85,21 @@ local function cmp_config()
         end
     end
 
+    local cmdline_mapping = cmp.mapping.preset.cmdline({
+        ["<c-j>"] = {
+            c = cmd_down,
+        },
+        ["<c-k>"] = {
+            c = cmd_up,
+        },
+        ["<Down>"] = {
+            c = cmd_down,
+        },
+        ["<Up>"] = {
+            c = cmd_up,
+        },
+    })
+
     local lspkind = require("lspkind")
 
     cmp.setup({
@@ -204,20 +219,7 @@ local function cmp_config()
 
     -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline({
-            ["<c-j>"] = {
-                c = cmd_down,
-            },
-            ["<c-k>"] = {
-                c = cmd_up,
-            },
-            ["<Down>"] = {
-                c = cmd_down,
-            },
-            ["<Up>"] = {
-                c = cmd_up,
-            },
-        }),
+        mapping = cmdline_mapping,
         sources = {
             { name = "buffer" },
         },
@@ -225,20 +227,7 @@ local function cmp_config()
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
     cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline({
-            ["<c-j>"] = {
-                c = cmd_down,
-            },
-            ["<c-k>"] = {
-                c = cmd_up,
-            },
-            ["<Down>"] = {
-                c = cmd_down,
-            },
-            ["<Up>"] = {
-                c = cmd_up,
-            },
-        }),
+        mapping = cmdline_mapping,
         sources = cmp.config.sources({
             { name = "path" },
         }, {
