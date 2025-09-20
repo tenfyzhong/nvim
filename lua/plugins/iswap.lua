@@ -1,18 +1,10 @@
---[[
-- @file iswap.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-02-15 10:18:33
---]]
-
 local iswap = {
-    'mizlan/iswap.nvim',
+    "mizlan/iswap.nvim",
     config = function()
-        require('iswap').setup {
+        require("iswap").setup({
             -- The keys that will be used as a selection, in order
             -- ('asdfghjklqwertyuiopzxcvbnm' by default)
-            keys = 'asdfghjkl',
+            keys = "asdfghjkl",
 
             -- Grey out the rest of the text when making a selection
             -- (enabled by default)
@@ -33,11 +25,11 @@ local iswap = {
             -- Post-operation flashing highlight style,
             -- either 'simultaneous' or 'sequential', or false to disable
             -- default 'sequential'
-            flash_style = 'simultaneous',
+            flash_style = "simultaneous",
 
             -- Highlight group for flashing highlight afterward
             -- default 'IncSearch'
-            hl_flash = 'ModeMsg',
+            hl_flash = "ModeMsg",
 
             -- Move cursor to the other element in ISwap*With commands
             -- default false
@@ -49,12 +41,12 @@ local iswap = {
 
             -- Other default options you probably should not change:
             debug = nil,
-            hl_grey_priority = '1000',
-        }
+            hl_grey_priority = "1000",
+        })
     end,
     keys = {
-        { 'g>', '<cmd>silent ISwapNodeWithRight<cr>', remap = false, silent = true },
-        { 'g<', '<cmd>silent ISwapNodeWithLeft<cr>',  remap = false, silent = true },
+        { "g>", "<cmd>silent ISwapNodeWithRight<cr>", remap = false, silent = true },
+        { "g<", "<cmd>silent ISwapNodeWithLeft<cr>", remap = false, silent = true },
     },
 }
 

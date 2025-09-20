@@ -1,71 +1,67 @@
---[[
-- @file autocmd.lua
-- @brief global autocmd
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-26 22:05:25
---]]
+local init_group = vim.api.nvim_create_augroup("global_initial", {})
 
-local init_group = vim.api.nvim_create_augroup('global_initial', {})
-
-vim.api.nvim_create_autocmd('BufWritePost', {
+vim.api.nvim_create_autocmd("BufWritePost", {
     group = init_group,
-    pattern = { '*vimrc', '*.vim' },
-    callback = function() vim.cmd('source %') end,
+    pattern = { "*vimrc", "*.vim" },
+    callback = function()
+        vim.cmd("source %")
+    end,
 })
 
-vim.api.nvim_create_autocmd('InsertLeave', {
+vim.api.nvim_create_autocmd("InsertLeave", {
     group = init_group,
-    pattern = '*',
-    callback = function() vim.o.paste = false end,
+    pattern = "*",
+    callback = function()
+        vim.o.paste = false
+    end,
 })
 
-vim.api.nvim_create_autocmd('InsertEnter', {
+vim.api.nvim_create_autocmd("InsertEnter", {
     group = init_group,
-    pattern = '*',
+    pattern = "*",
     callback = function()
         vim.o.number = true
         vim.o.relativenumber = false
-    end
+    end,
 })
 
-vim.api.nvim_create_autocmd('InsertLeave', {
+vim.api.nvim_create_autocmd("InsertLeave", {
     group = init_group,
-    pattern = '*',
+    pattern = "*",
     callback = function()
         vim.o.number = true
         vim.o.relativenumber = true
-    end
+    end,
 })
 
-vim.api.nvim_create_autocmd('WinLeave', {
+vim.api.nvim_create_autocmd("WinLeave", {
     group = init_group,
-    pattern = '*',
+    pattern = "*",
     callback = function()
         vim.wo.cursorline = false
-    end
+    end,
 })
 
-vim.api.nvim_create_autocmd('WinEnter', {
+vim.api.nvim_create_autocmd("WinEnter", {
     group = init_group,
-    pattern = '*',
+    pattern = "*",
     callback = function()
         vim.wo.cursorline = true
-    end
+    end,
 })
 
-vim.api.nvim_create_autocmd('TextYankPost', {
+vim.api.nvim_create_autocmd("TextYankPost", {
     group = init_group,
-    pattern = '*',
+    pattern = "*",
     callback = function()
-        vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
-    end
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
+    end,
 })
 
-vim.api.nvim_create_autocmd('BufWritePost', {
+vim.api.nvim_create_autocmd("BufWritePost", {
     group = init_group,
-    pattern = '.envrc',
+    pattern = ".envrc",
     callback = function()
-        vim.fn.system('direnv allow')
+        vim.fn.system("direnv allow")
     end,
 })

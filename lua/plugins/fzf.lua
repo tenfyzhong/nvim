@@ -1,11 +1,3 @@
---[[
-- @file fzf.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 20:06:26
---]]
-
 local fzf = {
     "junegunn/fzf",
     build = ":call fzf#install()",

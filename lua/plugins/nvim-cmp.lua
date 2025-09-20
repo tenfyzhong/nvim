@@ -1,11 +1,3 @@
---[[
-- @file nvim-cmp.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-26 17:25:34
---]]
-
 local function cmp_config()
     local cmp = require("cmp")
 

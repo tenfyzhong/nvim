@@ -1,5 +1,5 @@
 local trouble = {
-    'folke/trouble.nvim',
+    "folke/trouble.nvim",
     opts = {},
     cmd = { "Trouble", "TodoTrouble" },
 }

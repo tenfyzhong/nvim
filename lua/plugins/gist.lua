@@ -1,11 +1,3 @@
---[[
-- @file gist.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 20:56:39
---]]
-
 local unception = {
     "samjwill/nvim-unception",
     init = function()
@@ -25,9 +17,9 @@ local gist = {
                 -- with vim-like bindings n/p next previous
                 mappings = {
                     next_file = "<C-n>",
-                    prev_file = "<C-p>"
-                }
-            }
+                    prev_file = "<C-p>",
+                },
+            },
         })
     end,
     dependencies = { unception },

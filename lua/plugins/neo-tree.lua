@@ -8,7 +8,7 @@ local tree = {
         -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     config = function()
-        require('neo-tree').setup {
+        require("neo-tree").setup({
             use_default_mappings = true,
             close_if_last_window = true,
             filesystem = {
@@ -22,7 +22,7 @@ local tree = {
                     handler = function(arg)
                         vim.opt.relativenumber = true
                     end,
-                }
+                },
             },
             window = {
                 mapping_options = {
@@ -33,19 +33,27 @@ local tree = {
                     ["/"] = "noop",
                     ["<c-b>"] = "noop",
                     ["<c-f>"] = "noop",
-                    ["s"] = { command = 'open_split' },
-                    ["v"] = { command = 'open_vsplit' },
+                    ["s"] = { command = "open_split" },
+                    ["v"] = { command = "open_vsplit" },
                     ["<esc>"] = {
                         "cancel",
                         nowait = true,
                     },
                 },
             },
-        }
+        })
     end,
-    cmd = { 'Neotree' },
+    cmd = { "Neotree" },
     keys = {
-        { '<leader>nt', function() require('neo-tree.command').execute({ toggle = true, }) end, mode = { 'n' }, remap = false, desc = 'Neotree toggle=true' },
+        {
+            "<leader>nt",
+            function()
+                require("neo-tree.command").execute({ toggle = true })
+            end,
+            mode = { "n" },
+            remap = false,
+            desc = "Neotree toggle=true",
+        },
     },
 }
 

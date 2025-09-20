@@ -1,11 +1,3 @@
---[[
-- @file go.nvim.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-02-01 00:12:36
---]]
-
 local go = {
     "ray-x/go.nvim",
     config = function()

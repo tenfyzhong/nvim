@@ -1,7 +1,7 @@
 local copilot = {
-    'github/copilot.vim',
+    "github/copilot.vim",
     -- config = true,
-    event = 'VeryLazy',
+    event = "VeryLazy",
 }
 
 return { copilot }

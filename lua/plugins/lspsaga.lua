@@ -1,11 +1,3 @@
---[[
-- @file lspsaga.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-02-07 20:50:17
---]]
-
 local lspsaga = {
     "nvimdev/lspsaga.nvim",
     branch = "main",

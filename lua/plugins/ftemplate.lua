@@ -1,18 +1,10 @@
---[[
-- @file ftemplate.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 10:25:33
---]]
 local ftemplate = {
-    'tenfyzhong/ftemplate.vim',
+    "tenfyzhong/ftemplate.vim",
     init = function()
-        vim.g.ftemplate_local_templates = '~/.config/nvim/local/ftemplates'
-        vim.g.ftemplate_ignore_ft = { 'lua' }
+        vim.g.ftemplate_local_templates = "~/.config/nvim/local/ftemplates"
+        vim.g.ftemplate_ignore_ft = { "lua" }
     end,
-    config = function()
-    end,
+    config = function() end,
 }
 
 return { ftemplate }

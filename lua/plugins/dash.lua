@@ -1,18 +1,11 @@
---[[
-- @file dash.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 20:54:20
---]]
 local dash = {
-    'tenfyzhong/dash.nvim',
+    "tenfyzhong/dash.nvim",
     config = function()
-        require('dash').setup({
+        require("dash").setup({
             -- configure path to Dash.app if installed somewhere other than /Applications/Dash.app
-            dash_app_path = '/Applications/Dash.app',
+            dash_app_path = "/Applications/Dash.app",
             -- search engine to fall back to when Dash has no results, must be one of: 'ddg', 'duckduckgo', 'startpage', 'google'
-            search_engine = 'ddg',
+            search_engine = "ddg",
             -- debounce while typing, in milliseconds
             debounce = 1,
             -- map filetype strings to the keywords you've configured for docsets in Dash
@@ -30,20 +23,20 @@ local dash = {
                 packer = false,
                 fzf = false,
                 -- a table of strings will search on multiple keywords
-                javascript = { 'javascript', 'nodejs' },
-                typescript = { 'typescript', 'javascript', 'nodejs' },
-                typescriptreact = { 'typescript', 'javascript', 'react' },
-                javascriptreact = { 'javascript', 'react' },
+                javascript = { "javascript", "nodejs" },
+                typescript = { "typescript", "javascript", "nodejs" },
+                typescriptreact = { "typescript", "javascript", "react" },
+                javascriptreact = { "javascript", "react" },
                 -- you can also do a string, for example,
                 -- sh = 'bash'
             },
         })
     end,
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    build = 'make install',
-    cmd = { 'Dash', 'DashWord', 'DashDirect', 'DashDirectWord' },
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    build = "make install",
+    cmd = { "Dash", "DashWord", "DashDirect", "DashDirectWord" },
     keys = {
-        { '<leader>ds', ':DashDirectWord<CR>', silent = true, remap = false, desc = 'dash: search cword' },
+        { "<leader>ds", ":DashDirectWord<CR>", silent = true, remap = false, desc = "dash: search cword" },
     },
 }
 

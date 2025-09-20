@@ -1,7 +1,7 @@
 local remember = {
-    'vladdoster/remember.nvim',
+    "vladdoster/remember.nvim",
     config = function()
-        require("remember").setup {}
+        require("remember").setup({})
     end,
 }
 

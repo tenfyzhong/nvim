@@ -1,16 +1,16 @@
-vim.api.nvim_create_autocmd({ 'FileType' }, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
-        'css',
-        'ejs',
-        'html',
-        'htmldjango',
-        'htmljanja',
-        'jade',
-        'pug',
-        'javascript',
-        'typescript',
-        'vue',
-        'yaml',
+        "css",
+        "ejs",
+        "html",
+        "htmldjango",
+        "htmljanja",
+        "jade",
+        "pug",
+        "javascript",
+        "typescript",
+        "vue",
+        "yaml",
     },
     callback = function()
         vim.bo.tabstop = 2
@@ -20,11 +20,11 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     end,
 })
 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
-        'make',
-        'go',
-        'java',
+        "make",
+        "go",
+        "java",
     },
     callback = function()
         vim.bo.expandtab = false

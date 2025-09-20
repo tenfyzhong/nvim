@@ -1,13 +1,5 @@
---[[
-- @file nvim-treesitter.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 08:35:40
---]]
-
 local function treesister_config()
-    require 'nvim-treesitter.configs'.setup({
+    require("nvim-treesitter.configs").setup({
         matchup = {
             enable = true, -- mandatory, false will disable the whole extension
             -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
@@ -73,7 +65,7 @@ local function treesister_config()
             -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
             -- Using this option may slow down your editor, and you may see some duplicate highlights.
             -- Instead of true it can also be a list of languages
-            additional_vim_regex_highlighting = { 'markdown', 'codecompanion' },
+            additional_vim_regex_highlighting = { "markdown", "codecompanion" },
         },
     })
     -- vim.o.foldmethod = 'expr'
@@ -82,13 +74,13 @@ local function treesister_config()
 end
 
 local context = {
-    'nvim-treesitter/nvim-treesitter-context',
+    "nvim-treesitter/nvim-treesitter-context",
 }
 
 local treesitter = {
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     config = treesister_config,
-    event = 'VeryLazy',
+    event = "VeryLazy",
     dependencies = { context },
 }
 

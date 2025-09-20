@@ -1,10 +1,3 @@
---[[
-- @file aerial.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-26 22:15:47
---]]
 local function aerial_config()
     -- Call the setup function to change the default behavior
     require("aerial").setup({
@@ -281,13 +274,13 @@ local function aerial_config()
         },
     })
 
-    vim.keymap.set({ 'n' }, '<leader>tb', '<cmd>AerialToggle!<CR>', { silent = true, desc = 'aerial: AerialToggle' })
+    vim.keymap.set({ "n" }, "<leader>tb", "<cmd>AerialToggle!<CR>", { silent = true, desc = "aerial: AerialToggle" })
 end
 
 local aerial = {
-    'stevearc/aerial.nvim',
+    "stevearc/aerial.nvim",
     config = aerial_config,
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
 }
 
 return { aerial }

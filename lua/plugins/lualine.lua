@@ -1,23 +1,16 @@
---[[
-- @file lualine.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 18:20:59
---]]
 local lualine = {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons', 'stevearc/dressing.nvim', 'nvim-telescope/telescope.nvim' },
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons", "stevearc/dressing.nvim", "nvim-telescope/telescope.nvim" },
     config = function()
         local pos = function()
-            return string.format('%d/%d:%d', vim.fn.line('.'), vim.fn.line('$'), vim.fn.col('.'))
+            return string.format("%d/%d:%d", vim.fn.line("."), vim.fn.line("$"), vim.fn.col("."))
         end
-        require('lualine').setup {
+        require("lualine").setup({
             options = {
                 icons_enabled = true,
-                theme = 'auto',
-                component_separators = { left = '', right = '' },
-                section_separators = { left = '', right = '' },
+                theme = "auto",
+                component_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
                 disabled_filetypes = {
                     statusline = {},
                     winbar = {},
@@ -29,21 +22,28 @@ local lualine = {
                     statusline = 1000,
                     tabline = 1000,
                     winbar = 1000,
-                }
+                },
             },
             sections = {
-                lualine_a = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
+                lualine_a = {
+                    {
+                        "mode",
+                        fmt = function(str)
+                            return str:sub(1, 1)
+                        end,
+                    },
+                },
                 lualine_b = {},
-                lualine_c = { 'filename' },
-                lualine_x = { 'branch', 'diff', 'diagnostics' },
-                lualine_y = { pos, 'progress' },
+                lualine_c = { "filename" },
+                lualine_x = { "branch", "diff", "diagnostics" },
+                lualine_y = { pos, "progress" },
                 lualine_z = {},
                 -- lualine_z = { 'overseer' },
             },
             inactive_sections = {
                 lualine_a = {},
                 lualine_b = {},
-                lualine_c = { 'filename' },
+                lualine_c = { "filename" },
                 lualine_x = { pos },
                 lualine_y = {},
                 lualine_z = {},
@@ -51,8 +51,8 @@ local lualine = {
             tabline = {},
             winbar = {},
             inactive_winbar = {},
-            extensions = {}
-        }
+            extensions = {},
+        })
     end,
 }
 

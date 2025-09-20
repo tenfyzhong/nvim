@@ -1,9 +1,9 @@
 local ccc = {
-    'uga-rosa/ccc.nvim',
+    "uga-rosa/ccc.nvim",
     config = function()
-        require('ccc').setup {}
+        require("ccc").setup({})
     end,
-    cmd = { 'CccPick', 'CccConvert', 'CccHighlighterEnable', 'CccHighlighterDisable', 'CccHighlighterToggle' }
+    cmd = { "CccPick", "CccConvert", "CccHighlighterEnable", "CccHighlighterDisable", "CccHighlighterToggle" },
 }
 
 return { ccc }

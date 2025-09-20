@@ -1,11 +1,3 @@
---[[
-- @file committia.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 19:12:03
---]]
-
 local committia = {
     "rhysd/committia.vim",
     config = function()

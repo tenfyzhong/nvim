@@ -1,13 +1,5 @@
---[[
-- @file vim-startify.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-27 14:14:29
---]]
-
 local startify = {
-    'mhinz/vim-startify',
+    "mhinz/vim-startify",
     config = function()
         vim.cmd([[
 let g:startify_enable_special = 0
@@ -34,7 +26,7 @@ let g:startify_custom_header =
             \ '                ||     ||                            ',
             \ ]
         ]])
-    end
+    end,
 }
 
 return { startify }

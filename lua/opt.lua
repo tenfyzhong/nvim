@@ -1,11 +1,3 @@
---[[
-- @file opt.lua
-- @brief global options
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-26 22:09:41
---]]
-
 vim.o.shell = "sh"
 
 vim.opt.clipboard:append({ "unnamedplus" })

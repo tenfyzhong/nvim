@@ -1,11 +1,3 @@
---[[
-- @file abbreviate.lua
-- @brief
-- @author tenfyzhong
-- @email tenfy@tenfy.cn
-- @created 2023-01-28 13:02:49
---]]
-
 vim.cmd([[
 iab eles else
 iab contineu continue

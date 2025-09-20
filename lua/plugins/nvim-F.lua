@@ -1,9 +1,9 @@
 local f = {
-    'tenfyzhong/nvim-F',
+    "tenfyzhong/nvim-F",
     config = function()
-        require('f').setup({})
+        require("f").setup({})
     end,
-    cmd = { 'F' },
+    cmd = { "F" },
 }
 
 return { f }
