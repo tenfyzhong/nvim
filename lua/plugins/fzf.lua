@@ -26,7 +26,7 @@ end
 local fzf_lua = {
     "ibhagwan/fzf-lua",
     -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons", "MattesGroeger/vim-bookmarks", fzf },
+    dependencies = { "nvim-tree/nvim-web-devicons", fzf },
     config = function()
         local fzf_lua = require("fzf-lua")
         fzf_lua.setup({
