@@ -7,7 +7,7 @@ local substitute = {
     end,
     keys = {
         {
-            "s",
+            "<leader>s",
             function()
                 require("substitute").operator()
             end,
@@ -16,7 +16,7 @@ local substitute = {
             desc = "substitute: operator",
         },
         {
-            "ss",
+            "<leader>ss",
             function()
                 require("substitute").line()
             end,
@@ -25,7 +25,7 @@ local substitute = {
             desc = "substitute: line",
         },
         {
-            "S",
+            "<leader>S",
             function()
                 require("substitute").eol()
             end,
@@ -34,7 +34,7 @@ local substitute = {
             desc = "substitute: eol",
         },
         {
-            "s",
+            "<leader>s",
             function()
                 require("substitute").visual()
             end,
