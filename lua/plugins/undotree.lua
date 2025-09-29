@@ -16,6 +16,7 @@ local undotree = {
             desc = "undotree: toggle undotree",
         },
     },
+    cmd = { "UndotreeToggle" },
 }
 
 return { undotree }
