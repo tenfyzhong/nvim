@@ -1,7 +1,6 @@
 local multi = {
     "mg979/vim-visual-multi",
-    config = function() end,
-    init = function()
+    config = function()
         vim.g.VM_show_warnings = 0
     end,
     keys = { "<C-n>" },
