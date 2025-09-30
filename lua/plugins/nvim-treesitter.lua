@@ -176,6 +176,45 @@ local function treesister_config()
     -- vim.o.foldmethod = 'expr'
     -- vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
     -- vim.o.foldenable = false
+
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    -- Repeat movement with ; and ,
+    -- ensure ; goes forward and , goes backward regardless of the last direction
+    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_next)
+    vim.keymap.set({ "n", "x", "o" }, "<leader>,", ts_repeat_move.repeat_last_move_previous)
+
+    -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+    vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
+    vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
+    vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
+    vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
+
+    -- make gitsigns.nvim movement repeatable with ; and , keys.
+    local gs = require("gitsigns")
+
+    -- make sure forward function comes first
+    local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(function()
+        if vim.wo.diff then
+            return "]c"
+        end
+        vim.schedule(function()
+            gs.next_hunk()
+        end)
+        return "<Ignore>"
+    end, function()
+        if vim.wo.diff then
+            return "[c"
+        end
+        vim.schedule(function()
+            gs.prev_hunk()
+        end)
+        return "<Ignore>"
+    end)
+    -- Or, use `make_repeatable_move` or `set_last_move` functions for more control. See the code for instructions.
+
+    vim.keymap.set({ "n", "x", "o" }, "]h", next_hunk_repeat)
+    vim.keymap.set({ "n", "x", "o" }, "[h", prev_hunk_repeat)
 end
 
 local context = {
