@@ -67,6 +67,16 @@ local function treesister_config()
             -- Instead of true it can also be a list of languages
             additional_vim_regex_highlighting = { "markdown", "codecompanion" },
         },
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                -- mappings for incremental selection (visual mappings)
+                init_selection = "+", -- maps in normal mode to init the node/scope selection
+                node_incremental = "+", -- increment to the upper named parent
+                -- scope_incremental = "grc", -- increment to the upper scope (as defined in locals.scm)
+                node_decremental = "-", -- decrement to the previous node
+            },
+        },
         textobjects = {
             select = {
                 enable = true,
@@ -78,10 +88,19 @@ local function treesister_config()
                     -- You can use the capture groups defined in textobjects.scm
                     ["af"] = { query = "@function.outer", desc = "Select a function" },
                     ["if"] = { query = "@function.inner", desc = "Select inner part of a function" },
-                    ["ac"] = { query = "@class.outer", desc = "Select a class" },
-                    ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-                    -- You can also use captures from other query groups like `locals.scm`
-                    ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+                    ["aC"] = { query = "@class.outer", desc = "Select a class" },
+                    ["iC"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+                    ["ac"] = { query = "@conditional.outer", desc = "Select a conditional block" },
+                    ["ic"] = { query = "@conditional.inner", desc = "Select a conditional inner block" },
+                    ["ae"] = { query = "@block.outer", desc = "Select a block" },
+                    ["ie"] = { query = "@block.inner", desc = "Select an inner block" },
+                    ["al"] = { query = "@loop.outer", desc = "Select a loop" },
+                    ["il"] = { query = "@loop.inner", desc = "Select an inner loop" },
+                    ["as"] = { query = "@statement.outer", desc = "Select a statement" },
+                    ["is"] = { query = "@statement.inner", desc = "Select an inner statement" },
+                    ["ad"] = { query = "@comment.outer", desc = "Select a comment" },
+                    ["am"] = { query = "@call.outer", desc = "Select a call" },
+                    ["im"] = { query = "@call.inner", desc = "Select an inner call" },
                 },
                 -- You can choose the select mode (default is charwise 'v')
                 --
