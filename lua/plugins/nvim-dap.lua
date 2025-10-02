@@ -25,4 +25,15 @@ local ui = {
     end,
 }
 
-return { dap, ui }
+local virtual = {
+    "theHamsta/nvim-dap-virtual-text",
+    config = function()
+        require("nvim-dap-virtual-text").setup({
+            virt_text_pos = "eol",
+        })
+    end,
+    dependencies = { dap },
+    event = "VeryLazy",
+}
+
+return { dap, ui, virtual }
