@@ -15,7 +15,10 @@ return {
     settings = {
         Lua = {
             diagnostics = {
-                globals = { "vim" },
+                globals = {
+                    "vim",
+                    "hs", -- the object of hammerspoon config
+                },
             },
             runtime = {
                 -- Tell the language server which version of Lua you're using (most
