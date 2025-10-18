@@ -21,6 +21,14 @@ local diffview = {
                     vim.opt.bufhidden = "delete"
                 end,
             },
+            keymaps = {
+                view = {
+                    ["<leader>nt"] = "<Cmd>DiffviewToggleFiles<CR>",
+                },
+                file_panel = {
+                    ["<leader>nt"] = "<Cmd>DiffviewToggleFiles<CR>",
+                },
+            },
         })
     end,
     cmd = {
