@@ -1,5 +1,6 @@
 local yanky = {
     "gbprod/yanky.nvim",
+    enabled = false,
     -- config = function()
     --     require("yanky").setup({})
     -- end,
