@@ -88,6 +88,27 @@ This configuration is powered by a curated list of plugins that enhance the Neov
 | [zoxide.lua](https://github.com/jvgrootveld/zoxide.lua) | A Lua-based Zoxide plugin for Neovim. |
 | [wakatime.nvim](https://github.com/wakatime/wakatime-nvim) | WakaTime integration for Neovim. |
 
+## Formatter Dependencies
+
+`conform.nvim` relies on external formatter binaries. Please ensure the following tools are installed and available in your system's PATH for optimal formatting functionality:
+
+*   **shfmt**: A shell parser, formatter, and interpreter.
+    *   Installation: `go install mvdan.cc/sh/v3/cmd/shfmt@latest`
+*   **gofumpt**: A Go formatter, a stricter variant of `gofmt`.
+    *   Installation: `go install mvdan.cc/gofumpt@latest`
+*   **goimports-reviser**: A tool for revising Go imports.
+    *   Installation: `go install github.com/incu6us/goimports-reviser@latest`
+*   **goimports**: A tool for fixing Go imports.
+    *   Installation: `go install golang.org/x/tools/cmd/goimports@latest`
+*   **markdownlint-cli2**: A fast, flexible, and configurable Markdown linter.
+    *   Installation: `npm install -g markdownlint-cli2` or `yarn global add markdownlint-cli2`
+*   **stylua**: An opinionated Lua code formatter.
+    *   Installation: `cargo install stylua`
+*   **fish_indent**: The Fish shell auto-indenter.
+    *   Installation: Usually comes with Fish shell. If not, install Fish shell.
+*   **yq**: A lightweight and portable command-line YAML, JSON and XML processor.
+    *   Installation: Refer to [yq documentation](https://mikefarah.gitbook.io/yq/#install) for various installation methods.
+
 ### Environment Variables for Conform.nvim
 
 This configuration allows for fine-grained control over `conform.nvim` and its integrated formatters through environment variables. These variables can be set to customize formatting behavior without modifying the Lua configuration files directly.
