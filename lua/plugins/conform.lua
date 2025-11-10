@@ -190,42 +190,23 @@ local function format(args)
     end
 
     local skip_fts = {}
-    local conform_fts = {
-        "sh",
-        "bash",
-        "zsh",
-        "go",
-    }
 
     local option = {}
     option.bufnr = args.buf
 
     if vim.tbl_contains(skip_fts, vim.bo.filetype) then
         return
-    elseif vim.tbl_contains(conform_fts, vim.bo.filetype) then
-        -- The format from env is the highest priority
-        local formatters = args.get_formatters_fn and args.get_formatters_fn(vim.bo.filetype) or nil
-        if not formatters then
-            formatters = args.formatters
-        end
-
-        if formatters then
-            option.formatters = formatters
-        end
-        if args.async then
-            option.async = args.async
-        end
-
-        feature.format(function()
-            conform.format(option)
-        end)
-    else
-        feature.format(function()
-            option.formatters = nil
-            option.lsp_format = "fallback"
-            conform.format(option)
-        end)
     end
+
+    -- The format from env is the highest priority
+    local formatters = args.get_formatters_fn and args.get_formatters_fn(vim.bo.filetype, args.formatters)
+    option.formatters = formatters
+    option.async = args.async or false
+    option.lsp_format = "fallback"
+
+    feature.format(function()
+        conform.format(option)
+    end)
 end
 
 local function format_manual()
@@ -256,6 +237,8 @@ local conform = {
             -- log_level = vim.log.levels.TRACE,
             formatters_by_ft = {
                 sh = sh_formatters,
+                bash = sh_formatters,
+                zsh = sh_formatters,
                 go = go_formatters,
                 markdown = { "markdownlint-cli2" },
                 lua = { "stylua" },
