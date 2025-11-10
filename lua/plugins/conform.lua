@@ -169,9 +169,25 @@ local function get_auto_formatters_from_env(ft, default_formatters)
     return get_formatters_from_env("AUTO", ft, default_formatters)
 end
 
+local function disable_formatter_from_env(ft)
+    local upper_ft = ft:upper()
+    local key = string.format("CONFORM_DISABLE_%s", upper_ft)
+    local str = os.getenv(key)
+    if not str then
+        return false
+    end
+    local upper_str = str:upper()
+    return upper_str == "1" or upper_str == "TRUE"
+end
+
 local function format(args)
     local conform = require("conform")
     local feature = require("feature")
+
+    local disable = disable_formatter_from_env(vim.bo.filetype)
+    if disable then
+        return
+    end
 
     local skip_fts = {}
     local conform_fts = {

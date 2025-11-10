@@ -87,3 +87,59 @@ This configuration is powered by a curated list of plugins that enhance the Neov
 | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight, list and search for todo comments in your projects. |
 | [zoxide.lua](https://github.com/jvgrootveld/zoxide.lua) | A Lua-based Zoxide plugin for Neovim. |
 | [wakatime.nvim](https://github.com/wakatime/wakatime-nvim) | WakaTime integration for Neovim. |
+
+### Environment Variables for Conform.nvim
+
+This configuration allows for fine-grained control over `conform.nvim` and its integrated formatters through environment variables. These variables can be set to customize formatting behavior without modifying the Lua configuration files directly.
+
+#### General Conform.nvim Variables
+
+| Environment Variable | Description | Example Value |
+| :------------------- | :---------- | :------------ |
+| `CONFORM_AUTO_{FILETYPE}_FORMATTERS` | Overrides the default automatic formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype (e.g., `GO`, `SH`). Multiple formatters should be comma-separated. | `CONFORM_AUTO_GO_FORMATTERS=goimports-reviser,gofumpt` |
+| `CONFORM_MANUAL_{FILETYPE}_FORMATTERS` | Overrides the default manual formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype. Multiple formatters should be comma-separated. | `CONFORM_MANUAL_SH_FORMATTERS=shfmt` |
+| `CONFORM_DISABLE_{FILETYPE}` | If set to "1" or "TRUE" (case-insensitive), disables formatting for the specified filetype. Replace `{FILETYPE}` with the actual filetype. | `CONFORM_DISABLE_GO=TRUE` |
+
+#### `shfmt` Formatter Variables
+
+These variables control the behavior of the `shfmt` formatter. Setting them to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag, except for `SHFMT_INDENT` which takes an integer value.
+
+| Environment Variable | Description | `shfmt` Flag |
+| :------------------- | :---------- | :----------- |
+| `SHFMT_INDENT` | Sets the indentation width. | `-i <value>` |
+| `SHFMT_BINARY_NEXT_LINE` | Binary operators (&&, ||) will be followed by a newline. | `-bn` |
+| `SHFMT_CASE_INDEX` | Indent `case` patterns. | `-ci` |
+| `SHFMT_SPACE_REDIRECTS` | Add space before redirects. | `-sr` |
+| `SHFMT_KEEP_PADDING` | Keep existing indentation. | `-kp` |
+| `SHFMT_FUNC_NEXT_LINE` | Function opening brace on next line. | `-fn` |
+
+#### `goimports-reviser` Formatter Variables
+
+These variables control the behavior of the `goimports-reviser` formatter. Setting them to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag, except for those that require a specific value.
+
+| Environment Variable | Description | `goimports-reviser` Flag |
+| :------------------- | :---------- | :----------------------- |
+| `GOIMPORTS_REVISER_FORMAT` | Enable formatting. | `-format` |
+| `GOIMPORTS_REVISER_IMPORTS_ORDER` | Specifies the order of imports. | `--imports-order <value>` |
+| `GOIMPORTS_REVISER_PROJECT_NAME` | Specifies the project name for grouping imports. | `-project-name <value>` |
+| `GOIMPORTS_REVISER_SEPARATE_NAMED` | Separate named imports. | `-separate-named` |
+| `GOIMPORTS_REVISER_SET_ALIAS` | Set aliases for imports. | `-set-alias` |
+| `GOIMPORTS_REVISER_USE_CACHE` | Use cache for faster processing. | `-use-cache` |
+
+#### `gofumpt` Formatter Variables
+
+These variables control the behavior of the `gofumpt` formatter. Setting them to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag, except for those that require a specific value.
+
+| Environment Variable | Description | `gofumpt` Flag |
+| :------------------- | :---------- | :------------ |
+| `GOFUMPT_EXTRA` | Enable extra checks. | `-extra` |
+| `GOFUMPT_LANG` | Specifies the Go language version. | `-lang <value>` |
+| `GOFUMPT_MODPATH` | Specifies the module path. | `-modpath <value>` |
+
+#### `goimports` Formatter Variables
+
+This variable controls the behavior of the `goimports` formatter. Setting it to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag.
+
+| Environment Variable | Description | `goimports` Flag |
+| :------------------- | :---------- | :-------------- |
+| `GOIMPORTS_LOCAL` | Specifies local import paths. | `-local <value>` |
