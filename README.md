@@ -143,3 +143,11 @@ This variable controls the behavior of the `goimports` formatter. Setting it to 
 | Environment Variable | Description | `goimports` Flag |
 | :------------------- | :---------- | :-------------- |
 | `GOIMPORTS_LOCAL` | Specifies local import paths. | `-local <value>` |
+
+#### `yq` Formatter Variables
+
+This variable controls the behavior of the `yq` formatter.
+
+| Environment Variable | Description | `yq` Flag |
+| :------------------- | :---------- | :-------- |
+| `{FILETYPE}_INDENT` | Sets the indentation width for the specific filetype (e.g., `JSON_INDENT`, `YAML_INDENT`). | `-I <value>` |

@@ -141,6 +141,28 @@ local function goimports_args(format_only)
     return args
 end
 
+local function yq_args()
+    local ft = vim.bo.filetype
+
+    local args = {}
+    local upper_ft = ft:upper()
+    local key = string.format("%s_INDENT", upper_ft)
+    local indent = os.getenv(key)
+    if is_not_whitespace(indent) then
+        args[#args + 1] = "-I"
+        args[#args + 1] = indent
+    end
+
+    args[#args + 1] = "-p"
+    args[#args + 1] = ft
+    args[#args + 1] = "-o"
+    args[#args + 1] = ft
+    args[#args + 1] = "-P"
+    args[#args + 1] = "-"
+
+    return args
+end
+
 local function get_formatters_from_env(typ, ft, default_formatters)
     -- CONFORM_AUTO_GO_FORMATTERS=goimports-reviser,gofumpt
     -- CONFORM_MANUAL_SH_FORMATTERS=
@@ -243,6 +265,8 @@ local conform = {
                 markdown = { "markdownlint-cli2" },
                 lua = { "stylua" },
                 fish = { "fish_indent" },
+                json = { "yq" },
+                yaml = { "yq" },
             },
             -- The format should print the formatted content to stdout
             formatters = {
@@ -276,6 +300,11 @@ local conform = {
                     inherit = false,
                     command = "goimports",
                     args = goimports_args(true),
+                },
+                yq = {
+                    inherit = false,
+                    command = "yq",
+                    args = yq_args,
                 },
             },
             default_format_opts = {
