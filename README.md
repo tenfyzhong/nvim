@@ -4,17 +4,17 @@ This is a personal Neovim configuration tailored for a productive and enjoyable 
 
 ## Installation
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
 
     ```bash
     git clone https://github.com/your-username/your-repo-name.git ~/.config/nvim
     ```
 
-2.  **Install `lazy.nvim`, the plugin manager:**
+2. **Install `lazy.nvim`, the plugin manager:**
 
     The configuration uses `lazy.nvim` to manage plugins. It will be automatically installed the first time you launch Neovim.
 
-3.  **Launch Neovim:**
+3. **Launch Neovim:**
 
     Open Neovim, and `lazy.nvim` will handle the rest, installing all the configured plugins.
 
@@ -24,13 +24,13 @@ This is a personal Neovim configuration tailored for a productive and enjoyable 
 
 ## Features
 
-*   **Fast Startup Time:** Optimized for quick startup and responsiveness.
-*   **Modern and Consistent UI:** A clean and consistent user interface with a focus on usability.
-*   **Extensible and Customizable:** Easily extend and customize the configuration to fit your workflow.
-*   **LSP and Autocompletion:** Full-featured Language Server Protocol (LSP) support for intelligent code completion, diagnostics, and navigation.
-*   **Debugging:** Integrated debugging support for a seamless debugging experience.
-*   **Git Integration:** Deep integration with Git for efficient version control.
-*   **Fuzzy Finding:** Fast and intuitive fuzzy finding for files, buffers, and more.
+* **Fast Startup Time:** Optimized for quick startup and responsiveness.
+* **Modern and Consistent UI:** A clean and consistent user interface with a focus on usability.
+* **Extensible and Customizable:** Easily extend and customize the configuration to fit your workflow.
+* **LSP and Autocompletion:** Full-featured Language Server Protocol (LSP) support for intelligent code completion, diagnostics, and navigation.
+* **Debugging:** Integrated debugging support for a seamless debugging experience.
+* **Git Integration:** Deep integration with Git for efficient version control.
+* **Fuzzy Finding:** Fast and intuitive fuzzy finding for files, buffers, and more.
 
 ## Plugins
 
@@ -92,22 +92,22 @@ This configuration is powered by a curated list of plugins that enhance the Neov
 
 `conform.nvim` relies on external formatter binaries. Please ensure the following tools are installed and available in your system's PATH for optimal formatting functionality:
 
-*   **shfmt**: A shell parser, formatter, and interpreter.
-    *   Installation: `go install mvdan.cc/sh/v3/cmd/shfmt@latest`
-*   **gofumpt**: A Go formatter, a stricter variant of `gofmt`.
-    *   Installation: `go install mvdan.cc/gofumpt@latest`
-*   **goimports-reviser**: A tool for revising Go imports.
-    *   Installation: `go install github.com/incu6us/goimports-reviser@latest`
-*   **goimports**: A tool for fixing Go imports.
-    *   Installation: `go install golang.org/x/tools/cmd/goimports@latest`
-*   **markdownlint-cli2**: A fast, flexible, and configurable Markdown linter.
-    *   Installation: `npm install -g markdownlint-cli2` or `yarn global add markdownlint-cli2`
-*   **stylua**: An opinionated Lua code formatter.
-    *   Installation: `cargo install stylua`
-*   **fish_indent**: The Fish shell auto-indenter.
-    *   Installation: Usually comes with Fish shell. If not, install Fish shell.
-*   **yq**: A lightweight and portable command-line YAML, JSON and XML processor.
-    *   Installation: Refer to [yq documentation](https://mikefarah.gitbook.io/yq/#install) for various installation methods.
+* **shfmt**: A shell parser, formatter, and interpreter.
+  * Installation: `go install mvdan.cc/sh/v3/cmd/shfmt@latest`
+* **gofumpt**: A Go formatter, a stricter variant of `gofmt`.
+  * Installation: `go install mvdan.cc/gofumpt@latest`
+* **goimports-reviser**: A tool for revising Go imports.
+  * Installation: `go install github.com/incu6us/goimports-reviser@latest`
+* **goimports**: A tool for fixing Go imports.
+  * Installation: `go install golang.org/x/tools/cmd/goimports@latest`
+* **markdownlint-cli2**: A fast, flexible, and configurable Markdown linter.
+  * Installation: `npm install -g markdownlint-cli2` or `yarn global add markdownlint-cli2`
+* **stylua**: An opinionated Lua code formatter.
+  * Installation: `cargo install stylua`
+* **fish_indent**: The Fish shell auto-indenter.
+  * Installation: Usually comes with Fish shell. If not, install Fish shell.
+* **yq**: A lightweight and portable command-line YAML, JSON and XML processor.
+  * Installation: Refer to [yq documentation](https://mikefarah.gitbook.io/yq/#install) for various installation methods.
 
 ### Environment Variables for Conform.nvim
 
@@ -117,58 +117,59 @@ This configuration allows for fine-grained control over `conform.nvim` and its i
 
 | Environment Variable | Description | Example Value |
 | :------------------- | :---------- | :------------ |
-| `CONFORM_AUTO_{FILETYPE}_FORMATTERS` | Overrides the default automatic formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype (e.g., `GO`, `SH`). Multiple formatters should be comma-separated. | `CONFORM_AUTO_GO_FORMATTERS=goimports-reviser,gofumpt` |
-| `CONFORM_MANUAL_{FILETYPE}_FORMATTERS` | Overrides the default manual formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype. Multiple formatters should be comma-separated. | `CONFORM_MANUAL_SH_FORMATTERS=shfmt` |
+| `CONFORM_AUTO_FORMATTERS_{FILETYPE}` | Overrides the default automatic formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype (e.g., `GO`, `SH`). Multiple formatters should be comma-separated. | `CONFORM_AUTO_FORMATTERS_GO=goimports-reviser,gofumpt` |
+| `CONFORM_MANUAL_FORMATTERS_{FILETYPE}` | Overrides the default manual formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype. Multiple formatters should be comma-separated. | `CONFORM_MANUAL_FORMATTERS_SH=shfmt` |
 | `CONFORM_DISABLE_{FILETYPE}` | If set to "1" or "TRUE" (case-insensitive), disables formatting for the specified filetype. Replace `{FILETYPE}` with the actual filetype. | `CONFORM_DISABLE_GO=TRUE` |
 
-#### `shfmt` Formatter Variables
+#### Formatter-Specific Arguments
 
-These variables control the behavior of the `shfmt` formatter. Setting them to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag, except for `SHFMT_INDENT` which takes an integer value.
+To pass custom arguments to formatters, you can use the `CONFORM_ARGS_{FORMATTER}` environment variable. This provides a flexible way to control formatter behavior without editing the configuration. Replace `{FORMATTER}` with the uppercase name of the formatter you want to configure (e.g., `SHFMT`, `GOFUMPT`). Note that any hyphens in the formatter name must be replaced with underscores.
 
-| Environment Variable | Description | `shfmt` Flag |
-| :------------------- | :---------- | :----------- |
-| `SHFMT_INDENT` | Sets the indentation width. | `-i <value>` |
-| `SHFMT_BINARY_NEXT_LINE` | Binary operators (&&, ||) will be followed by a newline. | `-bn` |
-| `SHFMT_CASE_INDEX` | Indent `case` patterns. | `-ci` |
-| `SHFMT_SPACE_REDIRECTS` | Add space before redirects. | `-sr` |
-| `SHFMT_KEEP_PADDING` | Keep existing indentation. | `-kp` |
-| `SHFMT_FUNC_NEXT_LINE` | Function opening brace on next line. | `-fn` |
+The value of the variable will be passed directly as a string of command-line arguments to the formatter.
 
-#### `goimports-reviser` Formatter Variables
+**Configured Formatter Names:**
 
-These variables control the behavior of the `goimports-reviser` formatter. Setting them to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag, except for those that require a specific value.
+* `shfmt`
+* `gofumpt`
+* `goimports-reviser`
+* `goimports-reviser-rm-unused`
+* `goimports`
+* `goimports_format_only`
+* `yq_json`
+* `yq_yaml`
 
-| Environment Variable | Description | `goimports-reviser` Flag |
-| :------------------- | :---------- | :----------------------- |
-| `GOIMPORTS_REVISER_FORMAT` | Enable formatting. | `-format` |
-| `GOIMPORTS_REVISER_IMPORTS_ORDER` | Specifies the order of imports. | `--imports-order <value>` |
-| `GOIMPORTS_REVISER_PROJECT_NAME` | Specifies the project name for grouping imports. | `-project-name <value>` |
-| `GOIMPORTS_REVISER_SEPARATE_NAMED` | Separate named imports. | `-separate-named` |
-| `GOIMPORTS_REVISER_SET_ALIAS` | Set aliases for imports. | `-set-alias` |
-| `GOIMPORTS_REVISER_USE_CACHE` | Use cache for faster processing. | `-use-cache` |
+| Environment Variable | Description | Example |
+| :------------------- | :---------- | :------ |
+| `CONFORM_ARGS_{FORMATTER}` | A string of command-line arguments to pass to the specified formatter. The formatter name must be in uppercase, with hyphens replaced by underscores. | `export CONFORM_ARGS_SHFMT="-i 4 -bn"` |
 
-#### `gofumpt` Formatter Variables
+**Examples:**
 
-These variables control the behavior of the `gofumpt` formatter. Setting them to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag, except for those that require a specific value.
+* **`shfmt`**: To set indentation to 4 spaces and move binary operators to the next line for shell scripts:
 
-| Environment Variable | Description | `gofumpt` Flag |
-| :------------------- | :---------- | :------------ |
-| `GOFUMPT_EXTRA` | Enable extra checks. | `-extra` |
-| `GOFUMPT_LANG` | Specifies the Go language version. | `-lang <value>` |
-| `GOFUMPT_MODPATH` | Specifies the module path. | `-modpath <value>` |
+    ```bash
+    export CONFORM_ARGS_SHFMT="-i 4 -bn"
+    ```
 
-#### `goimports` Formatter Variables
+* **`gofumpt`**: To pass the `-extra` flag to `gofumpt`:
 
-This variable controls the behavior of the `goimports` formatter. Setting it to any non-whitespace value (e.g., `1`, `true`, `yes`) will enable the corresponding flag.
+    ```bash
+    export CONFORM_ARGS_GOFUMPT="-extra"
+    ```
 
-| Environment Variable | Description | `goimports` Flag |
-| :------------------- | :---------- | :-------------- |
-| `GOIMPORTS_LOCAL` | Specifies local import paths. | `-local <value>` |
+* **`goimports`**: To pass the `-local` flag to `goimports`:
 
-#### `yq` Formatter Variables
+    ```bash
+    export CONFORM_ARGS_GOIMPORTS="-local github.com/your/project"
+    ```
 
-This variable controls the behavior of the `yq` formatter.
+* **`goimports-reviser`**: To pass the `-rm-unused` flag to `goimports-reviser`:
 
-| Environment Variable | Description | `yq` Flag |
-| :------------------- | :---------- | :-------- |
-| `{FILETYPE}_INDENT` | Sets the indentation width for the specific filetype (e.g., `JSON_INDENT`, `YAML_INDENT`). | `-I <value>` |
+    ```bash
+    export CONFORM_ARGS_GOIMPORTS_REVISER="-rm-unused"
+    ```
+
+* **`yq_json`**: To set the indentation to 4 for JSON files:
+
+    ```bash
+    export CONFORM_ARGS_YQ_JSON="-I 4"
+    ```
