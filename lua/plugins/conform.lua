@@ -10,6 +10,10 @@ local auto_formatters_by_ft = {
     yaml = { "yq_yaml" },
 }
 
+local function log(msg, level)
+    vim.notify(msg, level)
+end
+
 local manual_formatters_by_ft = {
     go = { "goimports", "gofumpt" },
 }
@@ -18,37 +22,45 @@ local function is_not_whitespace(str)
     return str and str:match("%S")
 end
 
--- env format:
--- CONFORM_ARGS_{FORMATTER}="formatter args"
-local function conform_args_from_env(formatter, append_args)
-    local args = {}
-    formatter = formatter:upper()
-    formatter = string.gsub(formatter, "%-", "_")
-    local key = string.format("CONFORM_ARGS_%s", formatter)
-    local value = os.getenv(key)
-    if is_not_whitespace(value) then
-        args[#args + 1] = value
-    end
-
-    if append_args then
-        for _, v in ipairs(append_args) do
-            table.insert(args, v)
+local function parse_value(value)
+    local value_type = type(value)
+    if value_type == "string" then
+        return { value }
+    elseif value_type == "table" then
+        return value
+    elseif value_type == "function" then
+        local success, result = pcall(value)
+        if success then
+            return parse_value(result)
         end
     end
-
-    return args
+    return {}
 end
 
-local function gen_formatter(command, formatter, append_args)
+-- env format:
+-- CONFORM_ARGS_{FORMATTER}="formatter args"
+local function conform_args_from_env(formatter, args)
     return function()
-        local result = {
-            inherit = false,
-            command = command,
-            args = conform_args_from_env(formatter, append_args),
-        }
+        local v = parse_value(args) or {}
 
-        vim.notify("gen_formatter, " .. formatter .. ", " .. vim.inspect(result), vim.log.levels.TRACE)
-        return result
+        formatter = formatter:upper()
+        formatter = string.gsub(formatter, "%-", "_")
+        local key = string.format("CONFORM_ARGS_%s", formatter)
+        local value = os.getenv(key)
+        if is_not_whitespace(value) then
+            v[#v + 1] = value
+        end
+
+        vim.notify("args " .. formatter .. " " .. vim.inspect(v))
+        return v
+    end
+end
+
+local function gen_formatter(formatter, option)
+    return function()
+        option.args = conform_args_from_env(formatter, option.args)
+        log("gen_formatter, " .. formatter .. ", " .. vim.inspect(option), vim.log.levels.TRACE)
+        return option
     end
 end
 
@@ -78,10 +90,10 @@ local function disable_formatter_from_env(ft)
     return upper_str == "1" or upper_str == "TRUE"
 end
 
-local function get_formatters(manual)
+local function get_formatters(manual, filetype)
     local typ = manual and "MANUAL" or "AUTO"
 
-    local ft = vim.bo.filetype
+    local ft = filetype or vim.bo.filetype
 
     local formatters = formatters_from_env(typ, ft)
     if formatters then
@@ -111,7 +123,7 @@ local function format(args)
     option.async = args.async or false
     option.lsp_format = "fallback"
 
-    vim.notify("format option: " .. vim.inspect(option), vim.log.levels.TRACE)
+    log("format option: " .. vim.inspect(option), vim.log.levels.TRACE)
 
     feature.format(function()
         conform.format(option)
@@ -133,26 +145,41 @@ local conform = {
     config = function()
         local conform = require("conform")
 
+        local formatters_by_ft = {}
+        for k in pairs(auto_formatters_by_ft) do
+            formatters_by_ft[k] = get_formatters(false, k)
+        end
+
         conform.setup({
-            -- log_level = vim.log.levels.TRACE,
+            log_level = vim.log.levels.TRACE,
+            formatters_by_ft = formatters_by_ft,
             formatters = {
-                shfmt = gen_formatter("shfmt", "shfmt", { "--filename", "$FILENAME" }),
-                gofumpt = gen_formatter("gofumpt", "gofumpt"),
-                -- goimports-reviser will result in `no such file or directory` errors
-                ["goimports-reviser"] = gen_formatter(
-                    "goimports-reviser",
-                    "goimports-reviser",
-                    { "-output", "stdout", "$FILENAME" }
-                ),
-                ["goimports-reviser-rm-unused"] = gen_formatter(
-                    "goimports-reviser",
-                    "goimports-reviser-rm-unused",
-                    { "-rm-unused", "-output", "stdout", "$FILENAME" }
-                ),
-                goimports = gen_formatter("goimports", "goimports"),
-                goimports_format_only = gen_formatter("goimports", "goimports_format_only", { "-format-only" }),
-                yq_json = gen_formatter("yq", "yq_json", { "-p", "json", "-o", "json", "-P", "-" }),
-                yq_yaml = gen_formatter("yq", "yq_yaml", { "-p", "yaml", "-o", "yaml", "-P", "-" }),
+                gofumpt = gen_formatter("gofumpt", {
+                    command = "gofumpt",
+                }),
+                ["goimports-reviser"] = gen_formatter("goimports-reviser", {
+                    command = "goimports-reviser",
+                    args = { "-output", "stdout", "$FILENAME" },
+                }),
+                ["goimports-reviser-rm-unused"] = gen_formatter("goimports-reviser-rm-unused", {
+                    command = "goimports-reviser",
+                    args = { "-rm-unused", "-output", "stdout", "$FILENAME" },
+                }),
+                goimports = gen_formatter("goimports", {
+                    command = "goimports",
+                }),
+                goimports_format_only = gen_formatter("goimports_format_only", {
+                    command = "goimports",
+                    args = { "-format-only" },
+                }),
+                yq_json = gen_formatter("yq_json", {
+                    command = "yq",
+                    args = { "-p", "json", "-o", "json", "-P", "-" },
+                }),
+                yq_yaml = gen_formatter("yq_yaml", {
+                    command = "yq",
+                    args = { "-p", "yaml", "-o", "yaml", "-P", "-" },
+                }),
             },
             default_format_opts = {
                 lsp_format = "fallback",
