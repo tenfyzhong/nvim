@@ -154,6 +154,9 @@ local conform = {
             log_level = vim.log.levels.TRACE,
             formatters_by_ft = formatters_by_ft,
             formatters = {
+                shfmt = gen_formatter("shfmt", {
+                    command = "shfmt",
+                }),
                 gofumpt = gen_formatter("gofumpt", {
                     command = "gofumpt",
                 }),
