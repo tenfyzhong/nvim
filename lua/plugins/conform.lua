@@ -18,7 +18,8 @@ local manual_formatters_by_ft = {
     go = { "goimports", "gofumpt" },
 }
 
-local function is_not_whitespace(str)
+-- return true if str has content
+local function realstr(str)
     return str and str:match("%S")
 end
 
@@ -46,9 +47,16 @@ local function conform_args_from_env(formatter, args)
         formatter = formatter:upper()
         formatter = string.gsub(formatter, "%-", "_")
         local key = string.format("CONFORM_ARGS_%s", formatter)
-        local value = os.getenv(key)
-        if is_not_whitespace(value) then
-            v[#v + 1] = value
+        local value = os.getenv(key) or ""
+        if not realstr(value) then
+            return v
+        end
+
+        local items = vim.split(value, " ")
+        for _, item in ipairs(items) do
+            if realstr(item) then
+                v[#v + 1] = item
+            end
         end
 
         vim.notify("args " .. formatter .. " " .. vim.inspect(v))
