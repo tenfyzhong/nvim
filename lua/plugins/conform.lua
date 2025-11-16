@@ -18,27 +18,17 @@ local manual_formatters_by_ft = {
     go = { "goimports", "gofumpt" },
 }
 
-local function parse_value(value)
-    local value_type = type(value)
-    if value_type == "string" then
-        return { value }
-    elseif value_type == "table" then
-        return value
-    elseif value_type == "function" then
-        local success, result = pcall(value)
-        if success then
-            return parse_value(result)
-        end
-    end
-    return {}
+local function to_list(value)
+    local feature = require("feature")
+    return feature.to_list(value)
 end
 
 -- vim config
 -- g:conform_args_{formatter} = []
 local function local_conform_args(formatter, args)
     return function()
-        local items = parse_value(vim.g["conform_args_" .. formatter])
-        local v = parse_value(args)
+        local items = to_list(vim.g["conform_args_" .. formatter])
+        local v = to_list(args)
         for _, item in ipairs(v) do
             items[#items + 1] = item
         end
@@ -58,7 +48,7 @@ end
 -- g:conform_auto_formatters_{ft} = []
 -- g:conform_manual_formatters_{ft} = []
 local function formatters_local(typ, ft)
-    return parse_value(vim.g["conform_" .. typ .. "_formatters_" .. ft])
+    return to_list(vim.g["conform_" .. typ .. "_formatters_" .. ft])
 end
 
 -- vim config
