@@ -18,11 +18,6 @@ local manual_formatters_by_ft = {
     go = { "goimports", "gofumpt" },
 }
 
--- return true if str has content
-local function realstr(str)
-    return str and str:match("%S")
-end
-
 local function parse_value(value)
     local value_type = type(value)
     if value_type == "string" then
@@ -38,21 +33,6 @@ local function parse_value(value)
     return {}
 end
 
--- Helper function to parse arguments, respecting quotes
-local function parse_args_with_quotes(s)
-    local args_list = {}
-    -- Pattern to match either double-quoted strings, single-quoted strings, or non-whitespace sequences
-    for match in s:gmatch("\"[^\"]*\"|'[^']*'|%S+") do
-        -- If the match starts with a quote, remove the surrounding quotes
-        if match:sub(1, 1) == '"' or match:sub(1, 1) == "'" then
-            table.insert(args_list, match:sub(2, -2))
-        else
-            table.insert(args_list, match)
-        end
-    end
-    return args_list
-end
-
 -- env format:
 -- CONFORM_ARGS_{FORMATTER}="formatter args"
 local function conform_args_from_env(formatter, args)
@@ -63,11 +43,9 @@ local function conform_args_from_env(formatter, args)
         formatter = string.gsub(formatter, "%-", "_")
         local key = string.format("CONFORM_ARGS_%s", formatter)
         local value = os.getenv(key) or ""
-        if not realstr(value) then
-            return v
-        end
 
-        local parsed_items = parse_args_with_quotes(value)
+        local feature = require("feature")
+        local parsed_items = feature.parse_args(value)
         for _, item in ipairs(parsed_items) do
             v[#v + 1] = item
         end
