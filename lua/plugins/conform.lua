@@ -45,13 +45,13 @@ local function conform_args_from_env(formatter, args)
         local value = os.getenv(key) or ""
 
         local feature = require("feature")
-        local parsed_items = feature.parse_args(value)
-        for _, item in ipairs(parsed_items) do
-            v[#v + 1] = item
+        local items = feature.parse_args(value)
+        for _, item in ipairs(v) do
+            items[#items + 1] = item
         end
 
-        vim.notify("args " .. formatter .. " " .. vim.inspect(v))
-        return v
+        vim.notify("args " .. formatter .. " " .. vim.inspect(items))
+        return items
     end
 end
 
