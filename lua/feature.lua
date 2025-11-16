@@ -235,10 +235,32 @@ local function parse_args(s)
     return args
 end
 
+--- Ensures a given value is a list (table).
+-- If the value is a string, it's wrapped in a table.
+-- If it's a table, it's returned as is.
+-- If it's a function, it's executed, and the result is recursively parsed.
+-- @param value any The value to convert.
+-- @return table A list representation of the value, or an empty table if conversion is not possible.
+local function to_list(value)
+    local value_type = type(value)
+    if value_type == "string" then
+        return { value }
+    elseif value_type == "table" then
+        return value
+    elseif value_type == "function" then
+        local success, result = pcall(value)
+        if success then
+            return to_list(result)
+        end
+    end
+    return {}
+end
+
 return {
     poll_number = poll_number,
     xxd = xxd,
     format = format,
     get_relative_path = get_relative_path,
     parse_args = parse_args,
+    to_list = to_list,
 }

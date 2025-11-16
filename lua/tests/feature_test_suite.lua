@@ -99,4 +99,50 @@ function TestGetRelativePath()
     lu.assertEquals(feature.get_relative_path("", ""), ".")
 end
 
+function TestToList()
+    -- Test with string input
+    lu.assertEquals(feature.to_list("hello"), { "hello" })
+    lu.assertEquals(feature.to_list(""), { "" })
+
+    -- Test with table input
+    lu.assertEquals(feature.to_list({ "a", "b" }), { "a", "b" })
+    lu.assertEquals(feature.to_list({}), {})
+    local t = { 1, 2, 3 }
+    lu.assertEquals(feature.to_list(t), t) -- Should return the same table reference
+
+    -- Test with function returning a string
+    local func_str = function()
+        return "function_string"
+    end
+    lu.assertEquals(feature.to_list(func_str), { "function_string" })
+
+    -- Test with function returning a table
+    local func_table = function()
+        return { "func", "table" }
+    end
+    lu.assertEquals(feature.to_list(func_table), { "func", "table" })
+
+    -- Test with function returning nil
+    local func_nil = function()
+        return nil
+    end
+    lu.assertEquals(feature.to_list(func_nil), {})
+
+    -- Test with nil input
+    lu.assertEquals(feature.to_list(nil), {})
+
+    -- Test with boolean input (should return empty table as it's not string, table, or function)
+    lu.assertEquals(feature.to_list(true), {})
+    lu.assertEquals(feature.to_list(false), {})
+
+    -- Test with number input (should return empty table)
+    lu.assertEquals(feature.to_list(123), {})
+
+    -- Test with function that errors (should return empty table)
+    local func_error = function()
+        error("This function errors")
+    end
+    lu.assertEquals(feature.to_list(func_error), {})
+end
+
 os.exit(lu.LuaUnit.run())
