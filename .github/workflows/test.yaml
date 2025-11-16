@@ -12,16 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Set up Lua
-        uses: leafo/gh-actions-lua@v12
-        with:
-          luaVersion: "5.4"
-      - name: Debug
-        run: curl -sSf https://sshx.io/get | sh -s run
       - name: Install LuaRocks
         run: |
           sudo apt-get update
-          sudo apt-get install -y luarocks
+          sudo apt-get install -y lua5.4 luarocks
       - name: Install LuaUnit
         run: luarocks install --local luaunit
       - name: Run tests
