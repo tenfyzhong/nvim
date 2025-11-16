@@ -38,6 +38,21 @@ local function parse_value(value)
     return {}
 end
 
+-- Helper function to parse arguments, respecting quotes
+local function parse_args_with_quotes(s)
+    local args_list = {}
+    -- Pattern to match either double-quoted strings, single-quoted strings, or non-whitespace sequences
+    for match in s:gmatch("\"[^\"]*\"|'[^']*'|%S+") do
+        -- If the match starts with a quote, remove the surrounding quotes
+        if match:sub(1, 1) == '"' or match:sub(1, 1) == "'" then
+            table.insert(args_list, match:sub(2, -2))
+        else
+            table.insert(args_list, match)
+        end
+    end
+    return args_list
+end
+
 -- env format:
 -- CONFORM_ARGS_{FORMATTER}="formatter args"
 local function conform_args_from_env(formatter, args)
@@ -52,11 +67,9 @@ local function conform_args_from_env(formatter, args)
             return v
         end
 
-        local items = vim.split(value, " ")
-        for _, item in ipairs(items) do
-            if realstr(item) then
-                v[#v + 1] = item
-            end
+        local parsed_items = parse_args_with_quotes(value)
+        for _, item in ipairs(parsed_items) do
+            v[#v + 1] = item
         end
 
         vim.notify("args " .. formatter .. " " .. vim.inspect(v))
