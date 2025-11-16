@@ -1,3 +1,8 @@
+--- Toggles the line numbering mode in the current window.
+-- It cycles through three states:
+-- 1. From relative numbers to absolute numbers.
+-- 2. From absolute numbers to no numbers.
+-- 3. From no numbers to relative numbers.
 local function poll_number()
     if vim.o.number and vim.o.relativenumber then
         vim.o.number = true
@@ -11,6 +16,8 @@ local function poll_number()
     end
 end
 
+--- Toggles the buffer's display between normal text and a hexadecimal representation using `xxd`.
+-- It preserves the buffer's modification status.
 local function xxd()
     if vim.b.is_xxd == nil then
         vim.b.is_xxd = false
@@ -28,6 +35,11 @@ local function xxd()
     vim.o.mod = mod
 end
 
+--- Formats the current buffer using a provided formatter function.
+-- It saves the current view (cursor position, etc.), runs the formatter,
+-- and then restores the view. It also handles saving the buffer before
+-- and after formatting if it was modified.
+-- @param fmt function The formatter function to execute.
 local function format(fmt)
     local bufnr = vim.api.nvim_get_current_buf()
 
@@ -186,6 +198,10 @@ local function get_relative_path(pathA, pathB)
     return table.concat(relative_parts, "/")
 end
 
+--- Parses a string into a list of arguments, respecting quotes and escape characters.
+-- Whitespace is used as a delimiter. Text within single or double quotes is treated as a single argument.
+-- @param s string The input string to parse.
+-- @return table A list of parsed arguments. Returns an empty table if the input is nil.
 local function parse_args(s)
     if not s then
         return {}
