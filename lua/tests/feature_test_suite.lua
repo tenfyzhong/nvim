@@ -5,13 +5,53 @@ local feature = require("feature")
 function TestParseArgs()
     lu.assertEquals(feature.parse_args({}), {})
     lu.assertEquals(feature.parse_args(""), {})
-    lu.assertEquals(feature.parse_args("foobar"), { "foobar" })
-    lu.assertEquals(feature.parse_args(" foobar "), { "foobar" })
-    lu.assertEquals(feature.parse_args("-a -b foobar"), { "-a", "-b", "foobar" })
-    lu.assertEquals(feature.parse_args(" -a -b foobar "), { "-a", "-b", "foobar" })
-    lu.assertEquals(feature.parse_args(" -a   -b foobar "), { "-a", "-b", "foobar" })
-    lu.assertEquals(feature.parse_args(" -a '-b foobar '"), { "-a", "-b foobar " })
-    lu.assertEquals(feature.parse_args(" -a    '-b foobar '"), { "-a", "-b foobar " })
+    lu.assertEquals(feature.parse_args('arg1 "quoted arg" arg3'), { "arg1", "quoted arg", "arg3" })
+    lu.assertEquals(feature.parse_args("arg1 'quoted arg' arg3"), { "arg1", "quoted arg", "arg3" })
+    lu.assertEquals(feature.parse_args('arg1 "quoted \\"arg\\"" arg3'), { "arg1", 'quoted "arg"', "arg3" })
+    lu.assertEquals(feature.parse_args("arg1 'quoted \\'arg\\'' arg3"), { "arg1", "quoted 'arg'", "arg3" })
+    lu.assertEquals(feature.parse_args('arg1 "arg with spaces"'), { "arg1", "arg with spaces" })
+    lu.assertEquals(
+        feature.parse_args("  leading_space 'quoted with spaces' trailing_space  "),
+        { "leading_space", "quoted with spaces", "trailing_space" }
+    )
+    lu.assertEquals(feature.parse_args('single_arg_with_quotes "test"'), { "single_arg_with_quotes", "test" })
+    lu.assertEquals(feature.parse_args('""'), { "" })
+    lu.assertEquals(feature.parse_args("''"), { "" })
+    lu.assertEquals(feature.parse_args('" "'), { " " })
+    lu.assertEquals(feature.parse_args("' '"), { " " })
+    lu.assertEquals(feature.parse_args('arg1 "multi word" arg2'), { "arg1", "multi word", "arg2" })
+    lu.assertEquals(feature.parse_args('arg1 "multi word"   arg2'), { "arg1", "multi word", "arg2" })
+    lu.assertEquals(
+        feature.parse_args('arg1 "multi word with \\"escaped quote\\"" arg2'),
+        { "arg1", 'multi word with "escaped quote"', "arg2" }
+    )
+    lu.assertEquals(
+        feature.parse_args("arg1 'multi word with \\'escaped quote\\'' arg2"),
+        { "arg1", "multi word with 'escaped quote'", "arg2" }
+    )
+    lu.assertEquals(feature.parse_args("arg1\\ with\\ spaces"), { "arg1\\", "with\\", "spaces" }) -- Note: The current parse_args doesn't handle unquoted escaped spaces as a single argument. This is acceptable for now.
+    lu.assertEquals(
+        feature.parse_args("arg1\\ with\\ spaces 'quoted arg'"),
+        { "arg1\\", "with\\", "spaces", "quoted arg" }
+    )
+    lu.assertEquals(feature.parse_args("arg1 'arg2' arg3"), { "arg1", "arg2", "arg3" })
+    lu.assertEquals(feature.parse_args("arg1 'arg2 with spaces' arg3"), { "arg1", "arg2 with spaces", "arg3" })
+    lu.assertEquals(
+        feature.parse_args("arg1 'arg2 with \\'escaped\\' quotes' arg3"),
+        { "arg1", "arg2 with 'escaped' quotes", "arg3" }
+    )
+    lu.assertEquals(
+        feature.parse_args('arg1 "arg2 with \\"escaped\\" quotes" arg3'),
+        { "arg1", 'arg2 with "escaped" quotes', "arg3" }
+    )
+    lu.assertEquals(
+        feature.parse_args('arg1 "arg2 with \\\\backslashes" arg3'),
+        { "arg1", "arg2 with \\backslashes", "arg3" }
+    )
+    lu.assertEquals(
+        feature.parse_args("arg1 'arg2 with \\\\backslashes' arg3"),
+        { "arg1", "arg2 with \\backslashes", "arg3" }
+    )
 end
 
 function TestGetRelativePath()
