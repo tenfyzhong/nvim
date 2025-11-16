@@ -33,69 +33,48 @@ local function parse_value(value)
     return {}
 end
 
--- env format:
--- CONFORM_ARGS_{FORMATTER}="formatter args"
-local function conform_args_from_env(formatter, args)
+-- vim config
+-- g:conform_args_{formatter} = []
+local function local_conform_args(formatter, args)
     return function()
-        local v = parse_value(args) or {}
-
-        formatter = formatter:upper()
-        formatter = string.gsub(formatter, "%-", "_")
-        local key = string.format("CONFORM_ARGS_%s", formatter)
-        local value = os.getenv(key) or ""
-
-        local feature = require("feature")
-        local items = feature.parse_args(value)
+        local items = parse_value(vim.g["conform_args_" .. formatter])
+        local v = parse_value(args)
         for _, item in ipairs(v) do
             items[#items + 1] = item
         end
-
-        vim.notify("args " .. formatter .. " " .. vim.inspect(items))
         return items
     end
 end
 
 local function gen_formatter(formatter, option)
     return function()
-        option.args = conform_args_from_env(formatter, option.args)
+        option.args = local_conform_args(formatter, option.args)
         log("gen_formatter, " .. formatter .. ", " .. vim.inspect(option), vim.log.levels.TRACE)
         return option
     end
 end
 
--- env format:
--- CONFORM_AUTO_FORMATTERS_{FILETYPE}="formatter1,formatter2"
--- CONFORM_MANUAL_FORMATTERS_{FILETYPE}="formatter1,formatter2"
-local function formatters_from_env(typ, ft)
-    local upper_ft = ft:upper()
-    local key = string.format("CONFORM_%s_FORMATTERS_%s", typ, upper_ft)
-    local str = os.getenv(key)
-    if str ~= nil then
-        return vim.split(str, ",")
-    end
-    return nil
+-- vim config
+-- g:conform_auto_formatters_{ft} = []
+-- g:conform_manual_formatters_{ft} = []
+local function formatters_local(typ, ft)
+    return parse_value(vim.g["conform_" .. typ .. "_formatters_" .. ft])
 end
 
--- env format:
--- CONFORM_DISABLE_{FILETYPE}=1
-local function disable_formatter_from_env(ft)
-    local upper_ft = ft:upper()
-    local key = string.format("CONFORM_DISABLE_%s", upper_ft)
-    local str = os.getenv(key)
-    if not str then
-        return false
-    end
-    local upper_str = str:upper()
-    return upper_str == "1" or upper_str == "TRUE"
+-- vim config
+-- g:conform_disable_{ft} = 1
+local function disable_formatter_local(ft)
+    local disable = vim.g["conform_disable_" .. ft] or 0
+    return disable
 end
 
 local function get_formatters(manual, filetype)
-    local typ = manual and "MANUAL" or "AUTO"
+    local typ = manual and "manual" or "auto"
 
     local ft = filetype or vim.bo.filetype
 
-    local formatters = formatters_from_env(typ, ft)
-    if formatters then
+    local formatters = formatters_local(typ, ft)
+    if #formatters > 0 then
         return formatters
     end
 
@@ -108,7 +87,7 @@ end
 -- formatters = [string],
 -- }
 local function format(args)
-    local disable = disable_formatter_from_env(vim.bo.filetype)
+    local disable = disable_formatter_local(vim.bo.filetype)
     if disable then
         return
     end

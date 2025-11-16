@@ -109,23 +109,23 @@ This configuration is powered by a curated list of plugins that enhance the Neov
 * **yq**: A lightweight and portable command-line YAML, JSON and XML processor.
   * Installation: Refer to [yq documentation](https://mikefarah.gitbook.io/yq/#install) for various installation methods.
 
-### Environment Variables for Conform.nvim
+### Customizing Formatters with Vim Variables
 
-This configuration allows for fine-grained control over `conform.nvim` and its integrated formatters through environment variables. These variables can be set to customize formatting behavior without modifying the Lua configuration files directly.
+This configuration allows for fine-grained control over `conform.nvim` and its integrated formatters through Vim's global variables (`vim.g`). These variables can be set in a local configuration file like `.vimrc.local` to customize formatting behavior per-project without modifying the core Lua configuration. This approach works well with tools like `direnv`.
 
 #### General Conform.nvim Variables
 
-| Environment Variable | Description | Example Value |
+| Vim Variable | Description | Example |
 | :------------------- | :---------- | :------------ |
-| `CONFORM_AUTO_FORMATTERS_{FILETYPE}` | Overrides the default automatic formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype (e.g., `GO`, `SH`). Multiple formatters should be comma-separated. | `CONFORM_AUTO_FORMATTERS_GO=goimports-reviser,gofumpt` |
-| `CONFORM_MANUAL_FORMATTERS_{FILETYPE}` | Overrides the default manual formatters for a given filetype. Replace `{FILETYPE}` with the actual filetype. Multiple formatters should be comma-separated. | `CONFORM_MANUAL_FORMATTERS_SH=shfmt` |
-| `CONFORM_DISABLE_{FILETYPE}` | If set to "1" or "TRUE" (case-insensitive), disables formatting for the specified filetype. Replace `{FILETYPE}` with the actual filetype. | `CONFORM_DISABLE_GO=TRUE` |
+| `g:conform_auto_formatters_{filetype}` | Overrides the default automatic formatters for a given filetype. Replace `{filetype}` with the actual filetype (e.g., `go`, `sh`). The value should be a Vim list. | `let g:conform_auto_formatters_go = ['goimports-reviser', 'gofumpt']` |
+| `g:conform_manual_formatters_{filetype}` | Overrides the default manual formatters for a given filetype. Replace `{filetype}` with the actual filetype. The value should be a Vim list. | `let g:conform_manual_formatters_sh = ['shfmt']` |
+| `g:conform_disable_{filetype}` | If set to `1`, disables formatting for the specified filetype. Replace `{filetype}` with the actual filetype. | `let g:conform_disable_go = 1` |
 
 #### Formatter-Specific Arguments
 
-To pass custom arguments to formatters, you can use the `CONFORM_ARGS_{FORMATTER}` environment variable. This provides a flexible way to control formatter behavior without editing the configuration. Replace `{FORMATTER}` with the uppercase name of the formatter you want to configure (e.g., `SHFMT`, `GOFUMPT`). Note that any hyphens in the formatter name must be replaced with underscores.
+To pass custom arguments to formatters, you can use the `g:conform_args_{formatter}` global variable. This provides a flexible way to control formatter behavior. Replace `{formatter}` with the name of the formatter you want to configure (e.g., `shfmt`, `gofumpt`).
 
-The value of the variable will be passed directly as a string of command-line arguments to the formatter.
+The value of the variable should be a Vim list of command-line arguments.
 
 **Configured Formatter Names:**
 
@@ -138,38 +138,38 @@ The value of the variable will be passed directly as a string of command-line ar
 * `yq_json`
 * `yq_yaml`
 
-| Environment Variable | Description | Example |
+| Vim Variable | Description | Example |
 | :------------------- | :---------- | :------ |
-| `CONFORM_ARGS_{FORMATTER}` | A string of command-line arguments to pass to the specified formatter. The formatter name must be in uppercase, with hyphens replaced by underscores. | `export CONFORM_ARGS_SHFMT="-i 4 -bn"` |
+| `g:conform_args_{formatter}` | A list of command-line arguments to pass to the specified formatter. | `let g:conform_args_shfmt = ['-i', '4', '-bn']` |
 
 **Examples:**
 
 * **`shfmt`**: To set indentation to 4 spaces and move binary operators to the next line for shell scripts:
 
-    ```bash
-    export CONFORM_ARGS_SHFMT="-i 4 -bn"
+    ```vim
+    let g:conform_args_shfmt = ['-i', '4', '-bn']
     ```
 
 * **`gofumpt`**: To pass the `-extra` flag to `gofumpt`:
 
-    ```bash
-    export CONFORM_ARGS_GOFUMPT="-extra"
+    ```vim
+    let g:conform_args_gofumpt = ['-extra']
     ```
 
 * **`goimports`**: To pass the `-local` flag to `goimports`:
 
-    ```bash
-    export CONFORM_ARGS_GOIMPORTS="-local github.com/your/project"
+    ```vim
+    let g:conform_args_goimports = ['-local', 'github.com/your/project']
     ```
 
 * **`goimports-reviser`**: To pass the `-rm-unused` flag to `goimports-reviser`:
 
-    ```bash
-    export CONFORM_ARGS_GOIMPORTS_REVISER="-rm-unused"
+    ```vim
+    let g:conform_args_goimports_reviser = ['-rm-unused']
     ```
 
 * **`yq_json`**: To set the indentation to 4 for JSON files:
 
-    ```bash
-    export CONFORM_ARGS_YQ_JSON="-I 4"
+    ```vim
+    let g:conform_args_yq_json = ['-I', '4']
     ```
