@@ -186,9 +186,59 @@ local function get_relative_path(pathA, pathB)
     return table.concat(relative_parts, "/")
 end
 
+local function parse_args(s)
+    if not s then
+        return {}
+    end
+
+    local args = {}
+    local i = 1 -- Start at the beginning of the string
+    local in_quotes = false
+    local quote_type = nil
+    local arg = ""
+
+    while i <= #s do
+        local char = s:sub(i, i)
+
+        if in_quotes then
+            if char == "\\" and i + 1 <= #s then -- Handle escape
+                i = i + 1 -- Skip the escape character
+                arg = arg .. s:sub(i, i) -- Add the escaped character
+            elseif char == quote_type then
+                in_quotes = false -- End of quoted string
+                table.insert(args, arg)
+                arg = ""
+            else
+                arg = arg .. char
+            end
+            i = i + 1
+        else
+            if char:match("%s") then -- Skip whitespace
+                if arg ~= "" then
+                    table.insert(args, arg)
+                    arg = ""
+                end
+            elseif char == '"' or char == "'" then
+                in_quotes = true
+                quote_type = char
+            else
+                arg = arg .. char
+            end
+            i = i + 1
+        end
+    end
+
+    if arg ~= "" then
+        table.insert(args, arg) -- Add any remaining argument
+    end
+
+    return args
+end
+
 return {
     poll_number = poll_number,
     xxd = xxd,
     format = format,
     get_relative_path = get_relative_path,
+    parse_args = parse_args,
 }
