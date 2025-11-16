@@ -1,4 +1,4 @@
-name: Tests
+name: Test
 on:
   push:
     branches:
@@ -13,9 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up Lua
-        uses: leafo/gh-actions-lua@v1.0.0
+        uses: leafo/gh-actions-lua@@v12
         with:
-          luaVersion: "5.4" # You can specify a different Lua version if needed
+          luaVersion: "5.4"
       - name: Install LuaRocks
         run: |
           sudo apt-get update
