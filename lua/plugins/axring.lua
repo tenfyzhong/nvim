@@ -41,7 +41,7 @@ local axring = {
                 "december",
             },
             { "in", "out" },
-            { "verbose", "debug", "info", "warn", "error", "fatal" },
+            { "debug", "info", "warn", "error", "panic", "fatal" },
             { "long", "short" },
         }
 
