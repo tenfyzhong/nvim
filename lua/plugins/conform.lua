@@ -78,7 +78,8 @@ end
 -- }
 local function format(args)
     local disable = disable_formatter_local(vim.bo.filetype)
-    if disable then
+    if disable and disable ~= 0 then
+        log("disable format " .. vim.bo.filetype .. " " .. disable, vim.log.levels.DEBUG)
         return
     end
 
@@ -155,10 +156,11 @@ local conform = {
             default_format_opts = {
                 lsp_format = "fallback",
             },
-            format_on_save = {
-                lsp_format = "fallback",
-                timeout_ms = 500,
-            },
+            -- Don't enable this config, let's use our own format function
+            -- format_on_save = {
+            --     lsp_format = "fallback",
+            --     timeout_ms = 500,
+            -- },
         })
 
         local shfmt_group = vim.api.nvim_create_augroup("shfmt_init", {})
