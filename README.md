@@ -135,8 +135,8 @@ The value of the variable should be a Vim list of command-line arguments.
 * `goimports-reviser-rm-unused`
 * `goimports`
 * `goimports_format_only`
-* `yq_json`
-* `yq_yaml`
+* `gojq`
+* `yamlfmt`
 
 | Vim Variable | Description | Example |
 | :------------------- | :---------- | :------ |
@@ -166,10 +166,4 @@ The value of the variable should be a Vim list of command-line arguments.
 
     ```vim
     let g:conform_args_goimports_reviser = ['-rm-unused']
-    ```
-
-* **`yq_json`**: To set the indentation to 4 for JSON files:
-
-    ```vim
-    let g:conform_args_yq_json = ['-I', '4']
     ```
