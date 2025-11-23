@@ -6,8 +6,8 @@ local auto_formatters_by_ft = {
     markdown = { "markdownlint-cli2" },
     lua = { "stylua" },
     fish = { "fish_indent" },
-    json = { "yq_json" },
-    yaml = { "yq_yaml" },
+    json = { "jq" },
+    yaml = { "yamlfmt" },
 }
 
 local function log(msg, level)
@@ -144,14 +144,17 @@ local conform = {
                     command = "goimports",
                     args = { "-format-only" },
                 }),
-                yq_json = gen_formatter("yq_json", {
-                    command = "yq",
-                    args = { "-p", "json", "-o", "json", "-P", "-" },
+                jq = gen_formatter("jq", {
+                    command = "jq",
                 }),
-                yq_yaml = gen_formatter("yq_yaml", {
-                    command = "yq",
-                    args = { "-p", "yaml", "-o", "yaml", "-P", "-" },
-                }),
+                -- yq_json = gen_formatter("yq_json", {
+                --     command = "yq",
+                --     args = { "-p", "json", "-o", "json", "-P", "-" },
+                -- }),
+                -- yq_yaml = gen_formatter("yq_yaml", {
+                --     command = "yq",
+                --     args = { "-p", "yaml", "-o", "yaml", "-P", "-" },
+                -- }),
             },
             default_format_opts = {
                 lsp_format = "fallback",
