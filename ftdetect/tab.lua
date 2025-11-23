@@ -11,6 +11,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "typescript",
         "vue",
         "yaml",
+        "json",
     },
     callback = function()
         vim.bo.tabstop = 2
