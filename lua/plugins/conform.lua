@@ -6,7 +6,7 @@ local auto_formatters_by_ft = {
     markdown = { "markdownlint-cli2" },
     lua = { "stylua" },
     fish = { "fish_indent" },
-    json = { "jq" },
+    json = { "gojq" },
     yaml = { "yamlfmt" },
 }
 
@@ -144,8 +144,8 @@ local conform = {
                     command = "goimports",
                     args = { "-format-only" },
                 }),
-                jq = gen_formatter("jq", {
-                    command = "jq",
+                gojq = gen_formatter("gojq", {
+                    command = "gojq",
                 }),
                 -- yq_json = gen_formatter("yq_json", {
                 --     command = "yq",
