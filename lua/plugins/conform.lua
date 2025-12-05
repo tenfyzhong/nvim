@@ -23,22 +23,15 @@ local function to_list(value)
     return feature.to_list(value)
 end
 
--- vim config
--- g:conform_args_{formatter} = []
-local function local_conform_args(formatter, args)
+local function gen_formatter(formatter, option)
     return function()
         local items = to_list(vim.g["conform_args_" .. formatter])
-        local v = to_list(args)
+        local v = to_list(option.args)
         for _, item in ipairs(v) do
             items[#items + 1] = item
         end
-        return items
-    end
-end
+        option.args = items
 
-local function gen_formatter(formatter, option)
-    return function()
-        option.args = local_conform_args(formatter, option.args)
         log("gen_formatter, " .. formatter .. ", " .. vim.inspect(option), vim.log.levels.TRACE)
         return option
     end
