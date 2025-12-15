@@ -42,11 +42,23 @@ local codecompanion = {
                 },
             },
             adapters = {
-                opts = {
-                    show_defaults = false,
-                    show_model_choices = true,
+                acp = {
+                    gemini_cli = function()
+                        return require("codecompanion.adapters").extend("gemini_cli", {
+                            opts = {
+                                show_presets = false,
+                            },
+                            defaults = {
+                                auth_method = "oauth-personal", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
+                            },
+                        })
+                    end,
                 },
                 http = {
+                    opts = {
+                        show_presets = false,
+                        show_model_choices = true,
+                    },
                     ark = ark_adapter,
                 },
             },
