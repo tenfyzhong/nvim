@@ -5,7 +5,7 @@ local notify = {
         notify.setup({
             timeout = 3000,
             render = "wrapped-compact",
-            level = vim.log.levels.ERROR,
+            level = vim.log.levels.INFO,
         })
         vim.notify = notify
     end,
