@@ -238,6 +238,14 @@ end
 
 local context = {
     "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+        require("treesitter-context").setup({
+            on_attach = function(bufno)
+                local ft = vim.bo[bufno].filetype
+                return ft ~= "expect"
+            end,
+        })
+    end,
     event = "VeryLazy",
 }
 
