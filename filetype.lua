@@ -11,4 +11,7 @@ vim.filetype.add({
         ["Cargo.toml"] = "cargo.toml",
         [".envrc"] = "direnv",
     },
+    pattern = {
+        [".*##template"] = "yadm",
+    },
 })
