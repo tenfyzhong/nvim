@@ -1,9 +1,13 @@
 local function ark_adapter()
-    return require("codecompanion.adapters").extend("openai", {
+    return require("codecompanion.adapters").extend("deepseek", {
         url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
         env = {
             api_key = function()
-                return os.getenv("ARK_API_KEY")
+                local key = os.getenv("ARK_API_KEY")
+                if not key or key == "" then
+                    error("ARK_API_KEY environment variable is not set")
+                end
+                return key
             end,
         },
         name = "ark",
@@ -43,16 +47,16 @@ local codecompanion = {
             },
             adapters = {
                 acp = {
-                    gemini_cli = function()
-                        return require("codecompanion.adapters").extend("gemini_cli", {
-                            opts = {
-                                show_presets = false,
-                            },
-                            defaults = {
-                                auth_method = "oauth-personal", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
-                            },
-                        })
-                    end,
+                    opts = {
+                        show_presets = false,
+                    },
+                    -- gemini_cli = function()
+                    --     return require("codecompanion.adapters").extend("gemini_cli", {
+                    --         defaults = {
+                    --             auth_method = "oauth-personal", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
+                    --         },
+                    --     })
+                    -- end,
                 },
                 http = {
                     opts = {
