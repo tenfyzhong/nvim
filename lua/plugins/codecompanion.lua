@@ -80,10 +80,6 @@ local codecompanion = {
                             files = { ".clinerules", ".cursorrules" },
                         },
                         {
-                            path = vim.fn.getcwd() .. "./rules",
-                            files = { "*.md" },
-                        },
-                        {
                             path = "~/.config/rules",
                             files = "*.md",
                         },
