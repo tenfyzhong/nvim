@@ -45,18 +45,75 @@ local codecompanion = {
                     show_reasoning = true,
                 },
             },
+            prompt_library = {
+                markdown = {
+                    dirs = {
+                        vim.fn.getcwd() .. "/.prompts", -- Can be relative
+                        "~/.config/prompts", -- Or absolute paths
+                    },
+                },
+            },
+            rules = {
+                default = {
+                    description = "Collection of common files for all projects",
+                    files = {
+                        ".clinerules",
+                        ".cursorrules",
+                        ".goosehints",
+                        ".rules",
+                        ".windsurfrules",
+                        ".github/copilot-instructions.md",
+                        "AGENT.md",
+                        "AGENTS.md",
+                        { path = "CLAUDE.md", parser = "claude" },
+                        { path = "CLAUDE.local.md", parser = "claude" },
+                        { path = "~/.claude/CLAUDE.md", parser = "claude" },
+                    },
+                    is_preset = true,
+                },
+                project_rules = {
+                    description = "Rule files for Projects",
+                    files = {
+                        -- Specify dirs to search in (supports glob patterns and literals)
+                        {
+                            path = vim.fn.getcwd(),
+                            files = { ".clinerules", ".cursorrules" },
+                        },
+                        {
+                            path = vim.fn.getcwd() .. "./rules",
+                            files = { "*.md" },
+                        },
+                        {
+                            path = "~/.config/rules",
+                            files = "*.md",
+                        },
+
+                        -- Mix with literal file paths
+                        "~/.claude/CLAUDE.md",
+                        "CLAUDE.md",
+                        "CLAUDE.local.md",
+                    },
+                },
+                opts = {
+                    chat = {
+                        enabled = true,
+                        default_rules = "default", -- The rule groups to load
+                        autoload = "project_rules",
+                    },
+                },
+            },
             adapters = {
                 acp = {
                     opts = {
                         show_presets = false,
                     },
-                    -- gemini_cli = function()
-                    --     return require("codecompanion.adapters").extend("gemini_cli", {
-                    --         defaults = {
-                    --             auth_method = "oauth-personal", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
-                    --         },
-                    --     })
-                    -- end,
+                    gemini_cli = function()
+                        return require("codecompanion.adapters").extend("gemini_cli", {
+                            defaults = {
+                                auth_method = "oauth-personal",
+                            },
+                        })
+                    end,
                 },
                 http = {
                     opts = {
