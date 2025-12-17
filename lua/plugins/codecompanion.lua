@@ -1,5 +1,5 @@
 local function ark_adapter()
-    return require("codecompanion.adapters").extend("openai", {
+    return require("codecompanion.adapters").extend("deepseek", {
         url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
         env = {
             api_key = function()
@@ -30,6 +30,19 @@ local function ark_adapter()
                     },
                 },
             },
+        },
+        handlers = {
+            parse_message_meta = function(self, data)
+                local extra = data.extra
+                local reasoning = extra.reasoning_content or extra.reasoning
+                if reasoning then
+                    data.output.reasoning = { content = reasoning }
+                    if data.output.content == "" then
+                        data.output.content = nil
+                    end
+                end
+                return data
+            end,
         },
     })
 end
