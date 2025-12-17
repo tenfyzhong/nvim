@@ -5,7 +5,8 @@ local function ark_adapter()
             api_key = function()
                 local key = os.getenv("ARK_API_KEY")
                 if not key or key == "" then
-                    error("ARK_API_KEY environment variable is not set")
+                    vim.notify_once("ARK_API_KEY environment variable is not set", vim.log.levels.ERROR)
+                    return ""
                 end
                 return key
             end,
@@ -34,6 +35,10 @@ local function ark_adapter()
         handlers = {
             parse_message_meta = function(self, data)
                 local extra = data.extra
+                if not extra then
+                    return data
+                end
+
                 local reasoning = extra.reasoning_content or extra.reasoning
                 if reasoning then
                     data.output.reasoning = { content = reasoning }
