@@ -150,6 +150,17 @@ local codecompanion = {
                             },
                         },
                     },
+                    roles = {
+                        llm = function(adapter)
+                            local model = adapter.schema.model.default
+                            local model_opts = adapter.schema.model.choices[model]
+                            local name = model
+                            if model_opts then
+                                name = model_opts.formatted_name or name
+                            end
+                            return adapter.formatted_name .. "(" .. name .. ")"
+                        end,
+                    },
                 },
                 inline = {
                     adapter = {
