@@ -1,5 +1,5 @@
 local function ark_adapter()
-    return require("codecompanion.adapters").extend("deepseek", {
+    return require("codecompanion.adapters").extend("openai", {
         url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
         env = {
             api_key = function()
@@ -18,8 +18,12 @@ local function ark_adapter()
                 mapping = "parameters",
                 type = "enum",
                 desc = "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
-                default = "deepseek-v3-2-251201",
+                default = "kimi-k2-thinking-251104",
                 choices = {
+                    ["kimi-k2-thinking-251104"] = {
+                        formatted_name = "kimi-k2",
+                        opts = { has_function_calling = true, has_vision = false, can_reason = true },
+                    },
                     ["deepseek-v3-2-251201"] = {
                         formatted_name = "deepseek-v3.2",
                         opts = { has_function_calling = true, has_vision = false, can_reason = true },
@@ -114,7 +118,7 @@ local codecompanion = {
                 http = {
                     opts = {
                         show_presets = false,
-                        show_model_choices = true,
+                        show_model_choices = false,
                     },
                     ark = ark_adapter,
                 },
@@ -123,7 +127,7 @@ local codecompanion = {
                 chat = {
                     adapter = {
                         name = "ark",
-                        model = "deepseek-v3-2-251201",
+                        model = "kimi-k2-thinking-251104",
                     },
                     slash_commands = {
                         ["file"] = {
@@ -137,7 +141,7 @@ local codecompanion = {
                 inline = {
                     adapter = {
                         name = "ark",
-                        model = "deepseek-v3-2-251201",
+                        model = "kimi-k2-thinking-251104",
                     },
                     keymaps = {
                         accept_change = {
@@ -154,7 +158,7 @@ local codecompanion = {
                 cmd = {
                     adapter = {
                         name = "ark",
-                        model = "deepseek-v3-2-251201",
+                        model = "kimi-k2-thinking-251104",
                     },
                 },
             },
