@@ -252,7 +252,7 @@ local fzf_lua = {
                 end
                 require("fzf-lua").fzf_exec(function(fzf_cb)
                     local data = require("bookmarks").bookmark_data()
-                    local cwd = vim.fn.fnamemodify(vim.loop.cwd(), ":p")
+                    local cwd = vim.fn.fnamemodify(vim.uv.cwd(), ":p")
                     local feature = require("feature")
                     for _, d in ipairs(data) do
                         local filename = feature.get_relative_path(d.filename, cwd)

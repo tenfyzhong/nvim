@@ -28,7 +28,7 @@ local function xxd()
         vim.cmd("silent %!xxd -r")
         vim.b.is_xxd = false
     else
-        vim.binary = true
+        vim.o.binary = true
         vim.cmd("silent %!xxd")
         vim.b.is_xxd = true
     end
