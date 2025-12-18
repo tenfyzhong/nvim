@@ -1,5 +1,5 @@
 local function ark_adapter()
-    return require("codecompanion.adapters").extend("deepseek", {
+    return require("codecompanion.adapters").extend("openai", {
         url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
         env = {
             api_key = function()
