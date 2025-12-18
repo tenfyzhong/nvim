@@ -1,3 +1,19 @@
+local parse_message_meta = function(self, data)
+    local extra = data.extra
+    if not extra then
+        return data
+    end
+
+    local reasoning = extra.reasoning_content or extra.reasoning
+    if reasoning then
+        data.output.reasoning = { content = reasoning }
+        if data.output.content == "" then
+            data.output.content = nil
+        end
+    end
+    return data
+end
+
 local function ark_adapter()
     return require("codecompanion.adapters").extend("openai", {
         url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
@@ -33,21 +49,43 @@ local function ark_adapter()
             },
         },
         handlers = {
-            parse_message_meta = function(self, data)
-                local extra = data.extra
-                if not extra then
-                    return data
-                end
+            parse_message_meta = parse_message_meta,
+        },
+    })
+end
 
-                local reasoning = extra.reasoning_content or extra.reasoning
-                if reasoning then
-                    data.output.reasoning = { content = reasoning }
-                    if data.output.content == "" then
-                        data.output.content = nil
-                    end
+local function mimo_adapter()
+    return require("codecompanion.adapters").extend("openai", {
+        url = "https://api.xiaomimimo.com/v1/chat/completions",
+        env = {
+            api_key = function()
+                local key = os.getenv("CODECOMPANION_MIMO_API_KEY")
+                if not key or key == "" then
+                    vim.notify_once("CODECOMPANION_MIMO_API_KEY environment variable is not set", vim.log.levels.ERROR)
+                    return ""
                 end
-                return data
+                return key
             end,
+        },
+        name = "mimo",
+        formatted_name = "MIMO",
+        schema = {
+            model = {
+                order = 1,
+                mapping = "parameters",
+                type = "enum",
+                desc = "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
+                default = "mimo-v2-flash",
+                choices = {
+                    ["mimo-v2-flash"] = {
+                        formatted_name = "mimo-v2-flash",
+                        opts = { has_function_calling = true, has_vision = false, can_reason = true },
+                    },
+                },
+            },
+        },
+        handlers = {
+            parse_message_meta = parse_message_meta,
         },
     })
 end
@@ -139,6 +177,7 @@ local codecompanion = {
                         show_model_choices = false,
                     },
                     ark = ark_adapter,
+                    mimo = mimo_adapter,
                 },
             },
             interactions = {
