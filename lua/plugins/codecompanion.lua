@@ -35,7 +35,7 @@ local function ark_adapter()
                 mapping = "parameters",
                 type = "enum",
                 desc = "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
-                default = "kimi-k2-thinking-251104",
+                default = "doubao-seed-code-preview-251028",
                 choices = {
                     ["kimi-k2-thinking-251104"] = {
                         formatted_name = "kimi-k2",
@@ -44,6 +44,10 @@ local function ark_adapter()
                     ["deepseek-v3-2-251201"] = {
                         formatted_name = "deepseek-v3.2",
                         opts = { has_function_calling = true, has_vision = false, can_reason = true },
+                    },
+                    ["doubao-seed-code-preview-251028"] = {
+                        formatted_name = "doubao-seed-code-preview",
+                        opts = { has_function_calling = true, has_vision = false, can_reason = false },
                     },
                 },
             },
@@ -93,6 +97,10 @@ end
 local codecompanion = {
     "olimorris/codecompanion.nvim",
     config = function()
+        local default_adapter = {
+            name = "ark",
+            model = "doubao-seed-code-preview-251028",
+        }
         require("codecompanion").setup({
             display = {
                 chat = {
@@ -182,10 +190,7 @@ local codecompanion = {
             },
             interactions = {
                 chat = {
-                    adapter = {
-                        name = "ark",
-                        model = "kimi-k2-thinking-251104",
-                    },
+                    adapter = default_adapter,
                     slash_commands = {
                         ["file"] = {
                             -- Use Telescope as the provider for the /file command
@@ -207,10 +212,7 @@ local codecompanion = {
                     },
                 },
                 inline = {
-                    adapter = {
-                        name = "ark",
-                        model = "kimi-k2-thinking-251104",
-                    },
+                    adapter = default_adapter,
                     keymaps = {
                         accept_change = {
                             modes = { n = "gda" }, -- Remember this as DiffAccept
@@ -224,10 +226,7 @@ local codecompanion = {
                     },
                 },
                 cmd = {
-                    adapter = {
-                        name = "ark",
-                        model = "kimi-k2-thinking-251104",
-                    },
+                    adapter = default_adapter,
                 },
             },
             -- opts = {
