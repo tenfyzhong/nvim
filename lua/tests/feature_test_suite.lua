@@ -75,6 +75,27 @@ function TestParseArgs()
     )
 end
 
+function TestParseArgsEdgeCases()
+    -- Edge case tests for parse_args
+    lu.assertEquals(feature.parse_args(""), {}, "Empty string returns empty table")
+    lu.assertEquals(feature.parse_args("   "), {}, "Whitespace-only returns empty table")
+    lu.assertEquals(feature.parse_args("\t\n  "), {}, "Mixed whitespace returns empty table")
+    lu.assertEquals(feature.parse_args("a   b   c"), { "a", "b", "c" }, "Multiple spaces between args")
+    lu.assertEquals(feature.parse_args("a\tb\tc"), { "a", "b", "c" }, "Tabs as separators")
+    lu.assertEquals(feature.parse_args('"a"b"c"'), { "a", "bc" }, "Concatenated quoted chars")
+    lu.assertEquals(feature.parse_args('a"b"c'), { "ab", "c" }, "Mixed quoted and unquoted")
+    lu.assertEquals(feature.parse_args("a'bc"), { "abc" }, "Unclosed single quote continues")
+    lu.assertEquals(feature.parse_args('a"b\'c'), { "ab'c" }, "Unclosed double quote continues")
+    lu.assertEquals(feature.parse_args('""'), { "" }, "Empty double quotes")
+    lu.assertEquals(feature.parse_args("''"), { "" }, "Empty single quotes")
+    lu.assertEquals(feature.parse_args('"  "'), { "  " }, "Quoted spaces")
+    lu.assertEquals(feature.parse_args("'  '"), { "  " }, "Single quoted spaces")
+    lu.assertEquals(feature.parse_args('"a\\nb"'), { "anb" }, "Escape n (not newline)")
+    lu.assertEquals(feature.parse_args('"a\\tb"'), { "atb" }, "Escape t (not tab)")
+    lu.assertEquals(feature.parse_args('a\\ b'), { "a\\", "b" }, "Unquoted backslash space doesn't escape")
+    lu.assertEquals(feature.parse_args('"a\\\\"b'), { "a\\", "b" }, "Multiple backslashes before quote")
+end
+
 function TestGetRelativePath()
     -- Identical paths
     lu.assertEquals(feature.get_relative_path("/a/b/c", "/a/b/c"), ".")
@@ -118,6 +139,36 @@ function TestGetRelativePath()
     lu.assertEquals(feature.get_relative_path("a", ""), "a")
     lu.assertEquals(feature.get_relative_path("", "a"), "..")
     lu.assertEquals(feature.get_relative_path("", ""), ".")
+end
+
+function TestGetRelativePathEdgeCases()
+    -- Edge cases for get_relative_path
+    -- Trailing slashes
+    lu.assertEquals(feature.get_relative_path("/a/b/c/", "/a/b/"), "c", "Trailing slash on target")
+    lu.assertEquals(feature.get_relative_path("/a/b/c", "/a/b/c/"), ".", "Trailing slash on base")
+    lu.assertEquals(feature.get_relative_path("/a/b/c/", "/a/b/c/"), ".", "Both trailing slashes")
+
+    -- Multiple slashes (empty components)
+    lu.assertEquals(feature.get_relative_path("/a//b/c", "/a/b"), "c", "Double slash in target")
+    lu.assertEquals(feature.get_relative_path("/a/b", "/a//b/c"), "..", "Double slash in base")
+
+    -- Paths with dots in the middle
+    lu.assertEquals(feature.get_relative_path("/a/./b/c", "/a/b"), "c", "Dot in middle of target")
+    lu.assertEquals(feature.get_relative_path("/a/b", "/a/./b/c"), "..", "Dot in middle of base")
+    lu.assertEquals(feature.get_relative_path("/a/b/../c", "/a/d"), "../c", "Parent dir in middle of target")
+
+    -- Complex relative paths
+    lu.assertEquals(feature.get_relative_path("../../a/b", "c/d"), "../../../../a/b", "Multiple parent dirs")
+    lu.assertEquals(feature.get_relative_path("a/b/../c", "a/b"), "../c", "Parent dir resolves to sibling")
+
+    -- Root edge cases
+    lu.assertEquals(feature.get_relative_path("/", "/a"), "..", "Root to child")
+    lu.assertEquals(feature.get_relative_path("/a", "/"), "a", "Child to root")
+    lu.assertEquals(feature.get_relative_path("/", "/"), ".", "Root to root")
+
+    -- Mixed absolute/relative (should return original)
+    lu.assertEquals(feature.get_relative_path("/a/b", "c/d"), "/a/b", "Mixed abs/rel - abs target")
+    lu.assertEquals(feature.get_relative_path("a/b", "/c/d"), "a/b", "Mixed abs/rel - rel target")
 end
 
 function TestToList()
@@ -164,57 +215,219 @@ function TestToList()
         error("This function errors")
     end
     lu.assertEquals(feature.to_list(func_error), {})
+
+    -- Edge case tests for to_list
+    -- Function returning function (to_list will call it, which returns a function, then recursively call to_list on that)
+    local func_returns_func = function()
+        return function() return "nested" end
+    end
+    lu.assertEquals(feature.to_list(func_returns_func), { "nested" }, "Function returning function")
+
+    -- Function with no explicit return (returns nil)
+    local func_no_return = function()
+        -- No return statement
+    end
+    lu.assertEquals(feature.to_list(func_no_return), {}, "Function with no return")
+
+    -- Nested table
+    lu.assertEquals(feature.to_list({ { "nested" } }), { { "nested" } }, "Nested table")
+
+    -- Table with mixed types
+    lu.assertEquals(feature.to_list({ 1, "a", true }), { 1, "a", true }, "Mixed type table")
+
+    -- Table with nil values (Lua allows this)
+    local table_with_nil = { 1, nil, 3 }
+    lu.assertEquals(feature.to_list(table_with_nil), { 1, nil, 3 }, "Table with nil value")
+
+    -- Function returning table with nil
+    local func_returns_table_with_nil = function()
+        return { 1, nil, 3 }
+    end
+    lu.assertEquals(feature.to_list(func_returns_table_with_nil), { 1, nil, 3 }, "Function returning table with nil")
+
+    -- Table with metatable (should still work)
+    local table_with_meta = setmetatable({ "a", "b" }, { __index = { c = "d" } })
+    lu.assertEquals(feature.to_list(table_with_meta), { "a", "b" }, "Table with metatable")
+
+    -- Function that returns multiple values (only first is used)
+    local func_multi_return = function()
+        return "first", "second"
+    end
+    lu.assertEquals(feature.to_list(func_multi_return), { "first" }, "Function with multiple returns")
 end
 
 function TestPollNumber()
     setup_mock_vim()
-    -- Test cycling through number modes
-    -- Start with both enabled
+
+    -- Test State 1: Both enabled → number only
     _G.vim.o.number = true
     _G.vim.o.relativenumber = true
-    -- Note: poll_number is a local function, we can't test it directly
-    -- This test documents that poll_number exists but requires integration testing
-    lu.assertTrue(true) -- Placeholder
+    feature.poll_number()
+    lu.assertTrue(_G.vim.o.number, "State 1: number should be true")
+    lu.assertFalse(_G.vim.o.relativenumber, "State 1: relativenumber should be false")
+
+    -- Test State 2: number only → both disabled
+    feature.poll_number()
+    lu.assertFalse(_G.vim.o.number, "State 2: number should be false")
+    lu.assertFalse(_G.vim.o.relativenumber, "State 2: relativenumber should be false")
+
+    -- Test State 3: both disabled → both enabled
+    feature.poll_number()
+    lu.assertTrue(_G.vim.o.number, "State 3: number should be true")
+    lu.assertTrue(_G.vim.o.relativenumber, "State 3: relativenumber should be true")
+
+    -- Edge case: Start with only relativenumber=true, number=false
+    _G.vim.o.number = false
+    _G.vim.o.relativenumber = true
+    feature.poll_number()
+    lu.assertFalse(_G.vim.o.number, "Edge: number should be false")
+    lu.assertFalse(_G.vim.o.relativenumber, "Edge: relativenumber should be false")
 end
 
 function TestXxdFunction()
     setup_mock_vim()
-    -- Test that the function exists and handles basic operations
-    -- Note: xxd is a local function that calls vim.cmd with %!xxd
-    -- We test that feature module loads successfully
-    lu.assertNotNil(feature)
 
-    -- Verify vim.o.binary is set correctly (from our fixed code)
-    _G.vim.b.is_xxd = false
+    -- Setup initial state tracking
+    local cmd_calls = {}
+    _G.vim.cmd = function(cmd) table.insert(cmd_calls, cmd) end
+    _G.vim.b.is_xxd = nil
     _G.vim.o.mod = false
+    _G.vim.o.binary = false
 
-    -- The function should exist in the feature module
-    lu.assertNotNil(feature.xxd)
+    -- Test 1: Initial toggle (normal → hex)
+    _G.vim.b.is_xxd = nil
+    _G.vim.o.mod = true  -- Should preserve this
+    cmd_calls = {}
+    feature.xxd()
+
+    lu.assertTrue(_G.vim.b.is_xxd, "After first toggle: is_xxd should be true")
+    lu.assertTrue(_G.vim.o.binary, "After first toggle: binary should be true")
+    lu.assertTrue(_G.vim.o.mod, "After first toggle: mod should be preserved as true")
+    lu.assertEquals(#cmd_calls, 1, "Should execute %!xxd command")
+    lu.assertEquals(cmd_calls[1], "silent %!xxd", "Should call xxd command")
+
+    -- Test 2: Second toggle (hex → normal)
+    _G.vim.o.mod = false  -- Different state for second test
+    cmd_calls = {}
+    feature.xxd()
+
+    lu.assertFalse(_G.vim.b.is_xxd, "After second toggle: is_xxd should be false")
+    lu.assertFalse(_G.vim.o.binary, "After second toggle: binary should be false")
+    lu.assertFalse(_G.vim.o.mod, "After second toggle: mod should be preserved as false")
+    lu.assertEquals(#cmd_calls, 1, "Should execute %!xxd -r command")
+    lu.assertEquals(cmd_calls[1], "silent %!xxd -r", "Should call xxd -r command")
+
+    -- Test 3: Third toggle (normal → hex again)
+    _G.vim.o.mod = true
+    cmd_calls = {}
+    feature.xxd()
+
+    lu.assertTrue(_G.vim.b.is_xxd, "After third toggle: is_xxd should be true")
+    lu.assertTrue(_G.vim.o.binary, "After third toggle: binary should be true")
+    lu.assertTrue(_G.vim.o.mod, "After third toggle: mod should be preserved as true")
+
+    -- Test 4: Verify vim.o.mod preservation for false state
+    _G.vim.o.mod = false
+    _G.vim.b.is_xxd = true
+    feature.xxd()
+    lu.assertFalse(_G.vim.o.mod, "Mod should be preserved as false")
 end
 
 function TestFormatFunction()
     setup_mock_vim()
-    -- Test that format function handles basic operations
-    lu.assertNotNil(feature.format)
 
-    -- Mock conform module
-    _G.require = function(name)
-        if name == "conform" then
-            return {
-                format = function() end
-            }
-        elseif name == "feature" then
-            return feature
+    -- Track all vim operations
+    local write_calls = {}
+    local cmd_calls = {}
+    local win_execute_calls = {}
+    local redraw_count = 0
+
+    _G.vim.cmd = function(cmd)
+        table.insert(cmd_calls, cmd)
+        if cmd == "redraw!" then
+            redraw_count = redraw_count + 1
         end
-        return {}
     end
 
-    -- This should be callable without errors (though it won't do anything interesting without true mocking)
-    local test_called = false
-    local test_func = function() test_called = true end
+    _G.vim.fn.win_findbuf = function(bufnr)
+        return { 1, 2 }  -- Return two windows for testing
+    end
 
-    -- The feature.format wraps a function, we just test the module structure
-    lu.assertTrue(type(feature.format) == "function")
+    _G.vim.fn.win_execute = function(winnr, action)
+        table.insert(win_execute_calls, { winnr = winnr, action = action })
+    end
+
+    -- Track shada calls
+    local shada_calls = 0
+    local orig_cmd = _G.vim.cmd
+    _G.vim.cmd = function(cmd)
+        table.insert(cmd_calls, cmd)
+        if cmd == "wshada" or cmd == "rshada" then
+            shada_calls = shada_calls + 1
+        end
+        if cmd == "redraw!" then
+            redraw_count = redraw_count + 1
+        end
+    end
+
+    _G.vim.api.nvim_get_current_buf = function() return 42 end
+
+    -- Mock modified state - should trigger save
+    _G.vim.o.mod = true
+    _G.vim.api.nvim_buf_get_name = function() return "test.txt" end
+
+    -- Test 1: Format with modified buffer (should save before/after)
+    local formatter_called = false
+    local test_formatter = function()
+        formatter_called = true
+    end
+
+    feature.format(test_formatter)
+
+    lu.assertTrue(formatter_called, "Formatter should be called")
+    lu.assertFalse(_G.vim.o.lazyredraw, "lazyredraw should be disabled after format completes")
+
+    -- Check that write was called for modified buffer
+    local has_noautocmd_write = false
+    for _, cmd in ipairs(cmd_calls) do
+        if cmd:match("noautocmd silent write") then
+            has_noautocmd_write = true
+            break
+        end
+    end
+    lu.assertTrue(has_noautocmd_write, "Should write modified buffer")
+
+    -- Check win_execute was called for view saving/restoring
+    lu.assertEquals(#win_execute_calls, 4, "Should call win_execute twice per window (save + restore)")  -- 2 windows x 2 (save+restore)
+    -- First two should be saveview, last two should be winrestview
+    lu.assertTrue(win_execute_calls[1].action:find("winsaveview") ~= nil, "First calls should save view")
+
+    -- Check shada was saved/restored
+    lu.assertTrue(shada_calls >= 2, "Shada should be saved and restored")
+
+    -- Check redraw
+    lu.assertTrue(redraw_count >= 1, "Should have called redraw")
+
+    -- Check lazyredraw is disabled at end
+    lu.assertFalse(_G.vim.o.lazyredraw, "lazyredraw should be disabled after format")
+
+    -- Test 2: Format with unmodified buffer (should not save)
+    write_calls = {}
+    cmd_calls = {}
+    _G.vim.o.mod = false
+    formatter_called = false
+    feature.format(test_formatter)
+
+    lu.assertTrue(formatter_called, "Formatter should be called")
+    -- Check no write was called for unmodified buffer
+    local has_write = false
+    for _, cmd in ipairs(cmd_calls) do
+        if cmd:match("write") and not cmd:match("shada") then
+            has_write = true
+            break
+        end
+    end
+    lu.assertFalse(has_write, "Should not write unmodified buffer")
 end
 
 function TestHigherOrderFunctions()
