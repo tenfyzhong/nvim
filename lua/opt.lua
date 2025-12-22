@@ -13,7 +13,7 @@ vim.opt.fileencodings = { "utf-8", "gbk", "gb2312", "cp936", "usc-bom", "euc-jp"
 vim.o.mouse = ""
 vim.o.wrap = true
 vim.o.wrapmargin = 0
-vim.o.textwidth = 79
+vim.o.textwidth = 0
 vim.o.colorcolumn = "120"
 vim.opt.backspace:append({ "indent", "eol", "start" })
 vim.o.whichwrap = "b,s,<,>,h,l"
