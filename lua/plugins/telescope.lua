@@ -35,7 +35,11 @@ local function fzf_marks_picker()
             sorter = conf.generic_sorter({}),
             attach_mappings = function(prompt_bufnr, map)
                 actions.select_default:replace(function()
-                    local selection = action_state.get_current_entry()
+                    local current_picker = action_state.get_current_picker(prompt_bufnr)
+                    if not current_picker then
+                        return
+                    end
+                    local selection = current_picker:get_selection()
                     if selection then
                         actions.close(prompt_bufnr)
                         local parts = vim.split(selection.value, ":")
@@ -92,7 +96,11 @@ local function git_worktree_picker()
 
     local function open_worktree(cmd)
         return function(prompt_bufnr)
-            local selection = action_state.get_current_entry()
+            local current_picker = action_state.get_current_picker(prompt_bufnr)
+            if not current_picker then
+                return
+            end
+            local selection = current_picker:get_selection()
             if selection then
                 actions.close(prompt_bufnr)
                 local parts = vim.split(selection.value, " ", { trimempty = true })
@@ -136,7 +144,11 @@ local function bookmarks_picker()
 
     local edit_fn = function(action)
         return function(prompt_bufnr)
-            local selection = action_state.get_current_entry()
+            local current_picker = action_state.get_current_picker(prompt_bufnr)
+            if not current_picker then
+                return
+            end
+            local selection = current_picker:get_selection()
             if selection then
                 actions.close(prompt_bufnr)
                 local items = vim.fn.split(selection.value, ":")
