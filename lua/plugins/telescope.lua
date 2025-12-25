@@ -299,6 +299,7 @@ local telescope_config = function()
     -- Load extensions
     telescope.load_extension("fzf")
     telescope.load_extension("zoxide")
+    telescope.load_extension("gh")
 
     -- Key mappings for LSP functionality
     -- Finder (finder - gh)
@@ -472,6 +473,8 @@ local telescope = {
         -- zoxide
         "nvim-lua/popup.nvim",
         "jvgrootveld/telescope-zoxide",
+
+        "nvim-telescope/telescope-github.nvim",
     },
     config = telescope_config,
     keys = {
