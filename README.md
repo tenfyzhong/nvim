@@ -15,6 +15,8 @@ A modern, feature-rich Neovim configuration built with Lua, designed for product
 * **📝 Git Integration**: Git signs, diff view, and lazygit integration
 * **⚡ Smart Navigation**: Smart line navigation, hop motions, and improved yank/put operations
 * **🧪 Testing**: Comprehensive test suite for utility functions
+* **📚 Bookmarks**: Code bookmarks with Telescope integration
+* **💾 Smart Undo**: Enhanced undo history with undotree and telescope-undo
 
 ## Quick Start
 
@@ -165,13 +167,14 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 * **nvim-cmp** - Completion engine
 * **lualine.nvim** - Status line
 * **material.nvim** - Color scheme
+* **nvim-ufo** - Modern folding with LSP integration
 
 ### LSP & Completion
 * **mason.nvim** - LSP package manager (30+ tools)
 * **telescope.nvim** - Fuzzy finder with 20+ custom pickers and LSP integration
 * **nvim-autopairs** - Auto-pair completion
 * **aerial.nvim** - Code outline/symbols
-* **nvim-treesitter** - Syntax parsing and highlighting
+* **trouble.nvim** - Diagnostics and quickfix viewer
 
 ### AI & Git
 * **codecompanion.nvim** - AI coding assistant with ARK and MIMO adapters
@@ -179,23 +182,29 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 * **diffview.nvim** - Git diff viewer
 * **lazygit.nvim** - Lazygit integration
 * **committia.lua** - Conventional commits
+* **grug-far.nvim** - Search and replace in files
 
 ### Debugging
 * **nvim-dap** - Debug Adapter Protocol
 * **nvim-dap-ui** - DAP UI
 * **nvim-dap-virtual-text** - Virtual text for DAP
+* **overseer.nvim** - Task runner and automation
 
 ### File Management
 * **neo-tree.nvim** - File explorer
+* **zoxide** - Fast directory navigation
 
 ### Utilities
 * **hop.nvim** - Motion plugin
-* **yanky.nvim** - Improved yank/put
+* **yanky.nvim** - Improved yank/put with telescope integration
 * **nvim-surround** - Surround operations
-* **undotree** - Undo history visualization
+* **telescope-undo.nvim** - Enhanced undo history browser
 * **conform.nvim** - Code formatting with per-project customization
-* **nvim-ufo** - Modern folding
 * **bookmarks.nvim** - Code bookmarks with Telescope integration
+* **substitute.nvim** - Enhanced substitute operations
+* **treesj.nvim** - Split/join blocks of code
+* **todo-comments.nvim** - Highlight and search TODO/FIXME comments
+* **trouble.nvim** - Diagnostics, references, and quickfix viewer
 
 ## Per-Project Customization
 
@@ -216,51 +225,106 @@ let g:conform_args_gofumpt = ['-extra']
 
 ## Testing
 
-Run the test suite to verify configuration:
+This configuration includes a comprehensive test suite for all utility functions:
 
 ```bash
+# Run all tests
 make test
+
+# Run single test function
+cd lua && lua tests/feature_test_suite.lua -v -p TestParseArgs
+
+# Run test with specific pattern
+cd lua && lua tests/feature_test_suite.lua -v -p TestGetRelativePath
 ```
 
-Tests cover utility functions like argument parsing, path manipulation, formatting logic, and more using the LuaUnit framework.
-
 ### Test Coverage
-* `parse_args()` - Command argument parsing with quote handling
-* `get_relative_path()` - Path calculation utilities
-* `to_list()` - Type conversion utilities
-* `poll_number()` - Line number mode cycling
-* `xxd()` - Hex dump view toggling
-* `format()` - Buffer formatting with view preservation
+* `parse_args()` - Command argument parsing with quote handling and escape sequences
+* `get_relative_path()` - Path normalization and relative path calculation
+* `to_list()` - Type conversion (string→table, table→table, function→recursive)
+* `poll_number()` - Line number mode cycling (relative → absolute → none → both)
+* `xxd()` - Hex dump view toggling using external `xxd` command
+* `format()` - Buffer formatting with view/cursor preservation across windows
+
+### CI/CD
+Tests are automatically run via GitHub Actions (`.github/workflows/test.yaml`) on Ubuntu with LuaRocks, triggered on push to main and pull requests.
+
+## Additional Features
+
+### Smart Navigation
+* **Smart j/k**: Respects wrapped lines, handles count properly
+* **Visual mode indent**: `<` and `>` keep selection for multiple indents
+* **Search direction**: `n`/`N` respect search direction
+* **Line number cycling**: `<leader>nn` cycles through relative, absolute, none, and both
+
+### AI Assistant Features
+* **Custom adapters**: ARK (doubao-seed-code-preview) and MIMO models
+* **Diff controls**: `gda` (accept), `gdr` (reject), `gdy` (always accept)
+* **Rules system**: Auto-loads `.clinerules`, `.cursorrules`, `CLAUDE.md`, etc.
+* **Prompt library**: Looks for `.prompts` in project and `~/.config/prompts`
+
+### Telescope Custom Pickers
+* **Zoxide**: `<leader>fz` - Fast directory navigation
+* **FZF Marks**: `<leader>fs` - Navigate to bookmarks from fzf-marks
+* **Git Worktree**: `<leader>fw` - Switch between git worktrees
+* **Bookmarks**: `<leader>fM` - Browse code bookmarks with relative paths
+* **Undo**: `<leader>ut` - Enhanced undo history browser
 
 ## Architecture
 
-This configuration follows a modular pattern:
+This configuration follows a modular pattern with clear separation of concerns:
 
 ```
 ~/.config/nvim/
-├── init.lua              # Entry point - loads all modules
+├── init.lua              # Entry point - loads all modules in order
 ├── lua/
-│   ├── opt.lua           # Vim options (clipboard, encoding, UI)
+│   ├── opt.lua           # Vim options (clipboard, encoding, UI settings)
 │   ├── g.lua             # Global variables (leader keys, paths)
 │   ├── abbreviate.lua    # Text abbreviations
-│   ├── autocmd.lua       # Autocommands
-│   ├── command.lua       # Custom user commands
-│   ├── keymap.lua        # Core key mappings
-│   ├── plugin.lua        # lazy.nvim setup with dev support
-│   ├── highlight.lua     # Syntax highlighting
-│   ├── feature.lua       # Utility functions (format, parse_args, etc.)
-│   ├── plugins/          # 90+ plugin configs
+│   ├── autocmd.lua       # Autocommands (BufWritePost, InsertEnter/Leave, etc.)
+│   ├── command.lua       # Custom user commands (:XXD)
+│   ├── keymap.lua        # Core key mappings (leader, navigation, window)
+│   ├── plugin.lua        # lazy.nvim setup with dev plugin support
+│   ├── highlight.lua     # Syntax highlighting configuration
+│   ├── feature.lua       # Utility functions (format, parse_args, xxd, etc.)
+│   ├── plugins/          # 90+ plugin configurations
 │   │   ├── codecompanion.lua  # AI assistant with ARK/MIMO adapters
-│   │   ├── telescope.lua      # 20+ custom pickers
-│   │   ├── conform.lua        # Formatter with per-project config
+│   │   ├── telescope.lua      # 20+ custom pickers and LSP integration
+│   │   ├── conform.lua        # Formatter with per-project customization
 │   │   ├── mason.lua          # 30+ LSP tools auto-install
-│   │   ├── nvim-cmp.lua
-│   │   └── ...
+│   │   ├── nvim-cmp.lua       # Completion engine
+│   │   ├── yanky.lua          # Improved yank/put
+│   │   ├── bookmarks.lua      # Code bookmarks
+│   │   └── ... (80+ more)
+│   ├── dev/              # Local development plugins (auto-detected)
+│   │   ├── bookmarks.nvim/
+│   │   └── tsnippets.vim/
 │   └── tests/            # LuaUnit test suite
-├── lsp/                  # LSP configs (gopls, lua_ls, etc.)
-├── ftdetect/             # Filetype detection
-└── lazy-lock.json        # Plugin versions
+├── lsp/                  # LSP configs (gopls, lua_ls, pylsp, yamlls)
+├── ftdetect/             # Filetype detection rules
+└── lazy-lock.json        # Plugin versions (auto-generated)
 ```
+
+### Key Implementation Details
+
+**Conform Formatter** (`lua/plugins/conform.lua`)
+- Auto-format on `BufWritePre` for configured filetypes
+- Manual format: `<leader>af` or `:Format`
+- View preservation using `winsaveview()`/`winrestview()`
+- Per-project config via `.vimrc.local`
+
+**Feature Utilities** (`lua/feature.lua`)
+- `poll_number()` - Cycle line number modes
+- `xxd()` - Toggle hex dump view
+- `format()` - Format buffer with view preservation
+- `get_relative_path()` - Calculate relative paths
+- `parse_args()` - Parse quoted arguments
+- `to_list()` - Type conversion utility
+
+**Local Development**
+- Plugins in `lua/dev/` are auto-loaded for local development
+- Pattern matching: `tenfyzhong` or `zhongtenghui`
+- Configured in `lua/plugin.lua:13`
 
 ## License
 

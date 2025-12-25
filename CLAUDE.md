@@ -8,15 +8,15 @@ This is a personal Neovim configuration repository (`~/.config/nvim/`). It's a c
 
 ## Architecture & Structure
 
-### Core Configuration Files
+### Core Configuration Files (Load Order)
 ```
 init.lua                    # Main entry point - loads all modules in order:
 ├── opt.lua                 # Vim options (clipboard, encoding, UI, etc.)
 ├── g.lua                   # Global variables (leader keys, Python paths)
 ├── abbreviate.lua          # Text abbreviations
-├── autocmd.lua             # Autocommands
-├── command.lua             # Custom user commands
-├── keymap.lua              # Core key mappings
+├── autocmd.lua             # Autocommands (BufWritePost, InsertEnter/Leave, TextYankPost, etc.)
+├── command.lua             # Custom user commands (:XXD)
+├── keymap.lua              # Core key mappings (leader, navigation, window management)
 ├── plugin.lua              # lazy.nvim plugin manager setup
 └── highlight.lua           # Syntax highlighting configuration
 ```
@@ -29,6 +29,10 @@ Plugins are configured individually in separate files. Each follows lazy.nvim sp
 - `nvim-cmp.lua` - Completion engine with vsnip snippets
 - `mason.lua` - LSP package manager (installs 30+ tools on first run)
 - `lualine.lua`, `neo-tree.lua`, `gitsigns.lua` - UI components
+- `yanky.lua` - Improved yank/put operations
+- `hop.lua` - Motion plugin
+- `nvim-ufo` - Modern folding
+- `bookmarks.lua` - Code bookmarks with Telescope integration
 
 ### Language Server Protocol (`lsp/`)
 - `gopls.lua` - Go language server with gofumpt integration
@@ -37,22 +41,36 @@ Plugins are configured individually in separate files. Each follows lazy.nvim sp
 - `yamlls.lua` - YAML language server
 
 ### Utility Functions (`lua/feature.lua`)
+**Core utilities used across the configuration:**
 - `poll_number()` - Cycle line number modes (relative → absolute → none → both)
-- `xxd()` - Toggle hex dump view
-- `format()` - Format buffer preserving view/cursor
-- `get_relative_path()` - Calculate relative paths
-- `parse_args()` - Parse command arguments with quote handling
-- `to_list()` - Type conversion utility
+- `xxd()` - Toggle hex dump view using external `xxd` command
+- `format()` - Format buffer preserving view/cursor (uses `winsaveview`/`winrestview`)
+- `get_relative_path()` - Calculate relative paths with normalization
+- `parse_args()` - Parse command arguments with quote handling (supports `"` and `'`)
+- `to_list()` - Type conversion utility (string→table, table→table, function→recursive)
 
 ### Test Suite (`lua/tests/feature_test_suite.lua`)
 Comprehensive tests for all feature.lua functions using LuaUnit framework.
+
+### Local Development Plugins (`lua/dev/`)
+Plugins in this directory are auto-loaded for local development:
+- Pattern matching: `tenfyzhong` or `zhongtenghui`
+- Configured in `lua/plugin.lua:13`
+- `bookmarks.nvim` - Custom bookmark implementation
+- `tsnippets.vim` - Custom snippet utilities
 
 ## Development Commands
 
 ### Testing
 ```bash
-make test                    # Run all tests with verbose output
-cd lua && lua tests/feature_test_suite.lua -v -p TestParseArgs  # Run single test
+# Run all tests
+make test
+
+# Run single test function
+cd lua && lua tests/feature_test_suite.lua -v -p TestParseArgs
+
+# Run test with specific pattern
+cd lua && lua tests/feature_test_suite.lua -v -p TestGetRelativePath
 ```
 
 ### Plugin Management
@@ -62,7 +80,7 @@ cd lua && lua tests/feature_test_suite.lua -v -p TestParseArgs  # Run single tes
 - Local development: place plugins in `~/.config/nvim/lua/dev/` (auto-detected for "tenfyzhong" or "zhongtenghui" patterns)
 
 ### Per-Project Customization
-Create `.vimrc.local` in project directories:
+Create `.vimrc.local` in project directories for formatter customization:
 
 ```vim
 " Override formatters
@@ -76,6 +94,48 @@ let g:conform_disable_go = 1
 let g:conform_args_shfmt = ['-i', '4', '-bn']
 let g:conform_args_gofumpt = ['-extra']
 ```
+
+## Key Implementation Details
+
+### Conform Formatter (`lua/plugins/conform.lua`)
+- **Auto-format**: Triggered on `BufWritePre` for configured filetypes
+- **Manual format**: `<leader>af` or `:Format`
+- **Per-project config**: Reads `g:conform_*` variables from `.vimrc.local`
+- **View preservation**: Uses `feature.format()` to save/restore cursor and window view
+- **Supported formatters**: shfmt, gofumpt, goimports, markdownlint-cli2, stylua, fish_indent, gojq, yamlfmt
+
+### Telescope Custom Pickers (`lua/plugins/telescope.lua`)
+Custom picker functions defined in the same file:
+- `fzf_marks_picker()` - Reads `~/.fzf-marks` file, changes directory on selection
+- `git_worktree_picker()` - Lists git worktrees, supports tab opening with `<c-t>`
+- `bookmarks_picker()` - Uses `bookmarks.nvim` data, shows relative paths
+
+### CodeCompanion AI Assistant (`lua/plugins/codecompanion.lua`)
+- **Custom adapters**: ARK (doubao-seed-code-preview) and MIMO
+- **Key mappings**: `<leader>cc` (chat), `<leader>ca` (actions), `gda`/`gdr`/`gdy` (diff controls)
+- **Rules system**: Auto-loads `.clinerules`, `.cursorrules`, `CLAUDE.md`, etc.
+- **Prompt library**: Looks for `.prompts` in project and `~/.config/prompts`
+
+### Smart Navigation (`lua/keymap.lua`)
+- **Smart j/k**: Respects wrapped lines (`gj`/`gk` for standard behavior)
+- **Count handling**: `j`/`k` respect count (e.g., `5j` works normally)
+- **Search direction**: `n`/`N` respect `searchforward` option
+- **Visual mode indent**: `<` and `>` keep selection for multiple indents
+
+### Autocommands (`lua/autocmd.lua`)
+- **VimL auto-reload**: Source `*vimrc`/`*.vim` on write
+- **Paste mode**: Auto-disable on insert leave
+- **Line numbers**: Absolute in insert, relative in normal
+- **Cursorline**: Only visible in active window
+- **Yank highlight**: Visual feedback on yank (200ms timeout)
+- **Direnv**: Auto-allow on `.envrc` write
+
+### Feature Functions (`lua/feature.lua`)
+- **`format()`**: Uses `winsaveview()`/`winrestview()` across all windows with the buffer
+- **`parse_args()`**: Handles quoted strings with escape sequences
+- **`get_relative_path()`**: Normalizes paths, handles `.` and `..`, works with absolute/relative
+- **`xxd()`**: Toggles between hex and binary using external `xxd` command
+- **`poll_number()`**: 3-state cycle (both → absolute → none → both)
 
 ## Key Mappings Reference
 
@@ -91,7 +151,7 @@ let g:conform_args_gofumpt = ['-extra']
 - `;` - Command mode
 
 ### Window Management
-- `<C-w>\` - Vertical split
+- `<C-w>\\` - Vertical split
 - `<C-w>-` - Horizontal split
 
 ### Folding
