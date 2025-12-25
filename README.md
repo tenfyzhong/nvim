@@ -1,169 +1,211 @@
-# Neovim Configuration
+# Personal Neovim Configuration
 
-This is a personal Neovim configuration tailored for a productive and enjoyable development experience. It is built upon a foundation of Lua-based plugins and is optimized for performance and ease of use.
-
-## Installation
-
-1. **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/your-username/your-repo-name.git ~/.config/nvim
-    ```
-
-2. **Install `lazy.nvim`, the plugin manager:**
-
-    The configuration uses `lazy.nvim` to manage plugins. It will be automatically installed the first time you launch Neovim.
-
-3. **Launch Neovim:**
-
-    Open Neovim, and `lazy.nvim` will handle the rest, installing all the configured plugins.
-
-    ```bash
-    nvim
-    ```
+A modern, feature-rich Neovim configuration built with Lua, designed for productive development across multiple programming languages. This configuration uses `lazy.nvim` for plugin management and features extensive LSP integration, debugging support, git tooling, and fuzzy finding capabilities.
 
 ## Features
 
-* **Fast Startup Time:** Optimized for quick startup and responsiveness.
-* **Modern and Consistent UI:** A clean and consistent user interface with a focus on usability.
-* **Extensible and Customizable:** Easily extend and customize the configuration to fit your workflow.
-* **LSP and Autocompletion:** Full-featured Language Server Protocol (LSP) support for intelligent code completion, diagnostics, and navigation.
-* **Debugging:** Integrated debugging support for a seamless debugging experience.
-* **Git Integration:** Deep integration with Git for efficient version control.
-* **Fuzzy Finding:** Fast and intuitive fuzzy finding for files, buffers, and more.
+* **🚀 Fast Startup**: Optimized for quick startup with lazy loading
+* **🎨 Modern UI**: Clean interface with material theme and consistent styling
+* **📝 Smart Completion**: Full LSP support with nvim-cmp and intelligent snippets
+* **🔍 Fuzzy Finding**: Fast file/buffer searching with Telescope + fzf
+* **🔧 Code Formatting**: Automatic and manual formatting with conform.nvim
+* **🐛 Debugging**: Integrated debugging with nvim-dap and dap-ui
+* **📦 LSP Management**: Automatic LSP installation with mason.nvim
+* **🌳 File Explorer**: Modern file tree with neo-tree
+* **📝 Git Integration**: Git signs, diff view, and lazygit integration
+* **⚡ Smart Navigation**: Hop for quick motions, smart line navigation
 
-## Plugins
+## Quick Start
 
-This configuration is powered by a curated list of plugins that enhance the Neovim experience. Here is a categorized list of the included plugins:
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/tenfyzhong/nvim.git ~/.config/nvim
+
+# Launch Neovim - lazy.nvim will auto-install all plugins
+nvim
+```
+
+### Required External Tools
+
+Install these tools for full functionality:
+
+```bash
+# Formatters
+go install mvdan.cc/sh/v3/cmd/shfmt@latest
+go install mvdan.cc/gofumpt@latest
+go install github.com/incu6us/goimports-reviser@latest
+go install golang.org/x/tools/cmd/goimports@latest
+npm install -g markdownlint-cli2
+cargo install stylua
+go install github.com/jzelinskie/gojq@latest
+go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+
+# Language servers are auto-installed via Mason on first launch
+```
+
+## Key Mappings
+
+### Leader Keys
+- **Leader**: `'` (single quote)
+- **Local Leader**: `,` (comma)
+
+### Core Navigation
+| Key | Action |
+|-----|--------|
+| `j` / `k` | Smart line navigation (respects wrapped lines) |
+| `H` | Go to start of line |
+| `L` | Go to end of line |
+| `;` | Enter command mode |
+| `<esc><esc>` | Clear search highlighting |
+
+### Window Management
+| Key | Action |
+|-----|--------|
+| `<C-w>\` | Vertical split |
+| `<C-w>-` | Horizontal split |
+
+### Folding
+| Key | Action |
+|-----|--------|
+| `<Space><Space>` | Toggle folds |
+
+### LSP & Code Navigation
+| Key | Action |
+|-----|--------|
+| `gd` | Go to definition |
+| `gD` | Peek definition |
+| `gh` | Show references |
+| `K` | Hover documentation |
+| `<leader>la` | Code actions |
+| `<leader>re` | Rename symbol |
+| `<leader>ll` | Line diagnostics |
+| `<leader>lc` | Cursor diagnostics |
+| `<leader>lb` | Buffer diagnostics |
+| `<leader>li` | Incoming calls |
+| `<leader>lo` | Outgoing calls |
+
+### Git Operations (with gitsigns)
+| Key | Action |
+|-----|--------|
+| `<leader>ga` | Stage hunk |
+| `<leader>gu` | Undo stage hunk |
+| `<leader>gr` | Reset hunk |
+| `<leader>gA` | Stage buffer |
+| `<leader>gR` | Reset buffer |
+| `<leader>gp` | Preview hunk |
+| `<leader>gb` | Blame line |
+
+### File & Buffer Operations
+| Key | Action |
+|-----|--------|
+| `<leader>nt` | Toggle file tree (neo-tree) |
+| `<leader>w` | Save all and redraw |
+| `<leader>tn` | New tab |
+| `<leader>tc` | Close tab |
+
+### Formatting
+| Key | Action |
+|-----|--------|
+| `<leader>af` | Manual format |
+| `:Format` | Manual format command |
+| *Auto* | Formats on save for configured filetypes |
+
+### Other Utilities
+| Key | Action |
+|-----|--------|
+| `<leader>nn` | Cycle line number modes (relative → absolute → none → both) |
+| `:XXD` | Toggle hex dump view |
+
+## Plugin Categories
 
 ### Core
+- **lazy.nvim** - Plugin manager
+- **nvim-treesitter** - Syntax parsing and highlighting
+- **nvim-cmp** - Completion engine
+- **lualine.nvim** - Status line
+- **material.nvim** - Color scheme
 
-| Plugin | Description |
-| --- | --- |
-| [lazy.nvim](https://github.com/folke/lazy.nvim) | A modern plugin manager for Neovim. |
-| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Advanced syntax highlighting and code analysis. |
-| [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) | A completion engine for Neovim. |
-| [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | A blazing fast and easy to configure statusline. |
-| [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | A file explorer for Neovim. |
-
-### LSP and Completion
-
-| Plugin | Description |
-| --- | --- |
-| [mason.nvim](https://github.com/williamboman/mason.nvim) | Portable package manager for Neovim that runs everywhere Neovim runs. |
-| [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim) | Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim. |
-| [lspsaga.nvim](https://github.com/glepnir/lspsaga.nvim) | A light-weight lsp plugin based on neovim's built-in lsp with a highly performant UI. |
-| [fidget.nvim](https://github.com/j-hui/fidget.nvim) | Standalone UI for nvim-lsp progress. |
-| [nvim-autopairs](https://github.com/windwp/nvim-autopairs) | A super powerful autopair plugin for Neovim. |
+### LSP & Completion
+- **mason.nvim** - LSP package manager
+- **telescope.nvim** - Fuzzy finder with LSP integration
+- **nvim-autopairs** - Auto-pair completion
 
 ### Git
+- **gitsigns.nvim** - Git gutter signs
+- **diffview.nvim** - Git diff viewer
+- **lazygit.nvim** - Lazygit integration
+- **committia.lua** - Conventional commits
 
-| Plugin | Description |
-| --- | --- |
-| [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Git integration for Neovim. |
-| [diffview.nvim](https://github.com/sindrets/diffview.nvim) | Single tabpage interface for easily cycling through diffs for all modified files. |
-| [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) | Plugin for calling lazygit from within Neovim. |
-| [committia.lua](https://github.com/tenfyzhong/committia.lua) | A Lua module for creating conventional commits. |
+### Debugging
+- **nvim-dap** - Debug Adapter Protocol
+- **nvim-dap-ui** - DAP UI
+- **nvim-dap-virtual-text** - Virtual text for DAP
 
-### User Interface
+### File Management
+- **neo-tree.nvim** - File explorer
+- **fzf.vim** - Fuzzy finder (legacy)
 
-| Plugin | Description |
-| --- | --- |
-| [material.nvim](https://github.com/marko-cerovac/material.nvim) | Material colorscheme for Neovim. |
-| [notify.nvim](https://github.com/rcarriga/nvim-notify) | A fancy notification manager for Neovim. |
-| [trouble.nvim](https://github.com/folke/trouble.nvim) | A pretty list for showing diagnostics, references, and more. |
-| [aerial.nvim](https://github.com/stevearc/aerial.nvim) | A code outline window for skimming and quick navigation. |
-| [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo) | A modern folding plugin for Neovim. |
+### Utilities
+- **hop.nvim** - Motion plugin
+- **yanky.nvim** - Improved yank/put
+- **nvim-surround** - Surround operations
+- **undotree** - Undo history visualization
+- **conform.nvim** - Code formatting
+- **nvim-ufo** - Modern folding
 
-### Utility
+## Per-Project Customization
 
-| Plugin | Description |
-| --- | --- |
-| [fzf.vim](https://github.com/junegunn/fzf.vim) | A fuzzy finder for Neovim. |
-| [hop.nvim](https://github.com/phaazon/hop.nvim) | A motion plugin for Neovim. |
-| [yanky.nvim](https://github.com/gbprod/yanky.nvim) | Improved Yank and Put functionalities for Neovim. |
-| [nvim-surround](https://github.com/kylechui/nvim-surround) | A plugin for adding/changing/deleting surroundings in pairs. |
-| [undotree](https://github.com/mbbill/undotree) | The ultimate undo history visualizer for Neovim. |
-| [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight, list and search for todo comments in your projects. |
-| [zoxide.lua](https://github.com/jvgrootveld/zoxide.lua) | A Lua-based Zoxide plugin for Neovim. |
-| [wakatime.nvim](https://github.com/wakatime/wakatime-nvim) | WakaTime integration for Neovim. |
+Create a `.vimrc.local` file in your project root to customize behavior:
 
-## Formatter Dependencies
+```vim
+" Override formatters
+let g:conform_auto_formatters_go = ['goimports-reviser', 'gofumpt']
+let g:conform_manual_formatters_sh = ['shfmt']
 
-`conform.nvim` relies on external formatter binaries. Please ensure the following tools are installed and available in your system's PATH for optimal formatting functionality:
+" Disable formatting for filetype
+let g:conform_disable_go = 1
 
-* **shfmt**: A shell parser, formatter, and interpreter.
-  * Installation: `go install mvdan.cc/sh/v3/cmd/shfmt@latest`
-* **gofumpt**: A Go formatter, a stricter variant of `gofmt`.
-  * Installation: `go install mvdan.cc/gofumpt@latest`
-* **goimports-reviser**: A tool for revising Go imports.
-  * Installation: `go install github.com/incu6us/goimports-reviser@latest`
-* **goimports**: A tool for fixing Go imports.
-  * Installation: `go install golang.org/x/tools/cmd/goimports@latest`
-* **markdownlint-cli2**: A fast, flexible, and configurable Markdown linter.
-  * Installation: `npm install -g markdownlint-cli2` or `yarn global add markdownlint-cli2`
-* **stylua**: An opinionated Lua code formatter.
-  * Installation: `cargo install stylua`
-* **fish_indent**: The Fish shell auto-indenter.
-  * Installation: Usually comes with Fish shell. If not, install Fish shell.
-* **yq**: A lightweight and portable command-line YAML, JSON and XML processor.
-  * Installation: Refer to [yq documentation](https://mikefarah.gitbook.io/yq/#install) for various installation methods.
+" Custom formatter arguments
+let g:conform_args_shfmt = ['-i', '4', '-bn']
+let g:conform_args_gofumpt = ['-extra']
+```
 
-### Customizing Formatters with Vim Variables
+## Testing
 
-This configuration allows for fine-grained control over `conform.nvim` and its integrated formatters through Vim's global variables (`vim.g`). These variables can be set in a local configuration file like `.vimrc.local` to customize formatting behavior per-project without modifying the core Lua configuration. This approach works well with tools like `direnv`.
+Run the test suite to verify configuration:
 
-#### General Conform.nvim Variables
+```bash
+make test
+```
 
-| Vim Variable | Description | Example |
-| :------------------- | :---------- | :------------ |
-| `g:conform_auto_formatters_{filetype}` | Overrides the default automatic formatters for a given filetype. Replace `{filetype}` with the actual filetype (e.g., `go`, `sh`). The value should be a Vim list. | `let g:conform_auto_formatters_go = ['goimports-reviser', 'gofumpt']` |
-| `g:conform_manual_formatters_{filetype}` | Overrides the default manual formatters for a given filetype. Replace `{filetype}` with the actual filetype. The value should be a Vim list. | `let g:conform_manual_formatters_sh = ['shfmt']` |
-| `g:conform_disable_{filetype}` | If set to `1`, disables formatting for the specified filetype. Replace `{filetype}` with the actual filetype. | `let g:conform_disable_go = 1` |
+Tests cover utility functions like argument parsing, path manipulation, and formatting logic.
 
-#### Formatter-Specific Arguments
+## Architecture
 
-To pass custom arguments to formatters, you can use the `g:conform_args_{formatter}` global variable. This provides a flexible way to control formatter behavior. Replace `{formatter}` with the name of the formatter you want to configure (e.g., `shfmt`, `gofumpt`).
+This configuration follows a modular pattern:
 
-The value of the variable should be a Vim list of command-line arguments.
+```
+~/.config/nvim/
+├── init.lua              # Entry point
+├── lua/
+│   ├── opt.lua           # Vim options
+│   ├── g.lua             # Global variables
+│   ├── keymap.lua        # Core key mappings
+│   ├── plugin.lua        # lazy.nvim setup
+│   ├── feature.lua       # Utility functions
+│   ├── plugins/          # 90+ plugin configs
+│   │   ├── nvim-cmp.lua
+│   │   ├── telescope.lua
+│   │   ├── conform.lua
+│   │   └── ...
+│   └── tests/            # Test suite
+├── lsp/                  # LSP configs
+├── ftdetect/             # Filetype detection
+└── lazy-lock.json        # Plugin versions
+```
 
-**Configured Formatter Names:**
+## License
 
-* `shfmt`
-* `gofumpt`
-* `goimports-reviser`
-* `goimports-reviser-rm-unused`
-* `goimports`
-* `goimports_format_only`
-* `gojq`
-* `yamlfmt`
-
-| Vim Variable | Description | Example |
-| :------------------- | :---------- | :------ |
-| `g:conform_args_{formatter}` | A list of command-line arguments to pass to the specified formatter. | `let g:conform_args_shfmt = ['-i', '4', '-bn']` |
-
-**Examples:**
-
-* **`shfmt`**: To set indentation to 4 spaces and move binary operators to the next line for shell scripts:
-
-    ```vim
-    let g:conform_args_shfmt = ['-i', '4', '-bn']
-    ```
-
-* **`gofumpt`**: To pass the `-extra` flag to `gofumpt`:
-
-    ```vim
-    let g:conform_args_gofumpt = ['-extra']
-    ```
-
-* **`goimports`**: To pass the `-local` flag to `goimports`:
-
-    ```vim
-    let g:conform_args_goimports = ['-local', 'github.com/your/project']
-    ```
-
-* **`goimports-reviser`**: To pass the `-rm-unused` flag to `goimports-reviser`:
-
-    ```vim
-    let g:conform_args_goimports_reviser = ['-rm-unused']
-    ```
+MIT
