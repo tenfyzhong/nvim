@@ -367,11 +367,6 @@ local telescope_config = function()
         end
     end, { silent = true, desc = "lsp: rename" })
 
-    -- Peek definition (peek_definition - gD)
-    vim.keymap.set("n", "gD", function()
-        builtin.lsp_definitions()
-    end, { silent = true, desc = "telescope: peek definition" })
-
     -- Go to definition (goto_definition - gd)
     vim.keymap.set("n", "gd", function()
         builtin.lsp_definitions()
@@ -542,7 +537,6 @@ local telescope = {
         { "gh", desc = "telescope: lsp references" },
         { "<leader>la", desc = "telescope: lsp code actions" },
         { "<leader>re", desc = "lsp: rename" },
-        { "gD", desc = "telescope: peek definition" },
         { "gd", desc = "telescope: goto definition" },
         { "gi", desc = "telescope: goto implementation" },
         { "<leader>ll", desc = "telescope: line diagnostics" },
