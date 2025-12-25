@@ -19,50 +19,6 @@ local telescope_config = function()
         end
     end
 
-    -- Helper function for zoxide integration
-    local function zoxide_picker()
-        local handle = io.popen("zoxide query -l")
-        if not handle then
-            vim.notify("zoxide not available", vim.log.levels.WARN)
-            return
-        end
-
-        local result = handle:read("*a")
-        handle:close()
-
-        local lines = vim.split(result, "\n", { trimempty = true })
-        if #lines == 0 then
-            vim.notify("No zoxide entries found", vim.log.levels.INFO)
-            return
-        end
-
-        pickers
-            .new({}, {
-                prompt_title = "Zoxide",
-                finder = finders.new_table({
-                    results = lines,
-                }),
-                sorter = conf.generic_sorter({}),
-                attach_mappings = function(prompt_bufnr, map)
-                    actions.select_default:replace(function()
-                        local selection = action_state.get_current_entry()
-                        if selection then
-                            actions.close(prompt_bufnr)
-                            local path = selection.value
-                            vim.fn.chdir(path)
-                            require("neo-tree.command").execute({
-                                action = "focus",
-                            })
-                            local msg = string.format("pwd: %s", path)
-                            vim.notify(msg, vim.log.levels.INFO)
-                        end
-                    end)
-                    return true
-                end,
-            })
-            :find()
-    end
-
     -- Helper function for fzf-marks integration
     local function fzf_marks_picker()
         local store = os.getenv("FZF_MARKS_FILE")
@@ -342,6 +298,7 @@ local telescope_config = function()
 
     -- Load extensions
     telescope.load_extension("fzf")
+    telescope.load_extension("zoxide")
 
     -- Key mappings for LSP functionality
     -- Finder (finder - gh)
@@ -460,7 +417,7 @@ local telescope_config = function()
 
     -- Zoxide (zoxide)
     vim.keymap.set("n", "<leader>fz", function()
-        zoxide_picker()
+        telescope.extensions.zoxide.list()
     end, { silent = true, desc = "telescope: zoxide" })
 
     -- FZF marks (fzf-marks)
@@ -512,6 +469,9 @@ local telescope = {
         -- Required for custom features
         "stevearc/aerial.nvim", -- For buffer tags integration
         "tenfyzhong/bookmarks.nvim",
+        -- zoxide
+        "nvim-lua/popup.nvim",
+        "jvgrootveld/telescope-zoxide",
     },
     config = telescope_config,
     keys = {
