@@ -300,6 +300,7 @@ local telescope_config = function()
     telescope.load_extension("fzf")
     telescope.load_extension("zoxide")
     telescope.load_extension("gh")
+    telescope.load_extension("undo")
 
     -- Key mappings for LSP functionality
     -- Finder (finder - gh)
@@ -447,6 +448,8 @@ local telescope_config = function()
 
     vim.keymap.set("n", "<leader>fq", builtin.quickfix, { silent = true, desc = "telescope: quickfix" })
 
+    vim.keymap.set("n", "<leader>ut", "<cmd>Telescope undo<cr>", { silent = true, desc = "telescope: quickfix" })
+
     vim.api.nvim_create_autocmd("User", {
         pattern = "TelescopePreviewerLoaded",
         callback = function(args)
@@ -475,6 +478,8 @@ local telescope = {
         "jvgrootveld/telescope-zoxide",
 
         "nvim-telescope/telescope-github.nvim",
+
+        "debugloop/telescope-undo.nvim",
     },
     config = telescope_config,
     keys = {
@@ -509,6 +514,8 @@ local telescope = {
         { "K", desc = "lsp: hover" },
         { "<leader>li", desc = "telescope: incoming calls" },
         { "<leader>lo", desc = "telescope: outgoing calls" },
+        -- undo
+        { "<leader>ut", desc = "telescope: outgoing calls" },
     },
 }
 
