@@ -7,7 +7,6 @@ local markdown = {
     config = function()
         vim.g.mkdp_auto_start = 0
         vim.g.mkdp_auto_close = 0
-        vim.g.mkdp_auto_close = 0
         if vim.fn.has("macunix") then
             vim.g.mkdp_path_to_chrome = "open -a Google\\ Chrome"
         end

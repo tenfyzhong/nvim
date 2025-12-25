@@ -1,6 +1,6 @@
 local treesj = {
     "Wansmer/treesj",
-    requires = { "nvim-treesitter" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
         require("treesj").setup({
             -- [[ Use default keymaps
