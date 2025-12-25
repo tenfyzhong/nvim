@@ -305,7 +305,7 @@ local telescope_config = function()
                 show_line = false,
             },
             lsp_implementations = {
-                theme = "cursor",
+                -- theme = "cursor",
                 layout_config = {
                     width = 0.8,
                     height = 0.8,
@@ -318,7 +318,7 @@ local telescope_config = function()
                 symbol_width = 60,
             },
             diagnostics = {
-                theme = "ivy",
+                -- theme = "ivy",
             },
             command_history = {},
             commands = {},
@@ -376,6 +376,10 @@ local telescope_config = function()
     vim.keymap.set("n", "gd", function()
         builtin.lsp_definitions()
     end, { silent = true, desc = "telescope: goto definition" })
+
+    vim.keymap.set("n", "gi", function()
+        builtin.lsp_implementations()
+    end, { silent = true, desc = "telescope: goto implementation" })
 
     -- Show line diagnostics (show_line_diagnostics - <leader>ll)
     vim.keymap.set("n", "<leader>ll", function()
@@ -540,6 +544,7 @@ local telescope = {
         { "<leader>re", desc = "lsp: rename" },
         { "gD", desc = "telescope: peek definition" },
         { "gd", desc = "telescope: goto definition" },
+        { "gi", desc = "telescope: goto implementation" },
         { "<leader>ll", desc = "telescope: line diagnostics" },
         { "<leader>lc", desc = "telescope: cursor diagnostics" },
         { "<leader>lb", desc = "telescope: buffer diagnostics" },
