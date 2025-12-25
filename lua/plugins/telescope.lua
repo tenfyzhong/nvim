@@ -298,18 +298,11 @@ local telescope_config = function()
                 },
             },
             lsp_references = {
-                theme = "cursor",
-                layout_config = {
-                    width = 0.8,
-                    height = 0.8,
-                },
+                include_current_line = true,
+                show_line = false,
             },
             lsp_definitions = {
-                theme = "cursor",
-                layout_config = {
-                    width = 0.8,
-                    height = 0.8,
-                },
+                show_line = false,
             },
             lsp_implementations = {
                 theme = "cursor",
@@ -327,6 +320,15 @@ local telescope_config = function()
             diagnostics = {
                 theme = "ivy",
             },
+            command_history = {},
+            commands = {},
+            search_history = {},
+            tags = {},
+            marks = {},
+            keymaps = {
+                modes = { "n" },
+            },
+            quickfix = {},
         },
         extensions = {
             fzf = {
@@ -344,11 +346,7 @@ local telescope_config = function()
     -- Key mappings for LSP functionality
     -- Finder (finder - gh)
     vim.keymap.set("n", "gh", function()
-        builtin.lsp_references({
-            jump_type = "never",
-            include_current_line = true,
-            show_line = false,
-        })
+        builtin.lsp_references()
     end, { silent = true, desc = "telescope: lsp references" })
 
     -- Code actions (code_action - <leader>la)
@@ -371,39 +369,27 @@ local telescope_config = function()
 
     -- Peek definition (peek_definition - gD)
     vim.keymap.set("n", "gD", function()
-        builtin.lsp_definitions({
-            jump_type = "never",
-            show_line = false,
-        })
+        builtin.lsp_definitions()
     end, { silent = true, desc = "telescope: peek definition" })
 
     -- Go to definition (goto_definition - gd)
     vim.keymap.set("n", "gd", function()
-        builtin.lsp_definitions({
-            show_line = false,
-        })
+        builtin.lsp_definitions()
     end, { silent = true, desc = "telescope: goto definition" })
 
     -- Show line diagnostics (show_line_diagnostics - <leader>ll)
     vim.keymap.set("n", "<leader>ll", function()
-        builtin.diagnostics({
-            bufnr = 0,
-            line_number = true,
-        })
+        builtin.diagnostics({ bufnr = 0, line_number = true })
     end, { silent = true, desc = "telescope: line diagnostics" })
 
     -- Show cursor diagnostics (show_cursor_diagnostics - <leader>lc)
     vim.keymap.set("n", "<leader>lc", function()
-        builtin.diagnostics({
-            bufnr = 0,
-        })
+        builtin.diagnostics({ bufnr = 0 })
     end, { silent = true, desc = "telescope: cursor diagnostics" })
 
     -- Show buffer diagnostics (show_buf_diagnostics - <leader>lb)
     vim.keymap.set("n", "<leader>lb", function()
-        builtin.diagnostics({
-            bufnr = nil,
-        })
+        builtin.diagnostics({ bufnr = nil })
     end, { silent = true, desc = "telescope: buffer diagnostics" })
 
     -- Hover doc (hover_doc - K)
@@ -495,7 +481,7 @@ local telescope_config = function()
 
     -- Keymaps (keymaps) - already exists in telescope
     vim.keymap.set("n", "<leader><leader>", function()
-        builtin.keymaps({ modes = { "n" } })
+        builtin.keymaps()
     end, { silent = true, desc = "telescope: keymaps" })
 
     vim.keymap.set({ "v", "x" }, "<leader><leader>", function()
