@@ -87,7 +87,6 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
-| `gD` | Peek definition |
 | `gh` | Show references |
 | `K` | Hover documentation |
 | `<leader>la` | Code actions |

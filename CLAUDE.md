@@ -160,7 +160,6 @@ Custom picker functions defined in the same file:
 ### LSP (via Telescope)
 - `gh` - LSP references
 - `gd` - Go to definition
-- `gD` - Peek definition
 - `K` - Hover documentation
 - `<leader>la` - Code actions
 - `<leader>re` - Rename symbol
