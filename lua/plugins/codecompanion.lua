@@ -195,7 +195,7 @@ local codecompanion = {
                         ["file"] = {
                             -- Use Telescope as the provider for the /file command
                             opts = {
-                                provider = "fzf_lua", -- Can be "default", "telescope", "fzf_lua", "mini_pick" or "snacks"
+                                provider = "telescope", -- Can be "default", "telescope", "fzf_lua", "mini_pick" or "snacks"
                             },
                         },
                     },

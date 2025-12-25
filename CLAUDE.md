@@ -4,133 +4,78 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal Neovim configuration repository (`~/.config/nvim/`). It's a complete Lua-based Neovim configuration designed for productive development with modern plugins and optimizations. The configuration uses `lazy.nvim` as the plugin manager and features extensive LSP integration, git tooling, fuzzy finding, and a modern UI.
-
-Unlike typical software projects, this is a **runtime configuration** that loads when Neovim starts, not a build-time application. Key considerations include startup performance, user experience workflows, and extensive plugin ecosystem integration.
+This is a personal Neovim configuration repository (`~/.config/nvim/`). It's a complete Lua-based Neovim configuration designed for productive development with modern plugins and optimizations. The configuration uses `lazy.nvim` as the plugin manager and features extensive LSP integration, git tooling, fuzzy finding, and AI-assisted coding.
 
 ## Architecture & Structure
 
-### Core Configuration Structure
+### Core Configuration Files
 ```
-Neovim Configuration Architecture
-├── init.lua                    # Main entry point requiring all modules
-├── lazy-lock.json              # Plugin version lock file (auto-generated)
-├── lua/                        # Core configuration modules
-│   ├── opt.lua                 # Vim options (clipboard, encoding, UI, etc.)
-│   ├── g.lua                   # Global variables (python paths, leader keys)
-│   ├── keymap.lua              # Key mappings with custom functions
-│   ├── plugin.lua              # lazy.nvim plugin manager setup
-│   ├── autocmd.lua             # Autocommands
-│   ├── command.lua             # Custom commands
-│   ├── abbreviate.lua          # Text abbreviations
-│   ├── feature.lua             # Custom features (utilities)
-│   ├── highlight.lua           # Syntax highlighting configuration
-│   ├── plugins/                # 93+ individual plugin configs
-│   │   ├── nvim-cmp.lua        # Completion engine (example pattern)
-│   │   ├── nvim-treesitter.lua # Syntax highlighting
-│   │   ├── mason.lua           # LSP package manager
-│   │   └── ... (90+ more)
-│   └── tests/                  # Test suite
-│       └── feature_test_suite.lua
-├── lsp/                        # Language Server Protocol configs
-│   ├── gopls.lua
-│   ├── lua_ls.lua
-│   ├── pylsp.lua
-│   └── yamlls.lua
-├── ftdetect/                   # Filetype detection configs
-│   ├── indent.lua
-│   ├── tab.lua
-│   └── textwidth.lua
-└── filetype.lua                # Custom filetype definitions
+init.lua                    # Main entry point - loads all modules in order:
+├── opt.lua                 # Vim options (clipboard, encoding, UI, etc.)
+├── g.lua                   # Global variables (leader keys, Python paths)
+├── abbreviate.lua          # Text abbreviations
+├── autocmd.lua             # Autocommands
+├── command.lua             # Custom user commands
+├── keymap.lua              # Core key mappings
+├── plugin.lua              # lazy.nvim plugin manager setup
+└── highlight.lua           # Syntax highlighting configuration
 ```
 
-### Core Module Dependencies (init.lua)
-The initialization sequence is:
-1. `opt.lua` - Vim options and settings
-2. `g.lua` - Global variables (leader keys, Python paths)
-3. `abbreviate.lua` - Text abbreviations
-4. `autocmd.lua` - Autocommands
-5. `command.lua` - Custom user commands
-6. `keymap.lua` - Core key mappings
-7. `plugin.lua` - lazy.nvim setup (loads all plugins from `lua/plugins/`)
-8. `highlight.lua` - Syntax highlighting
+### Plugin Configuration (`lua/plugins/`)
+Plugins are configured individually in separate files. Each follows lazy.nvim spec pattern:
+- `conform.lua` - Formatter with per-project customization via `.vimrc.local`
+- `telescope.lua` - Fuzzy finder with 20+ custom pickers (zoxide, fzf-marks, git worktree, bookmarks)
+- `codecompanion.lua` - AI coding assistant with custom adapters (ARK, MIMO)
+- `nvim-cmp.lua` - Completion engine with vsnip snippets
+- `mason.lua` - LSP package manager (installs 30+ tools on first run)
+- `lualine.lua`, `neo-tree.lua`, `gitsigns.lua` - UI components
 
-### Plugin Configuration Pattern
-Each plugin in `lua/plugins/*.lua` follows this pattern:
-```lua
-return {
-    {
-        "author/repo",
-        config = function()
-            -- Configuration logic
-        end,
-        dependencies = { ... },
-        event = { "InsertEnter", "CmdlineEnter" },  -- Lazy loading triggers
-        keys = { ... },  -- Key mappings for lazy loading
-        ft = { ... },  -- Filetype triggers
-    }
-}
-```
+### Language Server Protocol (`lsp/`)
+- `gopls.lua` - Go language server with gofumpt integration
+- `lua_ls.lua` - Lua language server
+- `pylsp.lua` - Python language server
+- `yamlls.lua` - YAML language server
 
-### Feature Module (lua/feature.lua)
-Utility functions used across the configuration:
-- `poll_number()` - Cycles line number modes (relative → absolute → none → both)
-- `xxd()` - Toggles hex dump view using xxd
-- `format(fmt)` - Formats buffer while preserving view and cursor position
-- `get_relative_path(pathA, pathB)` - Calculates relative paths
-- `parse_args(s)` - Parses command arguments with quote handling
-- `to_list(value)` - Converts values to lists (handles strings, tables, functions)
+### Utility Functions (`lua/feature.lua`)
+- `poll_number()` - Cycle line number modes (relative → absolute → none → both)
+- `xxd()` - Toggle hex dump view
+- `format()` - Format buffer preserving view/cursor
+- `get_relative_path()` - Calculate relative paths
+- `parse_args()` - Parse command arguments with quote handling
+- `to_list()` - Type conversion utility
+
+### Test Suite (`lua/tests/feature_test_suite.lua`)
+Comprehensive tests for all feature.lua functions using LuaUnit framework.
 
 ## Development Commands
 
 ### Testing
 ```bash
-make test
-```
-- Runs LuaUnit tests located in `lua/tests/`
-- Test file: `lua/tests/feature_test_suite.lua`
-- CI/CD: `.github/workflows/test.yaml` runs tests on Ubuntu with LuaRocks
-
-### Running Single Test
-```bash
-cd lua && lua tests/feature_test_suite.lua -v -p TestParseArgs
+make test                    # Run all tests with verbose output
+cd lua && lua tests/feature_test_suite.lua -v -p TestParseArgs  # Run single test
 ```
 
 ### Plugin Management
-- **No traditional build process** - this is a configuration, not compiled software
-- Plugins are managed automatically by `lazy.nvim` on Neovim startup
-- First launch of Neovim installs `lazy.nvim` and all configured plugins
-- Plugin versions are tracked in `lazy-lock.json` (auto-generated)
-- Local development plugins can be placed in `~/.config/nvim/lua/dev/` and will be auto-detected for patterns matching "tenfyzhong" or "zhongtenghui"
-
-## Key Configuration Patterns
-
-### Adding a New Plugin
-1. Create `lua/plugins/plugin-name.lua`
-2. Return a plugin specification compatible with `lazy.nvim`
-3. Follow the pattern shown in `lua/plugins/nvim-cmp.lua:1`
+**No build process** - this is runtime configuration. Plugins load on Neovim startup:
+- First launch installs `lazy.nvim` and all configured plugins
+- Plugin versions tracked in `lazy-lock.json` (auto-generated)
+- Local development: place plugins in `~/.config/nvim/lua/dev/` (auto-detected for "tenfyzhong" or "zhongtenghui" patterns)
 
 ### Per-Project Customization
-Use `.vimrc.local` in project directories to customize behavior:
+Create `.vimrc.local` in project directories:
 
 ```vim
-" Override formatters for specific filetypes
+" Override formatters
 let g:conform_auto_formatters_go = ['goimports-reviser', 'gofumpt']
 let g:conform_manual_formatters_sh = ['shfmt']
 
-" Disable formatting for a filetype
+" Disable formatting
 let g:conform_disable_go = 1
 
-" Pass custom arguments to formatters
+" Custom formatter arguments
 let g:conform_args_shfmt = ['-i', '4', '-bn']
 let g:conform_args_gofumpt = ['-extra']
 ```
-
-### Available Customization Variables
-- `g:conform_auto_formatters_{filetype}` - Override default formatters
-- `g:conform_manual_formatters_{filetype}` - Override manual formatters
-- `g:conform_disable_{filetype}` - Disable formatting for filetype
-- `g:conform_args_{formatter}` - Custom arguments for specific formatters
 
 ## Key Mappings Reference
 
@@ -139,11 +84,11 @@ let g:conform_args_gofumpt = ['-extra']
 - **Local leader**: `,` (comma)
 
 ### Core Navigation
-- `j`/`k` - Smart line navigation (respects wrapped lines via `gj`/`gk`)
+- `j`/`k` - Smart line navigation (respects wrapped lines)
 - `gj`/`gk` - Standard j/k navigation
-- `H` - Go to start of line (`0`)
-- `L` - Go to end of line (`$`)
-- `;` - Enter command mode (normal mode)
+- `H` - Start of line (`0`)
+- `L` - End of line (`$`)
+- `;` - Command mode
 
 ### Window Management
 - `<C-w>\` - Vertical split
@@ -170,6 +115,24 @@ let g:conform_args_gofumpt = ['-extra']
 - `:Format` - Manual format command
 - Auto-format on save (BufWritePre) for configured filetypes
 
+### Telescope (Fuzzy Finding)
+- `<leader>ff` - Find files
+- `<leader>fr` - Live grep
+- `<leader>fb` - Buffers
+- `<leader>fg` - Git files
+- `<leader>fz` - Zoxide (directory navigation)
+- `<leader>fs` - FZF marks
+- `<leader>fw` - Git worktree
+- `<leader>fM` - Bookmarks
+- `<leader><leader>` - Keymaps
+
+### AI Assistant (CodeCompanion)
+- `<leader>cc` - Toggle chat
+- `<leader>ca` - Actions menu
+- `gda` - Accept AI change (DiffAccept)
+- `gdr` - Reject AI change (DiffReject)
+- `gdy` - Always accept (DiffYolo)
+
 ### Other
 - `<leader>w` - Save all and redraw
 - `<leader>nn` - Cycle line number modes
@@ -180,78 +143,44 @@ let g:conform_args_gofumpt = ['-extra']
 
 ## External Dependencies
 
-### Formatter Tools (required for conform.nvim)
-| Tool | Purpose | Installation |
-|------|---------|--------------|
-| **shfmt** | Shell formatter | `go install mvdan.cc/sh/v3/cmd/shfmt@latest` |
-| **gofumpt** | Go formatter (stricter gofmt) | `go install mvdan.cc/gofumpt@latest` |
-| **goimports-reviser** | Go import reviser | `go install github.com/incu6us/goimports-reviser@latest` |
-| **goimports** | Go imports fixer | `go install golang.org/x/tools/cmd/goimports@latest` |
-| **markdownlint-cli2** | Markdown linter | `npm install -g markdownlint-cli2` |
-| **stylua** | Lua formatter | `cargo install stylua` |
-| **fish_indent** | Fish shell formatter | Comes with Fish shell |
-| **gojq** | JSON processor | `go install github.com/jzelinskie/gojq@latest` |
-| **yamlfmt** | YAML formatter | `go install github.com/google/yamlfmt/cmd/yamlfmt@latest` |
+### Required Formatter Tools
+| Tool | Installation |
+|------|--------------|
+| **shfmt** | `go install mvdan.cc/sh/v3/cmd/shfmt@latest` |
+| **gofumpt** | `go install mvdan.cc/gofumpt@latest` |
+| **goimports-reviser** | `go install github.com/incu6us/goimports-reviser@latest` |
+| **goimports** | `go install golang.org/x/tools/cmd/goimports@latest` |
+| **markdownlint-cli2** | `npm install -g markdownlint-cli2` |
+| **stylua** | `cargo install stylua` |
+| **fish_indent** | Comes with Fish shell |
+| **gojq** | `go install github.com/jzelinskie/gojq@latest` |
+| **yamlfmt** | `go install github.com/google/yamlfmt/cmd/yamlfmt@latest` |
 
-### Language Servers (via mason.nvim)
-- **gopls** (Go): `lsp/gopls.lua`
-- **lua_ls** (Lua): `lsp/lua_ls.lua`
-- **pylsp** (Python): `lsp/pylsp.lua`
-- **yamlls** (YAML): `lsp/yamlls.lua`
+### AI API Keys (Optional)
+- `ARK_API_KEY` - For ARK/doubao-seed-code-preview model
+- `CODECOMPANION_MIMO_API_KEY` - For MIMO model
+
+### Language Servers (via Mason)
+All auto-installed by `:MasonUpdate` on first run:
+- gopls, lua_ls, pylsp, yamlls, bash-language-server, typescript-language-server, etc.
 
 ## Testing Strategy
 
-### Test Framework
-- **Framework**: LuaUnit
-- **Location**: `lua/tests/feature_test_suite.lua`
-- **Run**: `make test` executes all tests with verbose output
+### Framework
+- **LuaUnit** framework in `lua/tests/feature_test_suite.lua`
+- Tests cover: `parse_args()`, `get_relative_path()`, `to_list()`, `poll_number()`, `xxd()`, `format()`
 
-### Test Coverage
-Tests focus on configuration logic and utility functions:
-- `parse_args()` - Argument parsing with quoted strings and escapes
-- `get_relative_path()` - Path manipulation and normalization
-- `to_list()` - Type conversion utilities
-- `poll_number()` - Line number state transitions
-- `xxd()` - Hex dump toggle functionality
-- `format()` - Formatter wrapper with view preservation
-
-### CI/CD Pipeline
-- **Workflow**: `.github/workflows/test.yaml`
-- **Platform**: Ubuntu with LuaRocks
-- **Actions**: Installs LuaUnit, runs test suite
-- **Trigger**: On push to main branch and pull requests
-
-## Development Workflow
-
-### Common Tasks
-1. **Add plugin**: Create `lua/plugins/name.lua` with lazy.nvim spec
-2. **Modify plugin**: Edit corresponding `lua/plugins/*.lua` file
-3. **Test changes**: Run `make test` or manually test in Neovim
-4. **Customize per-project**: Add `.vimrc.local` with `g:conform_*` variables
-5. **Add utility function**: Add to `lua/feature.lua` with tests in `lua/tests/feature_test_suite.lua`
-
-### Unique Aspects vs. Typical Software Projects
-1. **Runtime configuration** loads at Neovim startup, not build time
-2. **Heavy plugin reliance** - 93+ external plugins configured
-3. **Performance critical** - Startup time optimization is key
-4. **User experience focus** - Key mappings, UI themes, editor workflows
-5. **External dependencies** - Formatters, linters, language servers
-6. **Personalization** - Designed for individual workflow
-7. **Testing approach** - Tests configuration logic, not application behavior
-
-### Local Plugin Development
-The configuration supports local plugin development:
-- Development directory: `~/.config/nvim/lua/dev/`
-- Auto-detected for author patterns: "tenfyzhong", "zhongtenghui"
-- Configured in `lua/plugin.lua:9-15`
+### CI/CD
+- `.github/workflows/test.yaml` runs tests on Ubuntu with LuaRocks
+- Triggered on push to main and pull requests
 
 ## Important Files for Reference
 
-- `init.lua:1` - Main entry point
-- `lua/plugin.lua:3` - lazy.nvim setup
-- `lua/plugins/nvim-cmp.lua:1` - Example plugin configuration pattern
-- `lua/plugins/conform.lua:1` - Formatter configuration with per-project customization
-- `lua/feature.lua:1` - Utility functions
+- `init.lua:1` - Main entry point (module load order)
+- `lua/plugin.lua:3` - lazy.nvim setup with dev plugin support
+- `lua/plugins/conform.lua:1` - Formatter with per-project customization
+- `lua/plugins/telescope.lua:1` - 20+ custom pickers and LSP integration
+- `lua/plugins/codecompanion.lua:1` - AI assistant with custom adapters
+- `lua/feature.lua:1` - Utility functions used across config
 - `lua/tests/feature_test_suite.lua:1` - Test suite
 - `Makefile:3` - Test command definition
-- `.github/workflows/test.yaml` - CI/CD configuration

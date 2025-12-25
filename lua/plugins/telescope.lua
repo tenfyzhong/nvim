@@ -3,6 +3,239 @@ local telescope_config = function()
     local actions = require("telescope.actions")
     local builtin = require("telescope.builtin")
     local themes = require("telescope.themes")
+    local pickers = require("telescope.pickers")
+    local finders = require("telescope.finders")
+    local conf = require("telescope.config").values
+    local action_state = require("telescope.actions.state")
+
+    -- Helper function for buffer tags with aerial integration
+    local function find_tag()
+        local backends = require("aerial.backends")
+        local backend = backends.get()
+        if not backend then
+            builtin.current_buffer_fuzzy_find()
+        else
+            builtin.lsp_document_symbols()
+        end
+    end
+
+    -- Helper function for zoxide integration
+    local function zoxide_picker()
+        local handle = io.popen("zoxide query -l")
+        if not handle then
+            vim.notify("zoxide not available", vim.log.levels.WARN)
+            return
+        end
+
+        local result = handle:read("*a")
+        handle:close()
+
+        local lines = vim.split(result, "\n", { trimempty = true })
+        if #lines == 0 then
+            vim.notify("No zoxide entries found", vim.log.levels.INFO)
+            return
+        end
+
+        pickers
+            .new({}, {
+                prompt_title = "Zoxide",
+                finder = finders.new_table({
+                    results = lines,
+                }),
+                sorter = conf.generic_sorter({}),
+                attach_mappings = function(prompt_bufnr, map)
+                    actions.select_default:replace(function()
+                        local selection = action_state.get_current_entry()
+                        if selection then
+                            actions.close(prompt_bufnr)
+                            local path = selection.value
+                            vim.fn.chdir(path)
+                            require("neo-tree.command").execute({
+                                action = "focus",
+                            })
+                            local msg = string.format("pwd: %s", path)
+                            vim.notify(msg, vim.log.levels.INFO)
+                        end
+                    end)
+                    return true
+                end,
+            })
+            :find()
+    end
+
+    -- Helper function for fzf-marks integration
+    local function fzf_marks_picker()
+        local store = os.getenv("FZF_MARKS_FILE")
+        if not store then
+            store = os.getenv("HOME") .. "/.fzf-marks"
+        end
+
+        local handle = io.popen("cat " .. store)
+        if not handle then
+            vim.notify("fzf-marks file not found", vim.log.levels.WARN)
+            return
+        end
+
+        local result = handle:read("*a")
+        handle:close()
+
+        local lines = vim.split(result, "\n", { trimempty = true })
+        if #lines == 0 then
+            vim.notify("No fzf-marks found", vim.log.levels.INFO)
+            return
+        end
+
+        pickers
+            .new({}, {
+                prompt_title = "FZF Marks",
+                finder = finders.new_table({
+                    results = lines,
+                }),
+                sorter = conf.generic_sorter({}),
+                attach_mappings = function(prompt_bufnr, map)
+                    actions.select_default:replace(function()
+                        local selection = action_state.get_current_entry()
+                        if selection then
+                            actions.close(prompt_bufnr)
+                            local parts = vim.split(selection.value, ":")
+                            if #parts < 2 then
+                                return
+                            end
+                            local path = vim.fn.expand(parts[2])
+                            vim.fn.chdir(path)
+                            require("neo-tree.command").execute({
+                                action = "focus",
+                            })
+                            local msg = string.format("pwd: %s", path)
+                            vim.notify(msg, vim.log.levels.INFO)
+                        end
+                    end)
+                    return true
+                end,
+            })
+            :find()
+    end
+
+    -- Helper function for git worktree integration
+    local function git_worktree_picker()
+        local is_git = vim.trim(vim.fn.system("git rev-parse --is-inside-work-tree"))
+        if is_git ~= "true" then
+            vim.notify("Not inside a git repository", vim.log.levels.WARN)
+            return
+        end
+
+        local cwd = vim.fn.getcwd()
+        cwd = vim.fn.fnamemodify(cwd, ":p")
+
+        local data = vim.fn.system("git worktree list")
+        local lines = vim.split(data, "\n")
+        local worktrees = {}
+        for _, line in ipairs(lines) do
+            if line ~= "" then
+                local parts = vim.split(line, " ", { trimempty = true })
+                if #parts >= 3 and vim.fn.fnamemodify(parts[1], ":p") ~= cwd then
+                    table.insert(worktrees, line)
+                end
+            end
+        end
+
+        if #worktrees == 0 then
+            vim.notify("No other worktrees found", vim.log.levels.INFO)
+            return
+        end
+
+        local function open_worktree(cmd)
+            return function(prompt_bufnr)
+                local selection = action_state.get_current_entry()
+                if selection then
+                    actions.close(prompt_bufnr)
+                    local parts = vim.split(selection.value, " ", { trimempty = true })
+                    if #parts < 3 then
+                        return
+                    end
+                    if cmd then
+                        vim.cmd(cmd)
+                    end
+                    local path = vim.fn.expand(parts[1])
+                    vim.fn.chdir(path)
+                    require("neo-tree.command").execute({
+                        action = "focus",
+                    })
+                    local msg = string.format("pwd: %s", path)
+                    vim.notify(msg, vim.log.levels.INFO)
+                end
+            end
+        end
+
+        pickers
+            .new({}, {
+                prompt_title = "Git Worktrees",
+                finder = finders.new_table({
+                    results = worktrees,
+                }),
+                sorter = conf.generic_sorter({}),
+                attach_mappings = function(prompt_bufnr, map)
+                    actions.select_default:replace(open_worktree())
+                    map("i", "<c-t>", open_worktree("tabnew"))
+                    map("n", "<c-t>", open_worktree("tabnew"))
+                    return true
+                end,
+            })
+            :find()
+    end
+
+    -- Helper function for bookmarks integration
+    local function bookmarks_picker()
+        local edit_fn = function(action)
+            return function(prompt_bufnr)
+                local selection = action_state.get_current_entry()
+                if selection then
+                    actions.close(prompt_bufnr)
+                    local items = vim.fn.split(selection.value, ":")
+                    if #items < 2 then
+                        return
+                    end
+                    local cmd = string.format("silent %s +%s %s", action, items[2], items[1])
+                    vim.cmd(cmd)
+                end
+            end
+        end
+
+        local data = require("bookmarks").bookmark_data()
+        local cwd = vim.fn.fnamemodify(vim.uv.cwd(), ":p")
+        local feature = require("feature")
+        local bookmark_lines = {}
+        for _, d in ipairs(data) do
+            local filename = feature.get_relative_path(d.filename, cwd)
+            table.insert(bookmark_lines, string.format("%s:%s:%s", filename, d.lnum, d.text))
+        end
+
+        if #bookmark_lines == 0 then
+            vim.notify("No bookmarks found", vim.log.levels.INFO)
+            return
+        end
+
+        pickers
+            .new({}, {
+                prompt_title = "Bookmarks",
+                finder = finders.new_table({
+                    results = bookmark_lines,
+                }),
+                sorter = conf.generic_sorter({}),
+                previewer = conf.generic_previewer({}),
+                attach_mappings = function(prompt_bufnr, map)
+                    actions.select_default:replace(edit_fn("edit"))
+                    map("i", "<c-x>", edit_fn("split"))
+                    map("i", "<c-v>", edit_fn("vsplit"))
+                    map("i", "<c-t>", edit_fn("tabedit"))
+                    map("n", "<c-x>", edit_fn("split"))
+                    map("n", "<c-v>", edit_fn("vsplit"))
+                    map("n", "<c-t>", edit_fn("tabedit"))
+                    return true
+                end,
+            })
+            :find()
+    end
 
     -- Configure telescope
     telescope.setup({
@@ -173,10 +406,6 @@ local telescope_config = function()
         })
     end, { silent = true, desc = "telescope: buffer diagnostics" })
 
-    -- Toggle outline (outline - <leader>lt)
-    -- Using aerial which is already configured
-    vim.keymap.set("n", "<leader>lt", "<cmd>AerialToggle!<CR>", { silent = true, desc = "aerial: toggle outline" })
-
     -- Hover doc (hover_doc - K)
     -- Using built-in LSP hover
     vim.keymap.set("n", "K", function()
@@ -192,33 +421,88 @@ local telescope_config = function()
         builtin.lsp_outgoing_calls()
     end, { silent = true, desc = "telescope: outgoing calls" })
 
-    -- Additional useful telescope mappings
-    -- vim.keymap.set("n", "<leader>ff", builtin.find_files, { silent = true, desc = "telescope: find files" })
-    -- vim.keymap.set("n", "<leader>fg", builtin.git_files, { silent = true, desc = "telescope: git files" })
-    -- vim.keymap.set("n", "<leader>fr", builtin.live_grep, { silent = true, desc = "telescope: live grep" })
-    -- vim.keymap.set("n", "<leader>fb", builtin.buffers, { silent = true, desc = "telescope: buffers" })
-    -- vim.keymap.set("n", "<leader>fh", builtin.help_tags, { silent = true, desc = "telescope: help tags" })
-    -- vim.keymap.set("n", "<leader>fk", builtin.keymaps, { silent = true, desc = "telescope: keymaps" })
-    -- vim.keymap.set("n", "<leader>fm", builtin.marks, { silent = true, desc = "telescope: marks" })
-    -- vim.keymap.set("n", "<leader>fc", builtin.commands, { silent = true, desc = "telescope: commands" })
-    -- vim.keymap.set("n", "<leader>f/", builtin.search_history, { silent = true, desc = "telescope: search history" })
-    -- vim.keymap.set("n", "<leader>f;", builtin.command_history, { silent = true, desc = "telescope: command history" })
-    -- vim.keymap.set("n", "<leader>ft", builtin.treesitter, { silent = true, desc = "telescope: treesitter symbols" })
-    -- vim.keymap.set(
-    --     "n",
-    --     "<leader>fs",
-    --     builtin.lsp_document_symbols,
-    --     { silent = true, desc = "telescope: document symbols" }
-    -- )
-    -- vim.keymap.set(
-    --     "n",
-    --     "<leader>fS",
-    --     builtin.lsp_workspace_symbols,
-    --     { silent = true, desc = "telescope: workspace symbols" }
-    -- )
-    -- vim.keymap.set("n", "<leader>fq", builtin.quickfix, { silent = true, desc = "telescope: quickfix" })
-    -- vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { silent = true, desc = "telescope: oldfiles" })
-    -- vim.keymap.set("n", "<leader>fw", builtin.grep_string, { silent = true, desc = "telescope: grep under cursor" })
+    -- Files (files)
+    vim.keymap.set("n", "<leader>ff", function()
+        builtin.find_files()
+    end, { silent = true, desc = "telescope: find files" })
+
+    -- Buffers (buffers)
+    vim.keymap.set("n", "<leader>fb", function()
+        builtin.buffers()
+    end, { silent = true, desc = "telescope: buffers" })
+
+    -- Git files (git_files)
+    vim.keymap.set("n", "<leader>fg", function()
+        builtin.git_files()
+    end, { silent = true, desc = "telescope: git files" })
+
+    -- Grep project (grep_project)
+    vim.keymap.set("n", "<leader>fr", function()
+        builtin.live_grep()
+    end, { silent = true, desc = "telescope: live grep" })
+
+    -- Command history (command_history)
+    vim.keymap.set("n", "<leader>f;", function()
+        builtin.command_history()
+    end, { silent = true, desc = "telescope: command history" })
+
+    -- Commands (commands)
+    vim.keymap.set("n", "<leader>fc", function()
+        builtin.commands()
+    end, { silent = true, desc = "telescope: commands" })
+
+    -- Search history (search_history)
+    vim.keymap.set("n", "<leader>f/", function()
+        builtin.search_history()
+    end, { silent = true, desc = "telescope: search history" })
+
+    -- Tags (tags)
+    vim.keymap.set("n", "<leader>fT", function()
+        builtin.tags()
+    end, { silent = true, desc = "telescope: tags" })
+
+    -- Buffer tags with aerial integration (buffer tags)
+    vim.keymap.set("n", "<leader>ft", function()
+        xpcall(find_tag, function()
+            builtin.current_buffer_fuzzy_find()
+        end)
+    end, { silent = true, desc = "telescope: buffer tags" })
+
+    -- Marks (marks)
+    vim.keymap.set("n", "<leader>fm", function()
+        builtin.marks()
+    end, { silent = true, desc = "telescope: marks" })
+
+    -- Zoxide (zoxide)
+    vim.keymap.set("n", "<leader>fz", function()
+        zoxide_picker()
+    end, { silent = true, desc = "telescope: zoxide" })
+
+    -- FZF marks (fzf-marks)
+    vim.keymap.set("n", "<leader>fs", function()
+        fzf_marks_picker()
+    end, { silent = true, desc = "telescope: fzf-marks" })
+
+    -- Git worktree (git worktree)
+    vim.keymap.set("n", "<leader>fw", function()
+        git_worktree_picker()
+    end, { silent = true, desc = "telescope: git worktree" })
+
+    -- Bookmarks (bookmarks)
+    vim.keymap.set("n", "<leader>fM", function()
+        bookmarks_picker()
+    end, { silent = true, desc = "telescope: bookmarks" })
+
+    -- Keymaps (keymaps) - already exists in telescope
+    vim.keymap.set("n", "<leader><leader>", function()
+        builtin.keymaps({ modes = { "n" } })
+    end, { silent = true, desc = "telescope: keymaps" })
+
+    vim.keymap.set({ "v", "x" }, "<leader><leader>", function()
+        builtin.keymaps({ modes = { "v" } })
+    end, { silent = true, desc = "telescope: keymaps" })
+
+    vim.keymap.set("n", "<leader>fq", builtin.quickfix, { silent = true, desc = "telescope: quickfix" })
 
     vim.api.nvim_create_autocmd("User", {
         pattern = "TelescopePreviewerLoaded",
@@ -240,26 +524,30 @@ local telescope = {
             "nvim-telescope/telescope-fzf-native.nvim",
             build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release --target install",
         },
+        -- Required for custom features
+        "stevearc/aerial.nvim", -- For buffer tags integration
+        "tenfyzhong/bookmarks.nvim",
     },
     config = telescope_config,
     keys = {
         -- Lazy load on these keys
-        -- { "<leader>ff", desc = "telescope: find files" },
-        -- { "<leader>fg", desc = "telescope: git files" },
-        -- { "<leader>fr", desc = "telescope: live grep" },
-        -- { "<leader>fb", desc = "telescope: buffers" },
-        -- { "<leader>fh", desc = "telescope: help tags" },
-        -- { "<leader>fk", desc = "telescope: keymaps" },
-        -- { "<leader>fm", desc = "telescope: marks" },
-        -- { "<leader>fc", desc = "telescope: commands" },
-        -- { "<leader>f/", desc = "telescope: search history" },
-        -- { "<leader>f;", desc = "telescope: command history" },
-        -- { "<leader>ft", desc = "telescope: treesitter symbols" },
-        -- { "<leader>fs", desc = "telescope: document symbols" },
-        -- { "<leader>fS", desc = "telescope: workspace symbols" },
-        -- { "<leader>fq", desc = "telescope: quickfix" },
-        -- { "<leader>fo", desc = "telescope: oldfiles" },
-        -- { "<leader>fw", desc = "telescope: grep under cursor" },
+        -- Basic file operations
+        { "<leader>ff", desc = "telescope: find files" },
+        { "<leader>fg", desc = "telescope: git files" },
+        { "<leader>fr", desc = "telescope: live grep" },
+        { "<leader>fb", desc = "telescope: buffers" },
+        { "<leader>fc", desc = "telescope: commands" },
+        { "<leader>f;", desc = "telescope: command history" },
+        { "<leader>f/", desc = "telescope: search history" },
+        { "<leader>fm", desc = "telescope: marks" },
+        { "<leader>fT", desc = "telescope: tags" },
+        { "<leader>ft", desc = "telescope: buffer tags" },
+        -- Custom features
+        { "<leader>fz", desc = "telescope: zoxide" },
+        { "<leader>fs", desc = "telescope: fzf-marks" },
+        { "<leader>fw", desc = "telescope: git worktree" },
+        { "<leader>fM", desc = "telescope: bookmarks" },
+        { "<leader><leader>", desc = "telescope: keymaps" },
         -- LSP related
         { "gh", desc = "telescope: lsp references" },
         { "<leader>la", desc = "telescope: lsp code actions" },
@@ -269,7 +557,7 @@ local telescope = {
         { "<leader>ll", desc = "telescope: line diagnostics" },
         { "<leader>lc", desc = "telescope: cursor diagnostics" },
         { "<leader>lb", desc = "telescope: buffer diagnostics" },
-        { "<leader>lt", desc = "aerial: toggle outline" },
+        { "<leader>tb", desc = "aerial: toggle outline" },
         { "K", desc = "lsp: hover" },
         { "<leader>li", desc = "telescope: incoming calls" },
         { "<leader>lo", desc = "telescope: outgoing calls" },

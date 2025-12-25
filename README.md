@@ -1,19 +1,20 @@
 # Personal Neovim Configuration
 
-A modern, feature-rich Neovim configuration built with Lua, designed for productive development across multiple programming languages. This configuration uses `lazy.nvim` for plugin management and features extensive LSP integration, debugging support, git tooling, and fuzzy finding capabilities.
+A modern, feature-rich Neovim configuration built with Lua, designed for productive development across multiple programming languages. This configuration uses `lazy.nvim` for plugin management and features extensive LSP integration, AI-assisted coding, git tooling, and advanced fuzzy finding capabilities.
 
 ## Features
 
 * **🚀 Fast Startup**: Optimized for quick startup with lazy loading
 * **🎨 Modern UI**: Clean interface with material theme and consistent styling
 * **📝 Smart Completion**: Full LSP support with nvim-cmp and intelligent snippets
-* **🔍 Fuzzy Finding**: Fast file/buffer searching with Telescope + fzf
-* **🔧 Code Formatting**: Automatic and manual formatting with conform.nvim
-* **🐛 Debugging**: Integrated debugging with nvim-dap and dap-ui
-* **📦 LSP Management**: Automatic LSP installation with mason.nvim
+* **🔍 Advanced Fuzzy Finding**: Telescope with 20+ custom pickers including zoxide, fzf-marks, git worktree, and bookmarks
+* **🔧 Code Formatting**: Automatic and manual formatting with conform.nvim and per-project customization
+* **🤖 AI Assistant**: CodeCompanion integration with custom ARK and MIMO adapters for intelligent coding assistance
+* **📦 LSP Management**: Automatic installation of 30+ LSP servers and tools with mason.nvim
 * **🌳 File Explorer**: Modern file tree with neo-tree
 * **📝 Git Integration**: Git signs, diff view, and lazygit integration
-* **⚡ Smart Navigation**: Hop for quick motions, smart line navigation
+* **⚡ Smart Navigation**: Smart line navigation, hop motions, and improved yank/put operations
+* **🧪 Testing**: Comprehensive test suite for utility functions
 
 ## Quick Start
 
@@ -42,16 +43,22 @@ cargo install stylua
 go install github.com/jzelinskie/gojq@latest
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
+# Optional: AI API Keys (for CodeCompanion)
+export ARK_API_KEY="your_ark_api_key"           # For doubao-seed-code-preview model
+export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
+
 # Language servers are auto-installed via Mason on first launch
+# (30+ tools including gopls, lua_ls, pylsp, yamlls, bash-language-server, typescript-language-server, etc.)
 ```
 
 ## Key Mappings
 
 ### Leader Keys
-- **Leader**: `'` (single quote)
-- **Local Leader**: `,` (comma)
+* **Leader**: `'` (single quote)
+* **Local Leader**: `,` (comma)
 
 ### Core Navigation
+
 | Key | Action |
 |-----|--------|
 | `j` / `k` | Smart line navigation (respects wrapped lines) |
@@ -61,17 +68,20 @@ go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 | `<esc><esc>` | Clear search highlighting |
 
 ### Window Management
+
 | Key | Action |
 |-----|--------|
 | `<C-w>\` | Vertical split |
 | `<C-w>-` | Horizontal split |
 
 ### Folding
+
 | Key | Action |
 |-----|--------|
 | `<Space><Space>` | Toggle folds |
 
-### LSP & Code Navigation
+### LSP & Code Navigation (via Telescope)
+
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
@@ -87,6 +97,7 @@ go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 | `<leader>lo` | Outgoing calls |
 
 ### Git Operations (with gitsigns)
+
 | Key | Action |
 |-----|--------|
 | `<leader>ga` | Stage hunk |
@@ -98,6 +109,7 @@ go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 | `<leader>gb` | Blame line |
 
 ### File & Buffer Operations
+
 | Key | Action |
 |-----|--------|
 | `<leader>nt` | Toggle file tree (neo-tree) |
@@ -105,7 +117,32 @@ go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 | `<leader>tn` | New tab |
 | `<leader>tc` | Close tab |
 
+### Telescope Fuzzy Finding
+
+| Key | Action |
+|-----|--------|
+| `<leader>ff` | Find files |
+| `<leader>fr` | Live grep |
+| `<leader>fb` | Buffers |
+| `<leader>fg` | Git files |
+| `<leader>fz` | Zoxide (directory navigation) |
+| `<leader>fs` | FZF marks |
+| `<leader>fw` | Git worktree |
+| `<leader>fM` | Bookmarks |
+| `<leader><leader>` | Keymaps |
+
+### AI Assistant (CodeCompanion)
+
+| Key | Action |
+|-----|--------|
+| `<leader>cc` | Toggle chat |
+| `<leader>ca` | Actions menu |
+| `gda` | Accept AI change (DiffAccept) |
+| `gdr` | Reject AI change (DiffReject) |
+| `gdy` | Always accept (DiffYolo) |
+
 ### Formatting
+
 | Key | Action |
 |-----|--------|
 | `<leader>af` | Manual format |
@@ -113,47 +150,52 @@ go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 | *Auto* | Formats on save for configured filetypes |
 
 ### Other Utilities
+
 | Key | Action |
 |-----|--------|
 | `<leader>nn` | Cycle line number modes (relative → absolute → none → both) |
 | `:XXD` | Toggle hex dump view |
+| `<esc><esc>` | Clear search highlighting |
 
 ## Plugin Categories
 
 ### Core
-- **lazy.nvim** - Plugin manager
-- **nvim-treesitter** - Syntax parsing and highlighting
-- **nvim-cmp** - Completion engine
-- **lualine.nvim** - Status line
-- **material.nvim** - Color scheme
+* **lazy.nvim** - Plugin manager
+* **nvim-treesitter** - Syntax parsing and highlighting
+* **nvim-cmp** - Completion engine
+* **lualine.nvim** - Status line
+* **material.nvim** - Color scheme
 
 ### LSP & Completion
-- **mason.nvim** - LSP package manager
-- **telescope.nvim** - Fuzzy finder with LSP integration
-- **nvim-autopairs** - Auto-pair completion
+* **mason.nvim** - LSP package manager (30+ tools)
+* **telescope.nvim** - Fuzzy finder with 20+ custom pickers and LSP integration
+* **nvim-autopairs** - Auto-pair completion
+* **aerial.nvim** - Code outline/symbols
+* **nvim-treesitter** - Syntax parsing and highlighting
 
-### Git
-- **gitsigns.nvim** - Git gutter signs
-- **diffview.nvim** - Git diff viewer
-- **lazygit.nvim** - Lazygit integration
-- **committia.lua** - Conventional commits
+### AI & Git
+* **codecompanion.nvim** - AI coding assistant with ARK and MIMO adapters
+* **gitsigns.nvim** - Git gutter signs
+* **diffview.nvim** - Git diff viewer
+* **lazygit.nvim** - Lazygit integration
+* **committia.lua** - Conventional commits
 
 ### Debugging
-- **nvim-dap** - Debug Adapter Protocol
-- **nvim-dap-ui** - DAP UI
-- **nvim-dap-virtual-text** - Virtual text for DAP
+* **nvim-dap** - Debug Adapter Protocol
+* **nvim-dap-ui** - DAP UI
+* **nvim-dap-virtual-text** - Virtual text for DAP
 
 ### File Management
-- **neo-tree.nvim** - File explorer
-- **fzf.vim** - Fuzzy finder (legacy)
+* **neo-tree.nvim** - File explorer
 
 ### Utilities
-- **hop.nvim** - Motion plugin
-- **yanky.nvim** - Improved yank/put
-- **nvim-surround** - Surround operations
-- **undotree** - Undo history visualization
-- **conform.nvim** - Code formatting
-- **nvim-ufo** - Modern folding
+* **hop.nvim** - Motion plugin
+* **yanky.nvim** - Improved yank/put
+* **nvim-surround** - Surround operations
+* **undotree** - Undo history visualization
+* **conform.nvim** - Code formatting with per-project customization
+* **nvim-ufo** - Modern folding
+* **bookmarks.nvim** - Code bookmarks with Telescope integration
 
 ## Per-Project Customization
 
@@ -180,7 +222,15 @@ Run the test suite to verify configuration:
 make test
 ```
 
-Tests cover utility functions like argument parsing, path manipulation, and formatting logic.
+Tests cover utility functions like argument parsing, path manipulation, formatting logic, and more using the LuaUnit framework.
+
+### Test Coverage
+* `parse_args()` - Command argument parsing with quote handling
+* `get_relative_path()` - Path calculation utilities
+* `to_list()` - Type conversion utilities
+* `poll_number()` - Line number mode cycling
+* `xxd()` - Hex dump view toggling
+* `format()` - Buffer formatting with view preservation
 
 ## Architecture
 
@@ -188,20 +238,26 @@ This configuration follows a modular pattern:
 
 ```
 ~/.config/nvim/
-├── init.lua              # Entry point
+├── init.lua              # Entry point - loads all modules
 ├── lua/
-│   ├── opt.lua           # Vim options
-│   ├── g.lua             # Global variables
+│   ├── opt.lua           # Vim options (clipboard, encoding, UI)
+│   ├── g.lua             # Global variables (leader keys, paths)
+│   ├── abbreviate.lua    # Text abbreviations
+│   ├── autocmd.lua       # Autocommands
+│   ├── command.lua       # Custom user commands
 │   ├── keymap.lua        # Core key mappings
-│   ├── plugin.lua        # lazy.nvim setup
-│   ├── feature.lua       # Utility functions
+│   ├── plugin.lua        # lazy.nvim setup with dev support
+│   ├── highlight.lua     # Syntax highlighting
+│   ├── feature.lua       # Utility functions (format, parse_args, etc.)
 │   ├── plugins/          # 90+ plugin configs
+│   │   ├── codecompanion.lua  # AI assistant with ARK/MIMO adapters
+│   │   ├── telescope.lua      # 20+ custom pickers
+│   │   ├── conform.lua        # Formatter with per-project config
+│   │   ├── mason.lua          # 30+ LSP tools auto-install
 │   │   ├── nvim-cmp.lua
-│   │   ├── telescope.lua
-│   │   ├── conform.lua
 │   │   └── ...
-│   └── tests/            # Test suite
-├── lsp/                  # LSP configs
+│   └── tests/            # LuaUnit test suite
+├── lsp/                  # LSP configs (gopls, lua_ls, etc.)
 ├── ftdetect/             # Filetype detection
 └── lazy-lock.json        # Plugin versions
 ```
