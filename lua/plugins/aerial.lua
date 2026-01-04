@@ -3,7 +3,12 @@ local function aerial_config()
     require("aerial").setup({
         -- Priority list of preferred backends for aerial.
         -- This can be a filetype map (see :help aerial-filetype-map)
-        backends = { "treesitter", "lsp", "markdown", "man" },
+        backends = {
+            ["_"] = { "treesitter", "lsp", "markdown", "man" },
+            make = { "treesitter", "lsp" },
+            markdown = { "treesitter", "lsp", "markdown" },
+            man = { "treesitter", "lsp", "man" },
+        },
 
         layout = {
             -- These control the width of the aerial window.

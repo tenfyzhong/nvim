@@ -305,6 +305,22 @@ local telescope_config = function()
                 override_file_sorter = true,
                 case_mode = "smart_case",
             },
+            aerial = {
+                -- Set the width of the first two columns (the second
+                -- is relevant only when show_columns is set to 'both')
+                col1_width = 4,
+                col2_width = 30,
+                -- How to format the symbols
+                format_symbol = function(symbol_path, filetype)
+                    if filetype == "json" or filetype == "yaml" then
+                        return table.concat(symbol_path, ".")
+                    else
+                        return symbol_path[#symbol_path]
+                    end
+                end,
+                -- Available modes: symbols, lines, both
+                show_columns = "symbols",
+            },
         },
     })
 
@@ -313,6 +329,7 @@ local telescope_config = function()
     telescope.load_extension("zoxide")
     telescope.load_extension("gh")
     telescope.load_extension("undo")
+    telescope.load_extension("aerial")
 
     vim.api.nvim_create_autocmd("User", {
         pattern = "TelescopePreviewerLoaded",
@@ -415,19 +432,14 @@ local telescope = {
         {
             "<leader>ft",
             function()
-                local builtin = require("telescope.builtin")
-                local find_tag = function()
-                    local backends = require("aerial.backends")
-                    local backend = backends.get()
-                    if not backend then
-                        builtin.current_buffer_fuzzy_find()
-                    else
-                        builtin.lsp_document_symbols()
-                    end
-                end
-                xpcall(find_tag, function()
+                local backends = require("aerial.backends")
+                local backend = backends.get()
+                if not backend then
+                    local builtin = require("telescope.builtin")
                     builtin.current_buffer_fuzzy_find()
-                end)
+                else
+                    require("telescope").extensions.aerial.aerial()
+                end
             end,
             desc = "telescope: buffer tags",
         },
