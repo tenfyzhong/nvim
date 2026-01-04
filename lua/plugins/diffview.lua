@@ -16,7 +16,7 @@ local diffview = {
                     -- Change local options in diff buffers
                     vim.opt.wrap = false
                     vim.opt.list = false
-                    vim.opt.colorcolumn = { 80 }
+                    -- vim.opt.colorcolumn = { vim.o.colorcolumn }
                     vim.opt.swapfile = false
                     vim.opt.bufhidden = "delete"
                 end,
