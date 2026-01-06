@@ -8,6 +8,7 @@ local auto_formatters_by_ft = {
     fish = { "fish_indent" },
     json = { "gojq" },
     yaml = { "yamlfmt" },
+    jsonc = { "deno_fmt" },
 }
 
 local function log(msg, level)
@@ -118,6 +119,9 @@ local conform = {
             formatters = {
                 shfmt = {
                     command = "shfmt",
+                },
+                jsonc = {
+                    command = "deno_fmt",
                 },
                 gofumpt = gen_formatter("gofumpt", {
                     command = "gofumpt",
