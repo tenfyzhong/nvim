@@ -114,22 +114,6 @@ local overseer = {
             remap = false,
             desc = "go get",
         },
-        {
-            "<leader>gl",
-            ":OverseerRunCmd git pull --no-ff<cr>",
-            mode = "n",
-            silent = true,
-            remap = false,
-            desc = "OverseerRunCmd git pull --no-ff",
-        },
-        {
-            "<leader>gp",
-            ":OverseerRunCmd git push<cr>",
-            mode = "n",
-            silent = true,
-            remap = false,
-            desc = "OverseerRunCmd git push",
-        },
     },
 }
 
