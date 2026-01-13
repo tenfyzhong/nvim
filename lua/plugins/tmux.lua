@@ -9,7 +9,7 @@ local tmux = {
             function()
                 require("tmux").move_left()
             end,
-            mode = "n",
+            mode = { "n", "t" },
             remap = false,
             silent = true,
             desc = "tmux: goto left window",
@@ -19,7 +19,7 @@ local tmux = {
             function()
                 require("tmux").move_bottom()
             end,
-            mode = "n",
+            mode = { "n", "t" },
             remap = false,
             silent = true,
             desc = "tmux: goto below window",
@@ -29,7 +29,7 @@ local tmux = {
             function()
                 require("tmux").move_top()
             end,
-            mode = "n",
+            mode = { "n", "t" },
             remap = false,
             silent = true,
             desc = "tmux: goto above window",
@@ -39,7 +39,7 @@ local tmux = {
             function()
                 require("tmux").move_right()
             end,
-            mode = "n",
+            mode = { "n", "t" },
             remap = false,
             silent = true,
             desc = "tmux: goto right window",
