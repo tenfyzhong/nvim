@@ -1,3 +1,13 @@
+local function opencode_or_fallback(opencode_cmd, fallback_key)
+    return function()
+        if vim.bo.filetype == "opencode_terminal" then
+            require("opencode").command(opencode_cmd)
+        else
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(fallback_key, true, true, true), "n", false)
+        end
+    end
+end
+
 local opencode = {
     "NickvanDyke/opencode.nvim",
     dependencies = {
@@ -9,10 +19,10 @@ local opencode = {
     config = function()
         ---@type opencode.Opts
         vim.g.opencode_opts = {
-            provider = {
-                enabled = "tmux",
-                tmux = {},
-            },
+            -- provider = {
+            --     enabled = "tmux",
+            --     tmux = {},
+            -- },
         }
     end,
     keys = {
@@ -23,7 +33,16 @@ local opencode = {
             end,
             mode = { "n", "x" },
             remap = false,
-            desc = "Ask opencode",
+            desc = "Ask opencode about the current line",
+        },
+        {
+            "<leader>ob",
+            function()
+                require("opencode").ask("@buffer: ", { submit = true })
+            end,
+            mode = { "n", "x" },
+            remap = false,
+            desc = "Ask opencode about the current buffer",
         },
         {
             "<leader>ox",
@@ -62,22 +81,32 @@ local opencode = {
             desc = "Add line to opencode",
         },
         {
-            "<leader>ou",
-            function()
-                require("opencode").command("session.half.page.up")
-            end,
-            mode = { "n" },
+            "<c-u>",
+            opencode_or_fallback("session.half.page.up", "<c-u>"),
+            mode = { "t" },
             remap = false,
-            desc = "opencode half page up",
+            desc = "opencode half page up / fallback",
         },
         {
-            "<leader>od",
-            function()
-                require("opencode").command("session.half.page.down")
-            end,
-            mode = { "n" },
+            "<c-d>",
+            opencode_or_fallback("session.half.page.down", "<c-d>"),
+            mode = { "t" },
             remap = false,
-            desc = "opencode half page down",
+            desc = "opencode half page down / fallback",
+        },
+        {
+            "<c-b>",
+            opencode_or_fallback("session.page.up", "<c-b>"),
+            mode = { "t" },
+            remap = false,
+            desc = "opencode page up / fallback",
+        },
+        {
+            "<c-f>",
+            opencode_or_fallback("session.page.down", "<c-f>"),
+            mode = { "t" },
+            remap = false,
+            desc = "opencode page down / fallback",
         },
         {
             "<leader>o+",
