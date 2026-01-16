@@ -1,3 +1,10 @@
+-- Vim config API:
+-- g:conform_args_{formatter} = [] - extra args for formatter
+-- g:conform_{auto|manual}_formatters_{ft} = [] - override formatters
+-- g:conform_disable_{ft} = 1 - disable formatting for filetype
+
+local feature = require("feature")
+
 local auto_formatters_by_ft = {
     sh = { "shfmt" },
     bash = { "shfmt" },
@@ -11,185 +18,119 @@ local auto_formatters_by_ft = {
     jsonc = { "deno_fmt" },
 }
 
-local function log(msg, level)
-    vim.notify(msg, level)
-end
-
 local manual_formatters_by_ft = {
     go = { "goimports", "gofumpt" },
 }
 
-local function to_list(value)
-    local feature = require("feature")
-    return feature.to_list(value)
-end
-
-local function gen_formatter(formatter, option)
+local function gen_formatter(name, opts)
+    opts = opts or {}
     return function()
-        local items = to_list(vim.g["conform_args_" .. formatter])
-        local v = to_list(option.args)
-        for _, item in ipairs(v) do
-            items[#items + 1] = item
+        local args = feature.to_list(vim.g["conform_args_" .. name])
+        for _, arg in ipairs(feature.to_list(opts.args)) do
+            args[#args + 1] = arg
         end
-        option.args = items
-
-        log("gen_formatter, " .. formatter .. ", " .. vim.inspect(option), vim.log.levels.TRACE)
-        return option
+        local result = { command = opts.command or name, args = args }
+        vim.notify("gen_formatter, " .. name .. ", " .. vim.inspect(result), vim.log.levels.TRACE)
+        return result
     end
 end
 
--- vim config
--- g:conform_auto_formatters_{ft} = []
--- g:conform_manual_formatters_{ft} = []
-local function formatters_local(typ, ft)
-    return to_list(vim.g["conform_" .. typ .. "_formatters_" .. ft])
-end
-
--- vim config
--- g:conform_disable_{ft} = 1
-local function disable_formatter_local(ft)
-    local disable = vim.g["conform_disable_" .. ft] or 0
-    return disable
-end
-
-local function get_formatters(manual, filetype)
+local function get_formatters(manual, ft)
+    ft = ft or vim.bo.filetype
     local typ = manual and "manual" or "auto"
-
-    local ft = filetype or vim.bo.filetype
-
-    local formatters = formatters_local(typ, ft)
-    if #formatters > 0 then
-        return formatters
+    local local_formatters = feature.to_list(vim.g["conform_" .. typ .. "_formatters_" .. ft])
+    if #local_formatters > 0 then
+        return local_formatters
     end
-
     return manual and manual_formatters_by_ft[ft] or auto_formatters_by_ft[ft]
 end
 
--- args = {
--- bufnr = int,
--- async = bool,
--- formatters = [string],
--- }
 local function format(args)
-    local disable = disable_formatter_local(vim.bo.filetype)
+    local ft = vim.bo.filetype
+    local disable = vim.g["conform_disable_" .. ft]
     if disable and disable ~= 0 then
-        log("disable format " .. vim.bo.filetype .. " " .. disable, vim.log.levels.DEBUG)
+        vim.notify("disable format " .. ft .. " " .. disable, vim.log.levels.DEBUG)
         return
     end
 
-    local conform = require("conform")
-    local feature = require("feature")
+    local option = {
+        bufnr = args.buf,
+        formatters = args.formatters,
+        async = args.async or false,
+        lsp_format = "fallback",
+    }
 
-    local option = {}
-    option.bufnr = args.buf
-    option.formatters = args.formatters
-    option.async = args.async or false
-    option.lsp_format = "fallback"
-
-    log("format option: " .. vim.inspect(option), vim.log.levels.TRACE)
-
+    vim.notify("format option: " .. vim.inspect(option), vim.log.levels.TRACE)
     feature.format(function()
-        conform.format(option)
+        require("conform").format(option)
     end)
 end
 
 local function format_manual()
-    local buf = vim.api.nvim_get_current_buf()
-    local formatters = get_formatters(true) or get_formatters(false)
     format({
-        buf = buf,
+        buf = vim.api.nvim_get_current_buf(),
         async = false,
-        formatters = formatters,
+        formatters = get_formatters(true) or get_formatters(false),
     })
 end
 
-local conform = {
-    "stevearc/conform.nvim",
-    config = function()
-        local conform = require("conform")
+return {
+    {
+        "stevearc/conform.nvim",
+        event = "VeryLazy",
+        config = function()
+            local conform = require("conform")
 
-        local formatters_by_ft = {}
-        for k in pairs(auto_formatters_by_ft) do
-            formatters_by_ft[k] = get_formatters(false, k)
-        end
+            local formatters_by_ft = {}
+            for ft in pairs(auto_formatters_by_ft) do
+                formatters_by_ft[ft] = get_formatters(false, ft)
+            end
 
-        conform.setup({
-            log_level = vim.log.levels.TRACE,
-            formatters_by_ft = formatters_by_ft,
-            formatters = {
-                shfmt = {
-                    command = "shfmt",
+            conform.setup({
+                log_level = vim.log.levels.TRACE,
+                formatters_by_ft = formatters_by_ft,
+                formatters = {
+                    shfmt = { command = "shfmt" },
+                    jsonc = { command = "deno_fmt" },
+                    gofumpt = gen_formatter("gofumpt"),
+                    ["goimports-reviser"] = gen_formatter("goimports-reviser", {
+                        args = { "-output", "stdout", "$FILENAME" },
+                    }),
+                    ["goimports-reviser-rm-unused"] = gen_formatter("goimports-reviser-rm-unused", {
+                        command = "goimports-reviser",
+                        args = { "-rm-unused", "-output", "stdout", "$FILENAME" },
+                    }),
+                    goimports = gen_formatter("goimports"),
+                    goimports_format_only = gen_formatter("goimports_format_only", {
+                        command = "goimports",
+                        args = { "-format-only" },
+                    }),
+                    gojq = gen_formatter("gojq"),
                 },
-                jsonc = {
-                    command = "deno_fmt",
+                default_format_opts = {
+                    lsp_format = "fallback",
                 },
-                gofumpt = gen_formatter("gofumpt", {
-                    command = "gofumpt",
-                }),
-                ["goimports-reviser"] = gen_formatter("goimports-reviser", {
-                    command = "goimports-reviser",
-                    args = { "-output", "stdout", "$FILENAME" },
-                }),
-                ["goimports-reviser-rm-unused"] = gen_formatter("goimports-reviser-rm-unused", {
-                    command = "goimports-reviser",
-                    args = { "-rm-unused", "-output", "stdout", "$FILENAME" },
-                }),
-                goimports = gen_formatter("goimports", {
-                    command = "goimports",
-                }),
-                goimports_format_only = gen_formatter("goimports_format_only", {
-                    command = "goimports",
-                    args = { "-format-only" },
-                }),
-                gojq = gen_formatter("gojq", {
-                    command = "gojq",
-                }),
-                -- yq_json = gen_formatter("yq_json", {
-                --     command = "yq",
-                --     args = { "-p", "json", "-o", "json", "-P", "-" },
-                -- }),
-                -- yq_yaml = gen_formatter("yq_yaml", {
-                --     command = "yq",
-                --     args = { "-p", "yaml", "-o", "yaml", "-P", "-" },
-                -- }),
-            },
-            default_format_opts = {
-                lsp_format = "fallback",
-            },
-            -- Don't enable this config, let's use our own format function
-            -- format_on_save = {
-            --     lsp_format = "fallback",
-            --     timeout_ms = 500,
-            -- },
-        })
+            })
 
-        local shfmt_group = vim.api.nvim_create_augroup("shfmt_init", {})
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group = shfmt_group,
-            pattern = "*",
-            callback = function(args)
-                local formatters = get_formatters(false)
-                format({
-                    buf = args.buf,
-                    async = true,
-                    formatters = formatters,
-                })
-            end,
-        })
+            vim.api.nvim_create_augroup("conform_format", {})
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = "conform_format",
+                pattern = "*",
+                callback = function(args)
+                    format({
+                        buf = args.buf,
+                        async = true,
+                        formatters = get_formatters(false),
+                    })
+                end,
+            })
 
-        vim.api.nvim_create_user_command("Format", function()
-            format_manual()
-        end, { desc = "Run formatter manually" })
-
-        vim.keymap.set("n", "<leader>af", function()
-            format_manual()
-        end, {
-            silent = true,
-            remap = false,
-            desc = "Run formatter manually",
-        })
-    end,
-    event = "VeryLazy",
+            vim.api.nvim_create_user_command("Format", format_manual, { desc = "Run formatter manually" })
+            vim.keymap.set("n", "<leader>af", format_manual, {
+                silent = true,
+                remap = false,
+                desc = "Run formatter manually",
+            })
+        end,
+    },
 }
-
-return { conform }
