@@ -62,6 +62,45 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     group = init_group,
     pattern = ".envrc",
     callback = function()
-        vim.fn.system("direnv allow")
+        if vim.fn.executable("direnv") == 0 then
+            vim.notify("direnv not found", vim.log.levels.WARN)
+            return
+        end
+
+        local cmd = { "direnv", "allow" }
+        if vim.system then
+            vim.system(cmd, { text = true }, function(result)
+                if result.code ~= 0 then
+                    local msg = result.stderr or ""
+                    if msg == "" then
+                        msg = result.stdout or ""
+                    end
+                    msg = vim.trim(msg)
+                    vim.schedule(function()
+                        if msg ~= "" then
+                            vim.notify("direnv allow failed: " .. msg, vim.log.levels.WARN)
+                        else
+                            vim.notify("direnv allow failed", vim.log.levels.WARN)
+                        end
+                    end)
+                end
+            end)
+            return
+        end
+
+        local ok = pcall(vim.fn.jobstart, cmd, {
+            stdout_buffered = true,
+            stderr_buffered = true,
+            on_exit = function(_, code, _)
+                if code ~= 0 then
+                    vim.schedule(function()
+                        vim.notify("direnv allow failed", vim.log.levels.WARN)
+                    end)
+                end
+            end,
+        })
+        if not ok then
+            vim.notify("direnv allow failed to start", vim.log.levels.WARN)
+        end
     end,
 })

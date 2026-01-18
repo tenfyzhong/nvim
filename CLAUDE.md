@@ -128,7 +128,7 @@ Custom picker functions defined in the same file:
 - **Line numbers**: Absolute in insert, relative in normal
 - **Cursorline**: Only visible in active window
 - **Yank highlight**: Visual feedback on yank (200ms timeout)
-- **Direnv**: Auto-allow on `.envrc` write
+- **Direnv**: Auto-allow on `.envrc` write (async, only if `direnv` is available)
 
 ### Feature Functions (`lua/feature.lua`)
 - **`format()`**: Uses `winsaveview()`/`winrestview()` across all windows with the buffer

@@ -5,8 +5,10 @@ local function fzf_marks_picker()
         store = os.getenv("HOME") .. "/.fzf-marks"
     end
 
-    local handle = io.popen("cat " .. store)
-    if not handle then
+    store = vim.fn.expand(store)
+
+    local ok, handle = pcall(io.open, store, "r")
+    if not ok or not handle then
         vim.notify("fzf-marks file not found", vim.log.levels.WARN)
         return
     end
