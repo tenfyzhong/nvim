@@ -1,4 +1,4 @@
 return {
-    'git',
-    'go',
+    "git",
+    "go",
 }

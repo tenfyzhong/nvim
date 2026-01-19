@@ -41,7 +41,7 @@ end
 -- get current line go package
 --@return string
 local function cur_line_go_pkg()
-    local line = vim.fn.line('.')
+    local line = vim.fn.line(".")
     local content = vim.fn.getline(line)
     local pkg = string.match(content, '"(.*)"')
     return pkg
@@ -67,13 +67,13 @@ return {
         local ret = {}
 
         local commands = {
-            { args = { "build" },       tags = { TAG.BUILD }, priority = 55 },
-            { args = { "test" },        tags = { TAG.TEST },  priority = 55 },
-            { args = { "clean" },       priority = 55 },
-            { args = { "run" },         priority = 55 },
-            { args = { "install" },     priority = 65 },
+            { args = { "build" }, tags = { TAG.BUILD }, priority = 55 },
+            { args = { "test" }, tags = { TAG.TEST }, priority = 55 },
+            { args = { "clean" }, priority = 55 },
+            { args = { "run" }, priority = 55 },
+            { args = { "install" }, priority = 65 },
             { args = { "mod", "tidy" }, priority = 55 },
-            { args = { "get", "." },    priority = 60 },
+            { args = { "get", "." }, priority = 60 },
         }
         local pkg = cur_line_go_pkg()
         if pkg then
@@ -83,15 +83,11 @@ return {
         for _, command in ipairs(commands) do
             table.insert(
                 ret,
-                overseer.wrap_template(
-                    tmpl,
-                    {
-                        name = string.format("go %s", table.concat(command.args, " ")),
-                        tags = command.tags,
-                        priority = command.priority or 60,
-                    },
-                    { args = command.args, cwd = go_dir, }
-                )
+                overseer.wrap_template(tmpl, {
+                    name = string.format("go %s", table.concat(command.args, " ")),
+                    tags = command.tags,
+                    priority = command.priority or 60,
+                }, { args = command.args, cwd = go_dir })
             )
         end
         cb(ret)

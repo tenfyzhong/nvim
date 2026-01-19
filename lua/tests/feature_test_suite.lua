@@ -7,18 +7,28 @@ local function setup_mock_vim()
     _G.vim.b = _G.vim.b or {}
     _G.vim.cmd = function() end
     _G.vim.api = _G.vim.api or {}
-    _G.vim.api.nvim_get_current_buf = function() return 1 end
-    _G.vim.api.nvim_buf_get_name = function() return "test.txt" end
+    _G.vim.api.nvim_get_current_buf = function()
+        return 1
+    end
+    _G.vim.api.nvim_buf_get_name = function()
+        return "test.txt"
+    end
     _G.vim.api.nvim_buf_set_lines = function() end
     _G.vim.fn = _G.vim.fn or {}
-    _G.vim.fn.win_findbuf = function() return {} end
+    _G.vim.fn.win_findbuf = function()
+        return {}
+    end
     _G.vim.fn.win_execute = function() end
-    _G.vim.fn.system = function() return 0 end
+    _G.vim.fn.system = function()
+        return 0
+    end
     _G.vim.o.mod = false
     _G.vim.o.binary = false
     _G.vim.o.lazyredraw = false
     _G.vim.uv = _G.vim.uv or {}
-    _G.vim.uv.fs_stat = function(path) return { size = 100 } end
+    _G.vim.uv.fs_stat = function(path)
+        return { size = 100 }
+    end
 end
 
 local feature = require("feature")
@@ -85,14 +95,14 @@ function TestParseArgsEdgeCases()
     lu.assertEquals(feature.parse_args('"a"b"c"'), { "a", "bc" }, "Concatenated quoted chars")
     lu.assertEquals(feature.parse_args('a"b"c'), { "ab", "c" }, "Mixed quoted and unquoted")
     lu.assertEquals(feature.parse_args("a'bc"), { "abc" }, "Unclosed single quote continues")
-    lu.assertEquals(feature.parse_args('a"b\'c'), { "ab'c" }, "Unclosed double quote continues")
+    lu.assertEquals(feature.parse_args("a\"b'c"), { "ab'c" }, "Unclosed double quote continues")
     lu.assertEquals(feature.parse_args('""'), { "" }, "Empty double quotes")
     lu.assertEquals(feature.parse_args("''"), { "" }, "Empty single quotes")
     lu.assertEquals(feature.parse_args('"  "'), { "  " }, "Quoted spaces")
     lu.assertEquals(feature.parse_args("'  '"), { "  " }, "Single quoted spaces")
     lu.assertEquals(feature.parse_args('"a\\nb"'), { "anb" }, "Escape n (not newline)")
     lu.assertEquals(feature.parse_args('"a\\tb"'), { "atb" }, "Escape t (not tab)")
-    lu.assertEquals(feature.parse_args('a\\ b'), { "a\\", "b" }, "Unquoted backslash space doesn't escape")
+    lu.assertEquals(feature.parse_args("a\\ b"), { "a\\", "b" }, "Unquoted backslash space doesn't escape")
     lu.assertEquals(feature.parse_args('"a\\\\"b'), { "a\\", "b" }, "Multiple backslashes before quote")
 end
 
@@ -219,7 +229,9 @@ function TestToList()
     -- Edge case tests for to_list
     -- Function returning function (to_list will call it, which returns a function, then recursively call to_list on that)
     local func_returns_func = function()
-        return function() return "nested" end
+        return function()
+            return "nested"
+        end
     end
     lu.assertEquals(feature.to_list(func_returns_func), { "nested" }, "Function returning function")
 
@@ -289,14 +301,16 @@ function TestXxdFunction()
 
     -- Setup initial state tracking
     local cmd_calls = {}
-    _G.vim.cmd = function(cmd) table.insert(cmd_calls, cmd) end
+    _G.vim.cmd = function(cmd)
+        table.insert(cmd_calls, cmd)
+    end
     _G.vim.b.is_xxd = nil
     _G.vim.o.mod = false
     _G.vim.o.binary = false
 
     -- Test 1: Initial toggle (normal → hex)
     _G.vim.b.is_xxd = nil
-    _G.vim.o.mod = true  -- Should preserve this
+    _G.vim.o.mod = true -- Should preserve this
     cmd_calls = {}
     feature.xxd()
 
@@ -307,7 +321,7 @@ function TestXxdFunction()
     lu.assertEquals(cmd_calls[1], "silent %!xxd", "Should call xxd command")
 
     -- Test 2: Second toggle (hex → normal)
-    _G.vim.o.mod = false  -- Different state for second test
+    _G.vim.o.mod = false -- Different state for second test
     cmd_calls = {}
     feature.xxd()
 
@@ -350,7 +364,7 @@ function TestFormatFunction()
     end
 
     _G.vim.fn.win_findbuf = function(bufnr)
-        return { 1, 2 }  -- Return two windows for testing
+        return { 1, 2 } -- Return two windows for testing
     end
 
     _G.vim.fn.win_execute = function(winnr, action)
@@ -370,11 +384,15 @@ function TestFormatFunction()
         end
     end
 
-    _G.vim.api.nvim_get_current_buf = function() return 42 end
+    _G.vim.api.nvim_get_current_buf = function()
+        return 42
+    end
 
     -- Mock modified state - should trigger save
     _G.vim.o.mod = true
-    _G.vim.api.nvim_buf_get_name = function() return "test.txt" end
+    _G.vim.api.nvim_buf_get_name = function()
+        return "test.txt"
+    end
 
     -- Test 1: Format with modified buffer (should save before/after)
     local formatter_called = false
@@ -398,7 +416,7 @@ function TestFormatFunction()
     lu.assertTrue(has_noautocmd_write, "Should write modified buffer")
 
     -- Check win_execute was called for view saving/restoring
-    lu.assertEquals(#win_execute_calls, 4, "Should call win_execute twice per window (save + restore)")  -- 2 windows x 2 (save+restore)
+    lu.assertEquals(#win_execute_calls, 4, "Should call win_execute twice per window (save + restore)") -- 2 windows x 2 (save+restore)
     -- First two should be saveview, last two should be winrestview
     lu.assertTrue(win_execute_calls[1].action:find("winsaveview") ~= nil, "First calls should save view")
 

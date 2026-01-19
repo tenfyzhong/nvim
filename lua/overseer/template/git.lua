@@ -57,21 +57,17 @@ return {
 
         local commands = {
             { args = { "pull", "--no-ff" }, priority = 70 },
-            { args = { "push" },            priority = 70 },
+            { args = { "push" }, priority = 70 },
         }
 
         for _, command in ipairs(commands) do
             table.insert(
                 ret,
-                overseer.wrap_template(
-                    tmpl,
-                    {
-                        name = string.format("git %s", table.concat(command.args, " ")),
-                        tags = command.tags,
-                        priority = command.priority or 60,
-                    },
-                    { args = command.args, cwd = git_root, }
-                )
+                overseer.wrap_template(tmpl, {
+                    name = string.format("git %s", table.concat(command.args, " ")),
+                    tags = command.tags,
+                    priority = command.priority or 60,
+                }, { args = command.args, cwd = git_root })
             )
         end
         cb(ret)
