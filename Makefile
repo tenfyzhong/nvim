@@ -1,4 +1,4 @@
 .PHONY: test
 
 test:
-	cd lua && lua tests/* -v
+	cd ./lua && lua tests/* -v
