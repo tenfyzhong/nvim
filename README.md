@@ -5,7 +5,7 @@ A modern, feature-rich Neovim configuration built with Lua, designed for product
 ## Features
 
 * **🚀 Fast Startup**: Optimized for quick startup with lazy loading
-* **🎨 Modern UI**: Clean interface with material theme and consistent styling
+* **🎨 Modern UI**: Clean interface with catppuccin theme and consistent styling
 * **📝 Smart Completion**: Full LSP support with nvim-cmp and intelligent snippets
 * **🔍 Advanced Fuzzy Finding**: Telescope with 20+ custom pickers including zoxide, fzf-marks, git worktree, and bookmarks
 * **🔧 Code Formatting**: Automatic and manual formatting with conform.nvim and per-project customization
@@ -165,7 +165,7 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 * **nvim-treesitter** - Syntax parsing and highlighting
 * **nvim-cmp** - Completion engine
 * **lualine.nvim** - Status line
-* **material.nvim** - Color scheme
+* **catppuccin** - Color scheme
 * **nvim-ufo** - Modern folding with LSP integration
 
 ### LSP & Completion
