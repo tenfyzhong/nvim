@@ -1,6 +1,6 @@
 ---
-name: install-nvim-plugin
-description: Install a Neovim plugin configuration from a GitHub URL. Usage '/install-nvim-plugin <github-url>'. Parses the URL, fetches plugin documentation, generates optimal lazy.nvim configuration with lazy loading, and saves to `./lua/plugins/`. Optionally updates README.md.
+name: install-plugin
+description: Install a Neovim plugin configuration from a GitHub URL. Usage '/install-plugin <github-url>'. Parses the URL, fetches plugin documentation, generates optimal lazy.nvim configuration with lazy loading, and saves to `./lua/plugins/`. Optionally updates README.md.
 ---
 
 # Install Plugin Skill
@@ -10,14 +10,14 @@ Install a new Neovim plugin configuration from a GitHub URL with optimal lazy lo
 ## Input Format
 
 ```
-/install-nvim-plugin <github-url>
+/install-plugin <github-url>
 ```
 
 Examples:
 
-- `/install-nvim-plugin https://github.com/folke/flash.nvim`
-- `/install-nvim-plugin github.com/nvim-treesitter/nvim-treesitter-textobjects`
-- `/install-nvim-plugin folke/noice.nvim`
+- `/install-plugin https://github.com/folke/flash.nvim`
+- `/install-plugin github.com/nvim-treesitter/nvim-treesitter-textobjects`
+- `/install-plugin folke/noice.nvim`
 
 ## Workflow
 
@@ -295,7 +295,7 @@ After creating the plugin:
 
 ### Example 1: Motion Plugin (key-based lazy loading)
 
-Input: `/install-nvim-plugin https://github.com/folke/flash.nvim`
+Input: `/install-plugin https://github.com/folke/flash.nvim`
 
 Output file `./lua/plugins/flash.lua`:
 
@@ -333,7 +333,7 @@ return { flash }
 
 ### Example 2: Command-based Plugin
 
-Input: `/install-nvim-plugin https://github.com/sindrets/diffview.nvim`
+Input: `/install-plugin https://github.com/sindrets/diffview.nvim`
 
 Output file `./lua/plugins/diffview.lua`:
 
@@ -352,7 +352,7 @@ return { diffview }
 
 ### Example 3: Filetype-specific Plugin
 
-Input: `/install-nvim-plugin https://github.com/iamcco/markdown-preview.nvim`
+Input: `/install-plugin https://github.com/iamcco/markdown-preview.nvim`
 
 Output file `./lua/plugins/markdown-preview.lua`:
 
