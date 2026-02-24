@@ -18,8 +18,6 @@ local quickhl = {
         "QuickhlManualEnable",
         "QuickhlManualDisable",
         "QuickhlManualAdd",
-        "QuickhlManualAdd",
-        "QuickhlManualDelete",
         "QuickhlManualDelete",
         "QuickhlManualReset",
         "QuickhlManualList",
