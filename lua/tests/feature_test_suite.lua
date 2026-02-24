@@ -446,6 +446,22 @@ function TestFormatFunction()
         end
     end
     lu.assertFalse(has_write, "Should not write unmodified buffer")
+
+    -- Test 3: Skip save explicitly (used for BufWritePre formatting)
+    cmd_calls = {}
+    _G.vim.o.mod = true
+    formatter_called = false
+    feature.format(test_formatter, { save = false })
+    lu.assertTrue(formatter_called, "Formatter should be called when save is disabled")
+
+    has_write = false
+    for _, cmd in ipairs(cmd_calls) do
+        if cmd:match("noautocmd silent write") then
+            has_write = true
+            break
+        end
+    end
+    lu.assertFalse(has_write, "Should not write when save=false")
 end
 
 function TestHigherOrderFunctions()
