@@ -43,7 +43,7 @@ return {
     condition = {
         callback = function(opts)
             if vim.fn.executable("git") == 0 then
-                return false, 'Command "go" not found'
+                return false, 'Command "git" not found'
             end
             if not get_git_root(opts) then
                 return false, "No git root found"
