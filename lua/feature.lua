@@ -40,10 +40,13 @@ end
 -- and then restores the view. It also handles saving the buffer before
 -- and after formatting if it was modified.
 -- @param fmt function The formatter function to execute.
-local function format(fmt)
+-- @param opts table|nil Optional options. Set opts.save=false to skip pre/post writes.
+local function format(fmt, opts)
+    opts = opts or {}
+    local save = opts.save ~= false
     local bufnr = vim.api.nvim_get_current_buf()
 
-    if vim.o.mod == true then
+    if save and vim.o.mod == true then
         vim.cmd("noautocmd silent write")
     end
 
@@ -57,7 +60,7 @@ local function format(fmt)
 
     fmt()
 
-    if vim.o.mod == true then
+    if save and vim.o.mod == true then
         vim.cmd("noautocmd silent write")
     end
 

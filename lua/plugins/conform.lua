@@ -29,9 +29,7 @@ local function gen_formatter(name, opts)
         for _, arg in ipairs(feature.to_list(opts.args)) do
             args[#args + 1] = arg
         end
-        local result = { command = opts.command or name, args = args }
-        vim.notify("gen_formatter, " .. name .. ", " .. vim.inspect(result), vim.log.levels.TRACE)
-        return result
+        return { command = opts.command or name, args = args }
     end
 end
 
@@ -46,24 +44,23 @@ local function get_formatters(manual, ft)
 end
 
 local function format(args)
-    local ft = vim.bo.filetype
+    local bufnr = args.buf or vim.api.nvim_get_current_buf()
+    local ft = vim.bo[bufnr].filetype
     local disable = vim.g["conform_disable_" .. ft]
     if disable and disable ~= 0 then
-        vim.notify("disable format " .. ft .. " " .. disable, vim.log.levels.DEBUG)
         return
     end
 
     local option = {
-        bufnr = args.buf,
+        bufnr = bufnr,
         formatters = args.formatters,
         async = args.async or false,
         lsp_format = "fallback",
     }
 
-    vim.notify("format option: " .. vim.inspect(option), vim.log.levels.TRACE)
     feature.format(function()
         require("conform").format(option)
-    end)
+    end, { save = args.save })
 end
 
 local function format_manual()
@@ -87,7 +84,7 @@ return {
             end
 
             conform.setup({
-                log_level = vim.log.levels.TRACE,
+                log_level = vim.log.levels.ERROR,
                 formatters_by_ft = formatters_by_ft,
                 formatters = {
                     shfmt = { command = "shfmt" },
@@ -112,15 +109,16 @@ return {
                 },
             })
 
-            vim.api.nvim_create_augroup("conform_format", {})
+            vim.api.nvim_create_augroup("conform_format", { clear = true })
             vim.api.nvim_create_autocmd("BufWritePre", {
                 group = "conform_format",
                 pattern = "*",
                 callback = function(args)
                     format({
                         buf = args.buf,
-                        async = true,
-                        formatters = get_formatters(false),
+                        async = false,
+                        save = false,
+                        formatters = get_formatters(false, vim.bo[args.buf].filetype),
                     })
                 end,
             })
