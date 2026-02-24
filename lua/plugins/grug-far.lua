@@ -1,4 +1,4 @@
-function get_pos_content(start_lnum, start_col, end_lnum, end_col) -- 1-indexed
+local function get_pos_content(start_lnum, start_col, end_lnum, end_col) -- 1-indexed
     if start_lnum == 0 or start_col == 0 or end_lnum == 0 or end_col == 0 then
         return nil
     end
@@ -13,15 +13,16 @@ function get_pos_content(start_lnum, start_col, end_lnum, end_col) -- 1-indexed
     return table.concat(lines, "\n")
 end
 
-function get_visual_selection()
+local function get_visual_selection()
     local s_start = vim.fn.getpos("'<")
     local s_end = vim.fn.getpos("'>")
     return get_pos_content(s_start[2], s_start[3], s_end[2], s_end[3])
 end
 
-function grep_motion()
+local function grep_motion()
     local old_func = vim.go.operatorfunc
-    _G.op_func_grug_far = function()
+    local op_func_name = "__grug_far_op_func"
+    _G[op_func_name] = function()
         -- the col is 0-indexed
         -- we should translate it to 1-indexed
         local s_start = vim.api.nvim_buf_get_mark(0, "[")
@@ -31,9 +32,9 @@ function grep_motion()
             require("grug-far").open({ prefills = { search = content } })
         end
         vim.go.operatorfunc = old_func
-        _G.op_func_grug_far = nil
+        _G[op_func_name] = nil
     end
-    vim.go.operatorfunc = "v:lua.op_func_grug_far"
+    vim.go.operatorfunc = "v:lua." .. op_func_name
     vim.api.nvim_feedkeys("g@", "n", false)
 end
 
