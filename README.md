@@ -207,19 +207,19 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 
 ## Per-Project Customization
 
-Create a `.vimrc.local` file in your project root to customize behavior:
+Create a `.nvim.lua` file in your project root to customize behavior:
 
-```vim
-" Override formatters
-let g:conform_auto_formatters_go = ['goimports-reviser', 'gofumpt']
-let g:conform_manual_formatters_sh = ['shfmt']
+```lua
+-- Override formatters
+vim.g.conform_auto_formatters_go = { "goimports-reviser", "gofumpt" }
+vim.g.conform_manual_formatters_sh = { "shfmt" }
 
-" Disable formatting for filetype
-let g:conform_disable_go = 1
+-- Disable formatting for filetype
+vim.g.conform_disable_go = 1
 
-" Custom formatter arguments
-let g:conform_args_shfmt = ['-i', '4', '-bn']
-let g:conform_args_gofumpt = ['-extra']
+-- Custom formatter arguments
+vim.g.conform_args_shfmt = { "-i", "4", "-bn" }
+vim.g.conform_args_gofumpt = { "-extra" }
 ```
 
 ## Testing
@@ -310,7 +310,7 @@ This configuration follows a modular pattern with clear separation of concerns:
 - Auto-format on `BufWritePre` for configured filetypes
 - Manual format: `<leader>af` or `:Format`
 - View preservation using `winsaveview()`/`winrestview()`
-- Per-project config via `.vimrc.local`
+- Per-project config via `.nvim.lua`
 
 **Feature Utilities** (`lua/feature.lua`)
 - `poll_number()` - Cycle line number modes
