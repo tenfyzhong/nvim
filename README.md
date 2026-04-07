@@ -13,6 +13,7 @@ A modern, feature-rich Neovim configuration built with Lua, designed for product
 * **📦 LSP Management**: Automatic installation of 30+ LSP servers and tools with mason.nvim
 * **🌳 File Explorer**: Modern file tree with neo-tree
 * **📝 Git Integration**: Git signs, diff view, and lazygit integration
+* **⚙️ Local Automation**: Auto-reloads Vim config, runs `direnv allow` for `.envrc`
 * **⚡ Smart Navigation**: Smart line navigation, hop motions, and improved yank/put operations
 * **🧪 Testing**: Comprehensive test suite for utility functions
 * **📚 Bookmarks**: Code bookmarks with Telescope integration
@@ -56,6 +57,7 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 ## Key Mappings
 
 ### Leader Keys
+
 * **Leader**: `'` (single quote)
 * **Local Leader**: `,` (comma)
 
@@ -161,6 +163,7 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 ## Plugin Categories
 
 ### Core
+
 * **lazy.nvim** - Plugin manager
 * **nvim-treesitter** - Syntax parsing and highlighting
 * **nvim-cmp** - Completion engine
@@ -169,6 +172,7 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 * **nvim-ufo** - Modern folding with LSP integration
 
 ### LSP & Completion
+
 * **mason.nvim** - LSP package manager (30+ tools)
 * **telescope.nvim** - Fuzzy finder with 20+ custom pickers and LSP integration
 * **nvim-autopairs** - Auto-pair completion
@@ -176,6 +180,7 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 * **trouble.nvim** - Diagnostics and quickfix viewer
 
 ### AI & Git
+
 * **codecompanion.nvim** - AI coding assistant with ARK and MIMO adapters
 * **gitsigns.nvim** - Git gutter signs
 * **diffview.nvim** - Git diff viewer
@@ -184,16 +189,19 @@ export CODECOMPANION_MIMO_API_KEY="your_mimo_key" # For MIMO model
 * **grug-far.nvim** - Search and replace in files
 
 ### Debugging
+
 * **nvim-dap** - Debug Adapter Protocol
 * **nvim-dap-ui** - DAP UI
 * **nvim-dap-virtual-text** - Virtual text for DAP
 * **overseer.nvim** - Task runner and automation
 
 ### File Management
+
 * **neo-tree.nvim** - File explorer
 * **zoxide** - Fast directory navigation
 
 ### Utilities
+
 * **hop.nvim** - Motion plugin
 * **yanky.nvim** - Improved yank/put with telescope integration
 * **nvim-surround** - Surround operations
@@ -238,6 +246,7 @@ cd lua && lua tests/feature_test_suite.lua -v -p TestGetRelativePath
 ```
 
 ### Test Coverage
+
 * `parse_args()` - Command argument parsing with quote handling and escape sequences
 * `get_relative_path()` - Path normalization and relative path calculation
 * `to_list()` - Type conversion (string→table, table→table, function→recursive)
@@ -246,23 +255,27 @@ cd lua && lua tests/feature_test_suite.lua -v -p TestGetRelativePath
 * `format()` - Buffer formatting with view/cursor preservation across windows
 
 ### CI/CD
+
 Tests are automatically run via GitHub Actions (`.github/workflows/test.yaml`) on Ubuntu with LuaRocks, triggered on push to main and pull requests.
 
 ## Additional Features
 
 ### Smart Navigation
+
 * **Smart j/k**: Respects wrapped lines, handles count properly
 * **Visual mode indent**: `<` and `>` keep selection for multiple indents
 * **Search direction**: `n`/`N` respect search direction
 * **Line number cycling**: `<leader>nn` cycles through relative, absolute, none, and both
 
 ### AI Assistant Features
+
 * **Custom adapters**: ARK (doubao-seed-code-preview) and MIMO models
 * **Diff controls**: `gda` (accept), `gdr` (reject), `gdy` (always accept)
 * **Rules system**: Auto-loads `.clinerules`, `.cursorrules`, `CLAUDE.md`, etc.
 * **Prompt library**: Looks for `.prompts` in project and `~/.config/prompts`
 
 ### Telescope Custom Pickers
+
 * **Zoxide**: `<leader>fz` - Fast directory navigation
 * **FZF Marks**: `<leader>fs` - Navigate to bookmarks from fzf-marks
 * **Git Worktree**: `<leader>fw` - Switch between git worktrees
@@ -307,23 +320,23 @@ This configuration follows a modular pattern with clear separation of concerns:
 ### Key Implementation Details
 
 **Conform Formatter** (`lua/plugins/conform.lua`)
-- Auto-format on `BufWritePre` for configured filetypes
-- Manual format: `<leader>af` or `:Format`
-- View preservation using `winsaveview()`/`winrestview()`
-- Per-project config via `.nvim.lua`
+* Auto-format on `BufWritePre` for configured filetypes
+* Manual format: `<leader>af` or `:Format`
+* View preservation using `winsaveview()`/`winrestview()`
+* Per-project config via `.nvim.lua`
 
 **Feature Utilities** (`lua/feature.lua`)
-- `poll_number()` - Cycle line number modes
-- `xxd()` - Toggle hex dump view
-- `format()` - Format buffer with view preservation
-- `get_relative_path()` - Calculate relative paths
-- `parse_args()` - Parse quoted arguments
-- `to_list()` - Type conversion utility
+* `poll_number()` - Cycle line number modes
+* `xxd()` - Toggle hex dump view
+* `format()` - Format buffer with view preservation
+* `get_relative_path()` - Calculate relative paths
+* `parse_args()` - Parse quoted arguments
+* `to_list()` - Type conversion utility
 
 **Local Development**
-- Plugins in `lua/dev/` are auto-loaded for local development
-- Pattern matching: `tenfyzhong` or `zhongtenghui`
-- Configured in `lua/plugin.lua:13`
+* Plugins in `lua/dev/` are auto-loaded for local development
+* Pattern matching: `tenfyzhong` or `zhongtenghui`
+* Configured in `lua/plugin.lua:13`
 
 ## License
 
