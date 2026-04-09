@@ -275,6 +275,31 @@ local function to_list(value)
     return {}
 end
 
+--- Ensures shell buffers use literal tabs instead of spaces.
+-- It updates the current buffer immediately if needed and registers a FileType
+-- autocmd for future shell buffers. Safe to call multiple times.
+local function setup_sh_noexpandtab()
+    local group = vim.api.nvim_create_augroup("feature_sh_noexpandtab", {
+        clear = true,
+    })
+
+    local function set_sh_noexpandtab(bufnr)
+        if vim.bo[bufnr].filetype == "sh" then
+            vim.bo[bufnr].expandtab = false
+        end
+    end
+
+    set_sh_noexpandtab(0)
+
+    vim.api.nvim_create_autocmd("FileType", {
+        group = group,
+        pattern = "sh",
+        callback = function(args)
+            set_sh_noexpandtab(args.buf)
+        end,
+    })
+end
+
 return {
     poll_number = poll_number,
     xxd = xxd,
@@ -282,4 +307,5 @@ return {
     get_relative_path = get_relative_path,
     parse_args = parse_args,
     to_list = to_list,
+    setup_sh_noexpandtab = setup_sh_noexpandtab,
 }

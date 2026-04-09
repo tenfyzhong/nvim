@@ -5,11 +5,16 @@ local function setup_mock_vim()
     _G.vim = _G.vim or {}
     _G.vim.o = _G.vim.o or {}
     _G.vim.b = _G.vim.b or {}
+    _G.vim.bo = _G.vim.bo or {}
     _G.vim.cmd = function() end
     _G.vim.api = _G.vim.api or {}
     _G.vim.api.nvim_get_current_buf = function()
         return 1
     end
+    _G.vim.api.nvim_create_augroup = function()
+        return 1
+    end
+    _G.vim.api.nvim_create_autocmd = function() end
     _G.vim.api.nvim_buf_get_name = function()
         return "test.txt"
     end
@@ -474,6 +479,84 @@ function TestHigherOrderFunctions()
     lu.assertEquals(type(feature.get_relative_path), "function")
     lu.assertEquals(type(feature.parse_args), "function")
     lu.assertEquals(type(feature.to_list), "function")
+    lu.assertEquals(type(feature.setup_sh_noexpandtab), "function")
+end
+
+function TestSetupShNoexpandtabUpdatesCurrentShBuffer()
+    setup_mock_vim()
+
+    local created_group = nil
+    local created_autocmd = nil
+    _G.vim.bo = {
+        [0] = { filetype = "sh", expandtab = true },
+        [1] = { filetype = "sh", expandtab = true },
+    }
+    _G.vim.api.nvim_create_augroup = function(name, opts)
+        created_group = {
+            name = name,
+            clear = opts.clear,
+        }
+        return 99
+    end
+    _G.vim.api.nvim_create_autocmd = function(event, opts)
+        created_autocmd = {
+            event = event,
+            opts = opts,
+        }
+    end
+
+    feature.setup_sh_noexpandtab()
+
+    lu.assertNotNil(created_group, "Should create an augroup")
+    lu.assertEquals(created_group.name, "feature_sh_noexpandtab")
+    lu.assertTrue(created_group.clear, "Should clear the augroup on setup")
+    lu.assertNotNil(created_autocmd, "Should register an autocmd")
+    lu.assertEquals(created_autocmd.event, "FileType")
+    lu.assertEquals(created_autocmd.opts.group, 99)
+    lu.assertEquals(created_autocmd.opts.pattern, "sh")
+    lu.assertEquals(type(created_autocmd.opts.callback), "function")
+    lu.assertFalse(_G.vim.bo[0].expandtab, "Current sh buffer should use noexpandtab")
+end
+
+function TestSetupShNoexpandtabKeepsCurrentNonShBuffer()
+    setup_mock_vim()
+
+    _G.vim.bo = {
+        [0] = { filetype = "lua", expandtab = true },
+        [1] = { filetype = "lua", expandtab = true },
+    }
+
+    feature.setup_sh_noexpandtab()
+
+    lu.assertTrue(_G.vim.bo[0].expandtab, "Current non-sh buffer should keep expandtab")
+end
+
+function TestSetupShNoexpandtabAutocmdHandlesFutureShBuffers()
+    setup_mock_vim()
+
+    local created_autocmd = nil
+    _G.vim.bo = {
+        [0] = { filetype = "lua", expandtab = true },
+        [1] = { filetype = "lua", expandtab = true },
+        [2] = { filetype = "sh", expandtab = true },
+        [3] = { filetype = "lua", expandtab = true },
+    }
+    _G.vim.api.nvim_create_autocmd = function(event, opts)
+        created_autocmd = {
+            event = event,
+            opts = opts,
+        }
+    end
+
+    feature.setup_sh_noexpandtab()
+
+    lu.assertNotNil(created_autocmd, "Should register an autocmd for future buffers")
+
+    created_autocmd.opts.callback({ buf = 2 })
+    lu.assertFalse(_G.vim.bo[2].expandtab, "Future sh buffer should use noexpandtab")
+
+    created_autocmd.opts.callback({ buf = 3 })
+    lu.assertTrue(_G.vim.bo[3].expandtab, "Future non-sh buffer should keep expandtab")
 end
 
 os.exit(lu.LuaUnit.run())

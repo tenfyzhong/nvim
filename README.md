@@ -230,6 +230,21 @@ vim.g.conform_args_shfmt = { "-i", "4", "-bn" }
 vim.g.conform_args_gofumpt = { "-extra" }
 ```
 
+For shell-heavy projects that require literal tabs in `sh` buffers, you can reuse the helper from `lua/feature.lua`:
+
+```lua
+-- Example: project-local .nvim.lua
+require("feature").setup_sh_noexpandtab()
+```
+
+If you already use a project-local `.vimrc.local`, the equivalent is:
+
+```vim
+lua require("feature").setup_sh_noexpandtab()
+```
+
+`setup_sh_noexpandtab()` keeps the global `expandtab` default unchanged and only applies `noexpandtab` to `sh` buffers.
+
 ## Testing
 
 This configuration includes a comprehensive test suite for all utility functions:
@@ -320,20 +335,24 @@ This configuration follows a modular pattern with clear separation of concerns:
 ### Key Implementation Details
 
 **Conform Formatter** (`lua/plugins/conform.lua`)
+
 * Auto-format on `BufWritePre` for configured filetypes
 * Manual format: `<leader>af` or `:Format`
 * View preservation using `winsaveview()`/`winrestview()`
 * Per-project config via `.nvim.lua`
 
 **Feature Utilities** (`lua/feature.lua`)
+
 * `poll_number()` - Cycle line number modes
 * `xxd()` - Toggle hex dump view
 * `format()` - Format buffer with view preservation
 * `get_relative_path()` - Calculate relative paths
 * `parse_args()` - Parse quoted arguments
 * `to_list()` - Type conversion utility
+* `setup_sh_noexpandtab()` - Apply `noexpandtab` only to `sh` buffers
 
 **Local Development**
+
 * Plugins in `lua/dev/` are auto-loaded for local development
 * Pattern matching: `tenfyzhong` or `zhongtenghui`
 * Configured in `lua/plugin.lua:13`
