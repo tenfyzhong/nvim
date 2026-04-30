@@ -1,3 +1,5 @@
+-- Enhanced notification UI for `vim.notify`.
+
 local notify = {
     "rcarriga/nvim-notify",
     config = function()

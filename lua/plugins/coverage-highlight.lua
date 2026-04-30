@@ -1,3 +1,5 @@
+-- Display code coverage markers inside buffers.
+
 local highlight = {
     "mgedmin/coverage-highlight.vim",
     config = function() end,

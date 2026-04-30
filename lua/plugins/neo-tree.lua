@@ -1,3 +1,5 @@
+-- File explorer and filesystem tree UI.
+
 local tree = {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",

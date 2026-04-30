@@ -1,3 +1,5 @@
+-- Table of contents generation for Markdown buffers.
+
 local toc = {
     "richardbizik/nvim-toc",
     config = function()

@@ -1,3 +1,5 @@
+-- Live substitution previews while typing `:substitute`.
+
 local traces = {
     "markonm/traces.vim",
     event = "VeryLazy",

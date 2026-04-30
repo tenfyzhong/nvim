@@ -1,3 +1,5 @@
+-- Restore cursor positions when reopening files.
+
 local remember = {
     "vladdoster/remember.nvim",
     config = function()

@@ -1,3 +1,5 @@
+-- Yank history ring and smarter put operations.
+
 local yanky = {
     "gbprod/yanky.nvim",
     -- config = function()

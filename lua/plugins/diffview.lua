@@ -1,3 +1,5 @@
+-- Git diff, history, and review views.
+
 local diffview = {
     "sindrets/diffview.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

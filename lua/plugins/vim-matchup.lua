@@ -1,3 +1,5 @@
+-- Better `%` matching for paired syntax items.
+
 local matchup = {
     "andymass/vim-matchup",
     init = function()

@@ -1,3 +1,5 @@
+-- Start screen with recent files, sessions, and a custom header.
+
 local startify = {
     "mhinz/vim-startify",
     config = function()

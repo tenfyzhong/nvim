@@ -1,3 +1,5 @@
+-- LSP progress notifications.
+
 local fidget = {
     "j-hui/fidget.nvim",
     config = function()

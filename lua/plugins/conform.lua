@@ -1,3 +1,5 @@
+-- Formatting orchestration and per-filetype formatter configuration.
+
 -- Vim config API:
 -- g:conform_args_{formatter} = [] - extra args for formatter
 -- g:conform_{auto|manual}_formatters_{ft} = [] - override formatters

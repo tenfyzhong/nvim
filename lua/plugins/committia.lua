@@ -1,3 +1,5 @@
+-- Better commit message editing workflow.
+
 local committia = {
     "rhysd/committia.vim",
     config = function()

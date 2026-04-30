@@ -1,3 +1,5 @@
+-- Treesitter parsing, textobjects, and syntax-aware editing.
+
 local function treesister_config()
     require("nvim-treesitter.configs").setup({
         matchup = {

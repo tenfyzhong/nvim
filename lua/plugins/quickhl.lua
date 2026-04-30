@@ -1,3 +1,5 @@
+-- Manual word highlighting with reusable color slots.
+
 local quickhl = {
     "t9md/vim-quickhl",
     config = function()

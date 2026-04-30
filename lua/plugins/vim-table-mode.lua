@@ -1,3 +1,5 @@
+-- Create and edit text tables more easily.
+
 local table_mode = {
     "dhruvasagar/vim-table-mode",
     config = function()

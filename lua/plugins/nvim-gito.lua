@@ -1,3 +1,5 @@
+-- Open and copy Git hosting URLs for files and selections.
+
 local gito = {
     "tenfyzhong/nvim-gito",
     config = function()

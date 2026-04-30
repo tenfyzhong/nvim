@@ -1,3 +1,5 @@
+-- Mason-to-lspconfig bridge for installed language servers.
+
 local lsp = {
     "neovim/nvim-lspconfig",
 }

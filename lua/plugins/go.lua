@@ -1,3 +1,5 @@
+-- Go development commands, tools, and buffer-local keymaps.
+
 local go = {
     "ray-x/go.nvim",
     config = function()

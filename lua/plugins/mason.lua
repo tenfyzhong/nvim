@@ -1,3 +1,5 @@
+-- External tool and language server installer management.
+
 local mason = {
     "williamboman/mason.nvim",
     build = function()

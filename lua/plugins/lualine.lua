@@ -1,3 +1,5 @@
+-- Statusline configuration and editor status integrations.
+
 local lualine = {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons", "stevearc/dressing.nvim", "nvim-telescope/telescope.nvim" },

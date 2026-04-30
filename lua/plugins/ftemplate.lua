@@ -1,3 +1,5 @@
+-- File template insertion for new buffers.
+
 local ftemplate = {
     "tenfyzhong/ftemplate.vim",
     init = function()

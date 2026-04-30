@@ -1,3 +1,5 @@
+-- Line bookmarks with annotations and quickfix integration.
+
 local bookmarks = {
     "tenfyzhong/bookmarks.nvim",
     config = function()

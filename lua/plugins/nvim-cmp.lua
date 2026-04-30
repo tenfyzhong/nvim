@@ -1,3 +1,5 @@
+-- Completion engine setup for LSP, snippets, and command line.
+
 local function cmp_config()
     local cmp = require("cmp")
     local unpack_fn = table.unpack or unpack

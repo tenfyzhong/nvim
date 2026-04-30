@@ -1,3 +1,5 @@
+-- Motion-based jumping to visible characters, words, and lines.
+
 local hop = {
     "smoka7/hop.nvim",
     version = "*", -- optional but strongly recommended

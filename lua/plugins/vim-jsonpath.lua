@@ -1,3 +1,5 @@
+-- Evaluate JSONPath expressions inside JSON buffers.
+
 local jsonpath = {
     "mogelbrod/vim-jsonpath",
     ft = "json",

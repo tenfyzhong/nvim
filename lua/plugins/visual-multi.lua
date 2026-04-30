@@ -1,3 +1,5 @@
+-- Multi-cursor editing with visual selections.
+
 local multi = {
     "mg979/vim-visual-multi",
     config = function()

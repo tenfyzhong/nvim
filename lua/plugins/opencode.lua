@@ -1,3 +1,5 @@
+-- Opencode assistant integration for prompts and terminal actions.
+
 local function opencode_or_fallback(opencode_cmd, fallback_key)
     return function()
         if vim.bo.filetype == "opencode_terminal" then

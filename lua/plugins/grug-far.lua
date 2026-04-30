@@ -1,3 +1,5 @@
+-- Search and replace UI with helpers for words, selections, and motions.
+
 local function get_pos_content(start_lnum, start_col, end_lnum, end_col) -- 1-indexed
     if start_lnum == 0 or start_col == 0 or end_lnum == 0 or end_col == 0 then
         return nil

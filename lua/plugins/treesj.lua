@@ -1,3 +1,5 @@
+-- Split and join syntax nodes with Treesitter awareness.
+
 local treesj = {
     "Wansmer/treesj",
     dependencies = { "nvim-treesitter/nvim-treesitter" },

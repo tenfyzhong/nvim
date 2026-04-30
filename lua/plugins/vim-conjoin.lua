@@ -1,3 +1,5 @@
+-- Join arguments or list items intelligently.
+
 local conjoin = {
     "flwyd/vim-conjoin",
     cmd = { "Join" },

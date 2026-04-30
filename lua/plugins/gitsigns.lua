@@ -1,3 +1,5 @@
+-- Git hunk signs, staging, and blame helpers.
+
 local function gitsigns_config()
     require("gitsigns").setup({
         on_attach = function(bufnr)

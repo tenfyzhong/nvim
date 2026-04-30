@@ -1,3 +1,5 @@
+-- Fuzzy finder configuration plus custom pickers for marks and worktrees.
+
 -- Helper functions for complex key mappings (extracted to reduce keys block size)
 local function fzf_marks_picker()
     local store = os.getenv("FZF_MARKS_FILE")

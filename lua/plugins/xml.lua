@@ -1,3 +1,5 @@
+-- XML syntax and filetype support.
+
 local xml = {
     "othree/xml.vim",
     ft = "xml",

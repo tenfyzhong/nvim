@@ -1,3 +1,5 @@
+-- Substitute motions, lines, and selections with Yanky integration.
+
 local substitute = {
     "gbprod/substitute.nvim",
     config = function()

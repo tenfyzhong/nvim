@@ -1,3 +1,5 @@
+-- Highlight and navigate structured TODO-style annotations.
+
 local todo_comments = {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

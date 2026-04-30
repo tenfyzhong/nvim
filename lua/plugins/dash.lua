@@ -1,3 +1,5 @@
+-- Dash documentation search commands and keymaps.
+
 local dash = {
     "tenfyzhong/dash.nvim",
     config = function()

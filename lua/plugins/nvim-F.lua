@@ -1,3 +1,5 @@
+-- Minimal setup for the custom `:F` command plugin.
+
 local f = {
     "tenfyzhong/nvim-F",
     config = function()

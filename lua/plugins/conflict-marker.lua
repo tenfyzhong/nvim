@@ -1,3 +1,5 @@
+-- Highlight and resolve Git merge conflict markers.
+
 local marker = {
     "rhysd/conflict-marker.vim",
     config = function()

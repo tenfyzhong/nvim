@@ -1,3 +1,5 @@
+-- Cycle related tokens like operators, booleans, and keywords.
+
 local axring = {
     "tenfyzhong/axring.vim",
     dependencies = { "tpope/vim-repeat" },

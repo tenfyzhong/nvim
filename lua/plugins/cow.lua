@@ -1,3 +1,5 @@
+-- Directional window-closing helpers.
+
 local cow = {
     "tenfyzhong/cow.vim",
     config = function() end,

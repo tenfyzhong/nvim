@@ -1,3 +1,5 @@
+-- Symbols outline and navigation for the current buffer.
+
 local function aerial_config()
     -- Call the setup function to change the default behavior
     require("aerial").setup({

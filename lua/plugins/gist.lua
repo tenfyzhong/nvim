@@ -1,3 +1,5 @@
+-- GitHub Gist commands with nested editor support.
+
 local unception = {
     "samjwill/nvim-unception",
     init = function()

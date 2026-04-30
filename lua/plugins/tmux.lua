@@ -1,3 +1,5 @@
+-- Seamless navigation between Neovim and tmux panes.
+
 local tmux = {
     "aserowy/tmux.nvim",
     config = function()

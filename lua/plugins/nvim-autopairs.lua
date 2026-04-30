@@ -1,3 +1,5 @@
+-- Automatic insertion of matching pairs.
+
 local autopairs = {
     "windwp/nvim-autopairs",
     config = function()

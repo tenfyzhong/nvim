@@ -1,3 +1,5 @@
+-- Quickfix and location list navigation helpers.
+
 local lqa = {
     "tenfyzhong/lqa.nvim",
     config = function()

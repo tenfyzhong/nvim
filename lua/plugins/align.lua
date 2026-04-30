@@ -1,3 +1,5 @@
+-- Interactive text alignment operators and motions.
+
 local align = {
     "Vonr/align.nvim",
     branch = "v2",

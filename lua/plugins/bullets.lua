@@ -1,3 +1,5 @@
+-- Smarter bullet and checkbox editing for markup files.
+
 local bullets = {
     "dkarter/bullets.vim",
     config = function()

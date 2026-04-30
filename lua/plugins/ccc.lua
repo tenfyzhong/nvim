@@ -1,3 +1,5 @@
+-- Color picker and highlighter for color codes.
+
 local ccc = {
     "uga-rosa/ccc.nvim",
     config = function()

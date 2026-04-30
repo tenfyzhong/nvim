@@ -1,3 +1,5 @@
+-- Task runner integration, including ad hoc commands and Go helpers.
+
 local function cur_line_go_pkg()
     local line = vim.fn.line(".")
     local content = vim.fn.getline(line)

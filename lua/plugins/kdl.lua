@@ -1,3 +1,5 @@
+-- KDL syntax support.
+
 local kdl = {
     "imsnif/kdl.vim",
     ft = "kdl",

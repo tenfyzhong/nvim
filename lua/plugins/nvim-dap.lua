@@ -1,3 +1,5 @@
+-- Debug Adapter Protocol core, UI, and virtual text integrations.
+
 local dap = {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",

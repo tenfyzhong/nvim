@@ -1,3 +1,5 @@
+-- Treesitter-aware commentstring support.
+
 local comments = {
     "folke/ts-comments.nvim",
     event = "VeryLazy",

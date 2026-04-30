@@ -1,3 +1,5 @@
+-- Folding UI powered by Treesitter and indent providers.
+
 local ufo = {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },

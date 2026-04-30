@@ -1,3 +1,5 @@
+-- Custom type-casting text helpers on `<leader>ct`.
+
 local typecase = {
     "tenfyzhong/typecast.vim",
     keys = {

@@ -1,3 +1,5 @@
+-- Lazygit integration inside Neovim.
+
 local lazygit = {
     "kdheepak/lazygit.nvim",
     init = function()

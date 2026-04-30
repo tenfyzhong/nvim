@@ -1,3 +1,5 @@
+-- Markdown syntax and editing enhancements.
+
 local markdown = {
     "tpope/vim-markdown",
     config = function()

@@ -1,3 +1,5 @@
+-- Browser preview for Markdown files.
+
 local markdown = {
     "iamcco/markdown-preview.nvim",
     build = function()
