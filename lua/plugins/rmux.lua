@@ -1,52 +1,50 @@
--- Seamless navigation between Neovim and tmux panes.
+-- Seamless navigation between Neovim and rmux panes.
 
-local tmux = {
-    "aserowy/tmux.nvim",
+return {
+    "tenfyzhong/rmux.nvim",
     config = function()
-        require("tmux").setup({})
+        require("rmux").setup({})
     end,
     keys = {
         {
-            "<c-h>",
+            "<C-h>",
             function()
-                require("tmux").move_left()
+                require("rmux").move_left()
             end,
             mode = { "n", "t" },
             remap = false,
             silent = true,
-            desc = "tmux: goto left window",
+            desc = "rmux: go to left window",
         },
         {
-            "<c-j>",
+            "<C-j>",
             function()
-                require("tmux").move_bottom()
+                require("rmux").move_bottom()
             end,
             mode = { "n", "t" },
             remap = false,
             silent = true,
-            desc = "tmux: goto below window",
+            desc = "rmux: go to window below",
         },
         {
-            "<c-k>",
+            "<C-k>",
             function()
-                require("tmux").move_top()
+                require("rmux").move_top()
             end,
             mode = { "n", "t" },
             remap = false,
             silent = true,
-            desc = "tmux: goto above window",
+            desc = "rmux: go to window above",
         },
         {
-            "<c-l>",
+            "<C-l>",
             function()
-                require("tmux").move_right()
+                require("rmux").move_right()
             end,
             mode = { "n", "t" },
             remap = false,
             silent = true,
-            desc = "tmux: goto right window",
+            desc = "rmux: go to right window",
         },
     },
 }
-
-return { tmux }
